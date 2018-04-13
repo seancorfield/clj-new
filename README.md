@@ -1,62 +1,51 @@
 # clj-new
 
-A work-in-progress that will allow generation of projects from Leiningen or Boot templates, using just the `clj` command-line installation of Clojure.
+A work-in-progress that will allow generation of projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clj` command-line installation of Clojure.
 
 ## Getting Started
 
-(not yet fully updated from Boot new version)
-
 Create a basic application:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "a87bdc0347fe1523e8d85283d94b06f5dd68b2cb"}}}' -m clj-new.create app myapp
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "5f52765aef0000ef5e27e6b97dbda61679197e47"}}}' -m clj-new.create app myapp
     cd myapp
-    boot run # ???
+    clj -m myapp.core
 
-Built-in templates are (to be decided):
+Run the tests:
 
-* `app` -- A minimal Hello World! application. Comes with `build`, `run`, `test` tasks. `build` creates a runnable "uberjar" in the `target` folder.
-* `default` -- A minimal library. Comes with `build`, `test` tasks. `build` installs a JAR of the project into your local Maven cache so you can use `boot watch build` while you're developing to have the latest version always available to other projects.
-* `task` -- An example set of Boot tasks. Provides `*-pass-thru`, `*-post`, `*-pre`, `*-simple` task examples for you to build on, as well as `build`, `test` tasks. `build` works as for `default` above.
-* `template` -- A minimal Boot template. Provides `build`, `new`, `test` tasks. `build` works as for `default` above. `new` will create a new project based on the template itself.
+    clj -A:test:runner
+
+Built-in templates are:
+
+* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -m` and can test it with `clj -A:test:runner`.
+* `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner`.
+* `template` -- A minimal `clj-new` template. Can test it with `clj -A:test:runner`. Can produce a new template with `clj -m clj-new.create myapp mynewapp` (where `myapp` is whatever project name you used when you asked `clj-new` to create the template project).
 
 ## General Usage
 
 You can specify a template and a project name:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "a87bdc0347fe1523e8d85283d94b06f5dd68b2cb"}}}' -m clj-new.create template-name project-name
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "5f52765aef0000ef5e27e6b97dbda61679197e47"}}}' -m clj-new.create template-name project-name
 
-(to be rewritten)
+This will look for `template-name/clj-template` (on Clojars and Maven Central). If it doesn't find a `clj` template, it will look for `template-name/boot-template` instead. If it doesn't find a Boot template, it will look for `template-name/lein-template` instead. `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!). `clj-new` will then generate a new project folder called `project-name` containing files generated from the specified `template-name`.
 
-`boot-new` will look for `template-name/boot-template` (on Clojars and Maven Central). If it doesn't find a Boot Template (see below), it will look for `template-name/lein-template` instead. `boot-new` should be able to run any existing Leiningen template (if you find one that doesn't work, [please tell me about it](https://github.com/boot-clj/boot-new/issues)!). `boot-new` will then generate a new project folder called `project-name` containing files generated from the specified `template-name`.
+If the folder `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added). By default, `clj-new` will look for the most recent stable release of the specified template (an option may be added to search for snapshots and/or specify and particular version to use). Only `:mvn/version` releases are supported at the moment.
 
-If the folder `project-name` already exists, `boot-new` will not overwrite it unless you specify the `-f` / `--force` option. You can override the folder name used with the `-o` / `--to-dir` option. By default, `boot-new` will look for the most recent stable release of the specified template. You can tell it to search for snapshots with the `-S` / `--snapshot` option, and you can specify a particular version to use with the `-V` / `--template-version` option. In general, the long-form option follows the naming used by Leiningen's `new` task for familiarity.
+You can pass arguments through to the underlying template: any arguments after the `project-name` are passed directly to the template.
 
-You can pass arguments through to the underlying template with the `-a` / `--args` option (Leiningen uses `--` to separate template arguments from other options but Boot already parses options a little differently).
+## `clj` Templates
 
-For a full list of options, ask `new` for help:
-
-    boot -d boot/new new -h
-
-The intent is that all of the basic options from Leiningen's `new` task are supported, along with Boot-specific versions of the built-in templates (`app`, `default`, `task` -- instead of Leiningen's `plugin`, and `template`).
-
-## Boot Templates
-
-(will there need to be clj-templates?)
-
-Boot templates are very similar to Leiningen templates but have an artifact name based on `boot-template` instead of `lein-template` and uses `boot` instead of `leiningen` in all the namespace names. In particular the `boot.new.templates` namespace provides functions such as `renderer` and `->files` that are the equivalent of the ones found in `leiningen.new.templates` when writing a Leiningen Template. The built-in templates are Boot templates, that produce Boot projects.
-
-To develop a new template, run `boot -d boot/new new -t template -n my-template`.  This will generate a project whose `build.boot` has `(def project 'my-template/boot-template)`, with version `0.1.0-SNAPSHOT`. To test it, you will need to build and install it locally (the generated `build.boot` contains a `build` task for this purpose) and then use it to create a project, using either `--snapshot` or `--template-version` so `boot-new` will know which version to use. By default, it looks for the most recent non-SNAPSHOT release on clojars.org.
+`clj` templates are very similar to Leiningen and Boot templates but have an artifact name based on `clj-template` instead of `lein-template` or `boot-template` and use `clj` instead of `leiningen` or `boot` in all the namespace names. In particular the `clj.new.templates` namespace provides functions such as `renderer` and `->files` that are the equivalent of the ones found in `leiningen.new.templates` when writing a Leiningen Template (or `boot.new.templates` when writing a Boot Template). The built-in templates are `clj` templates, that produce `clj` projects with `deps.edn` files.
 
 ### Arguments
 
-Previous sections have revealed that it is possible to pass arguments to templates. For multiple arguments, use one `-a` for each argument. For example:
+Previous sections have revealed that it is possible to pass arguments to templates. For example:
 
 ```
-# Inside custom-template folder, relying on that template's boot new task.
-boot new -t custom-template -n project-name -a arg1 -a arg2 -a arg3
+# Inside custom-template folder, relying on that template's clj-new dependency.
+clj -m clj-new.create custom-template project-name arg1 arg2 arg3
 ```
 
-These arguments are accessible in the custom-template function as a second argument.
+These arguments are accessible in the `custom-template` function as a second argument.
 
 ```clj
 (defn custom-template
@@ -64,7 +53,9 @@ These arguments are accessible in the custom-template function as a second argum
   (println name " has the following arguments: " args))
 ```
 
-## Boot Generators
+## Boot Generators (to be rewritten)
+
+(the `boot.generate` logic has yet to be refactored to work with `clj` -- coming "soon")
 
 Whereas Boot templates will generate an entire new project in a new directory, Boot generators are intended to add / modify code in an existing project. `boot-new` will run a generator with the `-g type` or `-g type=name` options. The `type` specifies the type of generator to use. The `name` is the main argument that is passed to the generator.
 
@@ -103,7 +94,8 @@ boot -d boot/new new -g edn=foo.bar -a "(ns foo.bar)"
 
 ## Roadmap
 
-* Improve the built-in template `template` so that it can be used to seed a new Boot project.
+* Refactor Boot generator stuff to `clj-new.generate`.
+* Improve the built-in template `template` so that it can be used to seed a new `clj` project.
 
 ## License
 
