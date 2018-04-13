@@ -10,7 +10,7 @@ A work-in-progress that will allow generation of projects from Leiningen or Boot
 
 Create a basic application:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "653441d86834160124a94065c4d92a4a9ad12554"}}}' -m clj-new.create app myapp
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "a87bdc0347fe1523e8d85283d94b06f5dd68b2cb"}}}' -m clj-new.create app myapp
     cd myapp
     boot run # ???
 
@@ -25,7 +25,7 @@ Built-in templates are (to be decided):
 
 You can specify a template and a project name:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "653441d86834160124a94065c4d92a4a9ad12554"}}}' -m clj-new.create template-name project-name
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "a87bdc0347fe1523e8d85283d94b06f5dd68b2cb"}}}' -m clj-new.create template-name project-name
 
 (to be rewritten)
 
