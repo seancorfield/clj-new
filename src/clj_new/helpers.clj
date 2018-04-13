@@ -1,14 +1,17 @@
-(ns boot.new-helpers
-  "The top-level logic for the new task. This namespace is dynamically
-  loaded into the new task so as to reduce and delay dependencies."
+(ns clj-new.helpers
+  "The top-level logic for the clj-new create/generate entry points."
   (:require [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.deps.alpha :as deps]
             [clojure.tools.deps.alpha.reader :refer [clojure-env
                                                      read-deps]]
+            ;; support boot-template projects:
             [boot.new.templates :as bnt]
+            ;; needed for dynamic classloader/add-classpath stuff:
             [cemerick.pomegranate :as pom]
-            ;; this is Boot's version with no Leiningen dependencies:
+            ;; support clj-template projects:
+            [clj.new.templates :as cnt]
+            ;; support lein-template projects:
             [leiningen.new.templates :as lnt])
   (:import java.io.FileNotFoundException))
 
@@ -26,11 +29,13 @@
       (->> (run! pom/add-classpath))))
 
 (defn resolve-remote-template
-  "Given a template name, attempt to resolve it as a Boot template first,
-  then as a Leiningen template. Return the type of template we found."
+  "Given a template name, attempt to resolve it as a clj template first, then
+  as a Boot template, then as a Leiningen template. Return the type of template
+  we found."
   [template-name]
   (let [selected      (atom nil)
         failure       (atom nil)
+        clj-tmp-name  (str template-name "/clj-template")
         boot-tmp-name (str template-name "/boot-template")
         lein-tmp-name (str template-name "/lein-template")
         tmp-version   (cond *template-version* *template-version*
@@ -49,12 +54,12 @@
                all-deps
                {:verbose (and *debug* (> *debug* 1))
                 :extra-deps
-                {(symbol boot-tmp-name) {:mvn/version tmp-version}}})
+                {(symbol clj-tmp-name) {:mvn/version tmp-version}}})
 
-              (reset! selected :boot)
+              (reset! selected :clj)
               (catch Exception e
                 (when (and *debug* (> *debug* 2))
-                  (println "Unable to find Boot template:")
+                  (println "Unable to find clj template:")
                   (stack/print-stack-trace e))
                 (reset! failure e)
                 (try
@@ -62,18 +67,31 @@
                    all-deps
                    {:verbose (and *debug* (> *debug* 1))
                     :extra-deps
-                    {(symbol lein-tmp-name) {:mvn/version tmp-version}
-                     'leiningen-core {:mvn/version "2.7.1"}
-                     'org.sonatype.aether/aether-api {:mvn/version "1.13.1"}
-                     'org.sonatype.aether/aether-impl {:mvn/version "1.13.1"}
-                     'slingshot {:mvn/version "0.10.3"}}})
+                    {(symbol boot-tmp-name) {:mvn/version tmp-version}}})
 
-                  (reset! selected :leiningen)
+                  (reset! selected :boot)
                   (catch Exception e
-                    (when (and *debug* (> *debug* 1))
-                      (println "Unable to find Leiningen template:")
+                    (when (and *debug* (> *debug* 2))
+                      (println "Unable to find Boot template:")
                       (stack/print-stack-trace e))
-                    (reset! failure e)))))))]
+                    (reset! failure e)
+                    (try
+                      (resolve-and-load
+                       all-deps
+                       {:verbose (and *debug* (> *debug* 1))
+                        :extra-deps
+                        {(symbol lein-tmp-name) {:mvn/version tmp-version}
+                         'leiningen-core {:mvn/version "2.7.1"}
+                         'org.sonatype.aether/aether-api {:mvn/version "1.13.1"}
+                         'org.sonatype.aether/aether-impl {:mvn/version "1.13.1"}
+                         'slingshot {:mvn/version "0.10.3"}}})
+
+                      (reset! selected :leiningen)
+                      (catch Exception e
+                        (when (and *debug* (> *debug* 1))
+                          (println "Unable to find Leiningen template:")
+                          (stack/print-stack-trace e))
+                        (reset! failure e)))))))))]
     (when *debug*
       (println "Output from locating template:")
       (println output))
@@ -106,8 +124,8 @@
 (defn resolve-template
   "Given a template name, resolve it to a symbol (or exit if not possible)."
   [template-name]
-  (if-let [type (try (require (symbol (str "boot.new." template-name)))
-                     :boot
+  (if-let [type (try (require (symbol (str "clj.new." template-name)))
+                     :clj
                      (catch FileNotFoundException _
                        (resolve-remote-template template-name)))]
     (let [the-ns (str (name type) ".new." template-name)]
@@ -134,7 +152,7 @@
     :else (apply (resolve-template template-name) project-name args)))
 
 (defn create
-  "Exposed to Boot new task with simpler signature."
+  "Exposed to clj-new command-line with simpler signature."
   [{:keys [args force name snapshot template template-version to-dir verbose]
     :or {template "default"}}]
   (binding [*debug*            verbose
@@ -142,6 +160,8 @@
             *template-version* template-version
             bnt/*dir*          to-dir
             bnt/*force?*       force
+            cnt/*dir*          to-dir
+            cnt/*force?*       force
             lnt/*dir*          to-dir
             lnt/*force?*       force]
     (create* template name args)))
@@ -166,7 +186,9 @@
                       (when gen-arg (str "=\"" gen-arg "\""))))))))
 
 (defn generate-code
-  "Exposed to Boot new task with simpler signature."
+  "TBD: add clj generator!
+
+  Exposed to Boot new task with simpler signature."
   [{:keys [args force generate prefix template]
     :or {prefix "src"}}]
   (binding [bnt/*dir*        "."

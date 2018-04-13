@@ -1,5 +1,5 @@
-(ns boot.new.{{name}}
-  (:require [boot.new.templates :refer [renderer name-to-path ->files]]))
+(ns clj.new.{{name}}
+  (:require [clj.new.templates :refer [renderer name-to-path ->files]]))
 
 (def render (renderer "{{name}}"))
 
@@ -8,6 +8,6 @@
   [name]
   (let [data {:name name
               :sanitized (name-to-path name)}]
-    (println "Generating fresh 'boot new' {{name}} project.")
+    (println "Generating fresh 'clj new' {{name}} project.")
     (->files data
              ["src/{{placeholder}}/foo.clj" (render "foo.clj" data)])))

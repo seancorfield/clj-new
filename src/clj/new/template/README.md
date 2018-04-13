@@ -1,6 +1,6 @@
 # {{name}}
 
-A Leiningen template for FIXME.
+A clj template for FIXME.
 
 ## Usage
 

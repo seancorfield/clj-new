@@ -1,13 +1,13 @@
-syntax: glob
-target/**
-classes/**
-checkouts/**
+/target
+/classes
+/checkouts
 pom.xml
 pom.xml.asc
 *.jar
 *.class
+/.cpcache
 /.lein-*
 /.nrepl-history
 /.nrepl-port
-.gitignore
-.git/**
+.hgignore
+.hg/

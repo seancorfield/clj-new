@@ -2,8 +2,6 @@
 
 A work-in-progress that will allow generation of projects from Leiningen or Boot templates, using just the `clj` command-line installation of Clojure.
 
-[![Clojars Project](https://img.shields.io/clojars/v/seancorfield/clj-new.svg)](https://clojars.org/seancorfield/clj-new)
-
 ## Getting Started
 
 (not yet fully updated from Boot new version)

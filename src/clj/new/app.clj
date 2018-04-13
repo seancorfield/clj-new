@@ -1,8 +1,8 @@
-(ns boot.new.app
+(ns clj.new.app
   "Generate a basic application project."
-  (:require [boot.new.templates :refer [renderer year date project-name
-                                        ->files sanitize-ns name-to-path
-                                        multi-segment]]))
+  (:require [clj.new.templates :refer [renderer year date project-name
+                                       ->files sanitize-ns name-to-path
+                                       multi-segment]]))
 
 (defn app
   "An application project template."
@@ -17,7 +17,7 @@
               :date (date)}]
     (println "Generating a project called" name "based on the 'app' template.")
     (->files data
-             ["build.boot" (render "build.boot" data)]
+             ["deps.edn" (render "deps.edn" data)]
              ["README.md" (render "README.md" data)]
              ["doc/intro.md" (render "intro.md" data)]
              [".gitignore" (render "gitignore" data)]
