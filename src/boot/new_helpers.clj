@@ -4,7 +4,10 @@
   (:require [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.deps.alpha :as deps]
+            [clojure.tools.deps.alpha.reader :refer [clojure-env
+                                                     read-deps]]
             [boot.new.templates :as bnt]
+            [cemerick.pomegranate :as pom]
             ;; this is Boot's version with no Leiningen dependencies:
             [leiningen.new.templates :as lnt])
   (:import java.io.FileNotFoundException))
@@ -12,6 +15,15 @@
 (def ^:dynamic *debug* nil)
 (def ^:dynamic *use-snapshots?* false)
 (def ^:dynamic *template-version* nil)
+
+(defn resolve-and-load
+  "Given a deps map and an extra-deps map, resolve the dependencies, figure
+  out the classpath, and load everything into our (now dynamic) classloader."
+  [deps resolve-args]
+  (-> (deps/resolve-deps deps resolve-args)
+      (deps/make-classpath (:paths deps) {})
+      (str/split (re-pattern java.io.File/pathSeparator))
+      (->> (run! pom/add-classpath))))
 
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a Boot template first,
@@ -24,13 +36,20 @@
         tmp-version   (cond *template-version* *template-version*
                             *use-snapshots?*   "(0.0.0,)"
                             :else              "RELEASE")
+        environment   (clojure-env)
+        all-deps      (read-deps (:config-files environment))
         output
         (with-out-str
           (binding [*err* *out*]
+            ;; need a modifiable classloader to load runtime dependencies:
+            (.setContextClassLoader (Thread/currentThread)
+                                    (clojure.lang.RT/makeClassLoader))
             (try
-              (deps/resolve-deps {:deps {(symbol boot-tmp-name)
-                                         {:mvn/version tmp-version}}}
-                                 {})
+              (resolve-and-load
+               all-deps
+               {:verbose (and *debug* (> *debug* 1))
+                :extra-deps
+                {(symbol boot-tmp-name) {:mvn/version tmp-version}}})
 
               (reset! selected :boot)
               (catch Exception e
@@ -39,11 +58,15 @@
                   (stack/print-stack-trace e))
                 (reset! failure e)
                 (try
-                  (deps/resolve-deps {:deps {(symbol lein-tmp-name)
-                                             {:mvn/version tmp-version}}}
-                                     {:extra-deps {'leiningen-core
-                                                   {:mvn/version "2.5.3"}
-                                                   'slingshot "0.10.3"}})
+                  (resolve-and-load
+                   all-deps
+                   {:verbose (and *debug* (> *debug* 1))
+                    :extra-deps
+                    {(symbol lein-tmp-name) {:mvn/version tmp-version}
+                     'leiningen-core {:mvn/version "2.7.1"}
+                     'org.sonatype.aether/aether-api {:mvn/version "1.13.1"}
+                     'org.sonatype.aether/aether-impl {:mvn/version "1.13.1"}
+                     'slingshot {:mvn/version "0.10.3"}}})
 
                   (reset! selected :leiningen)
                   (catch Exception e

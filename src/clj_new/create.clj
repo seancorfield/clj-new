@@ -7,4 +7,7 @@
   (if (and template-name project-name)
     (helpers/create {:template template-name
                      :name project-name
-                     :args []})))
+                     :args []
+                     :verbose nil})
+    (println "usage: clj -m clj-new.create template-name project-name"))
+  (shutdown-agents))
