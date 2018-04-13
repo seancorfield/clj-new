@@ -2,9 +2,9 @@
   "Boot version of leiningen.new.templates. Initially a direct copy
   of leiningen.new.templates (modified to depend on Boot code instead
   of Leiningen code), but will likely diverge over time."
-  (:require [boot.util :as util]
-            [clojure.java.io :as io]
-            [clojure.string :as string])
+  (:require [clojure.java.io :as io]
+            [clojure.string :as string]
+            [stencil.core :as stencil])
   (:import (java.util Calendar)))
 
 (defn project-name
@@ -105,8 +105,7 @@
 ;; libraries. Though they are welcome to if they need.
 (defn render-text
   [& args]
-  (require '[stencil.core :as stencil])
-  (apply (resolve 'stencil/render-string) args))
+  (apply stencil/render-string args))
 
 (defn renderer
   "Create a renderer function that looks for mustache templates in the
@@ -124,7 +123,7 @@
           (if data
             (render (slurp-resource resource) data)
             (io/reader resource))
-          (util/exit-error (println (format "Template resource '%s' not found." path))))))))
+          (throw (ex-info (format "Template resource '%s' not found." path) {})))))))
 
 (defn raw-resourcer
   "Create a renderer function that looks for raw files in the
@@ -134,7 +133,7 @@
     (let [path (string/join "/" ["boot" "new" (sanitize name) file])]
       (if-let [resource (io/resource path)]
         (io/input-stream resource)
-        (util/exit-error (println (format "File '%s' not found." path)))))))
+        (throw (ex-info (format "File '%s' not found." path) {}))))))
 
 ;; Our file-generating function, `->files` is very simple. We'd like
 ;; to keep it that way. Sometimes you need your file paths to be

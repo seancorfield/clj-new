@@ -2,8 +2,7 @@
   "Adapted from Leiningen's code by stripping things down to
   just one method to support one particular template (play-clj)
   that uses lein-droid, which expects parse-semantic-version
-  to be available here."
-  (:require [boot.util :as util]))
+  to be available here.")
 
 (defn string->semantic-version
   "Create map representing the given version string. Returns nil if the
@@ -27,4 +26,5 @@
   http://semver.org/"
   [version-string]
   (or (string->semantic-version version-string)
-      (util/exit-error (println "Unrecognized version string:" version-string))))
+      (throw (ex-info (format "Unrecognized version string: %s" version-string)
+                      {}))))

@@ -2,8 +2,7 @@
   "Adapted from Leiningen's code by removing dependencies on
   Leiningen itself and using Boot instead. Present purely to
   support Leiningen templates which use symbols in this ns."
-  (:require [boot.util :as util]
-            [clojure.java.io :as io]
+  (:require [clojure.java.io :as io]
             [clojure.string :as string])
   (:import (java.util Calendar)))
 
@@ -54,9 +53,9 @@
   The additional segment defaults to \"core\"."
   ([s] (multi-segment s "core"))
   ([s final-segment]
-     (if (.contains s ".")
-       s
-       (format "%s.%s" s final-segment))))
+   (if (.contains s ".")
+     s
+     (format "%s.%s" s final-segment))))
 
 (defn name-to-path
   "Constructs directory structure from fully qualified artifact name:
@@ -124,7 +123,8 @@
           (if data
             (render (slurp-resource resource) data)
             (io/reader resource))
-          (util/exit-error (println (format "Template resource '%s' not found." path))))))))
+          (throw (ex-info (format "Template resource '%s' not found." path)
+                          {})))))))
 
 (defn raw-resourcer
   "Create a renderer function that looks for raw files in the
@@ -134,7 +134,7 @@
     (let [path (string/join "/" ["leiningen" "new" (sanitize name) file])]
       (if-let [resource (io/resource path)]
         (io/input-stream resource)
-        (util/exit-error (println (format "File '%s' not found." path)))))))
+        (throw (ex-info (format "File '%s' not found." path) {}))))))
 
 ;; Our file-generating function, `->files` is very simple. We'd like
 ;; to keep it that way. Sometimes you need your file paths to be

@@ -1,18 +1,20 @@
-# boot-new
+# clj-new
 
-A Boot task that generates projects from Leiningen templates or Boot templates.
+A work-in-progress that will allow generation of projects from Leiningen or Boot templates, using just the `clj` command-line installation of Clojure.
 
-[![Clojars Project](https://img.shields.io/clojars/v/boot/new.svg)](https://clojars.org/boot/new)
+[![Clojars Project](https://img.shields.io/clojars/v/seancorfield/clj-new.svg)](https://clojars.org/seancorfield/clj-new)
 
 ## Getting Started
 
+(not yet fully updated from Boot new version)
+
 Create a basic application:
 
-    boot -d boot/new new -t app -n myapp
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "???"}}}' -m clj-new.create app myapp
     cd myapp
-    boot run
+    boot run # ???
 
-Built-in templates are:
+Built-in templates are (to be decided):
 
 * `app` -- A minimal Hello World! application. Comes with `build`, `run`, `test` tasks. `build` creates a runnable "uberjar" in the `target` folder.
 * `default` -- A minimal library. Comes with `build`, `test` tasks. `build` installs a JAR of the project into your local Maven cache so you can use `boot watch build` while you're developing to have the latest version always available to other projects.
@@ -23,7 +25,9 @@ Built-in templates are:
 
 You can specify a template and a project name:
 
-    boot -d boot/new new -t template-name -n project-name
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "???"}}}' -m clj-new.create template-name project-name
+
+(to be rewritten)
 
 `boot-new` will look for `template-name/boot-template` (on Clojars and Maven Central). If it doesn't find a Boot Template (see below), it will look for `template-name/lein-template` instead. `boot-new` should be able to run any existing Leiningen template (if you find one that doesn't work, [please tell me about it](https://github.com/boot-clj/boot-new/issues)!). `boot-new` will then generate a new project folder called `project-name` containing files generated from the specified `template-name`.
 
@@ -38,6 +42,8 @@ For a full list of options, ask `new` for help:
 The intent is that all of the basic options from Leiningen's `new` task are supported, along with Boot-specific versions of the built-in templates (`app`, `default`, `task` -- instead of Leiningen's `plugin`, and `template`).
 
 ## Boot Templates
+
+(will there need to be clj-templates?)
 
 Boot templates are very similar to Leiningen templates but have an artifact name based on `boot-template` instead of `lein-template` and uses `boot` instead of `leiningen` in all the namespace names. In particular the `boot.new.templates` namespace provides functions such as `renderer` and `->files` that are the equivalent of the ones found in `leiningen.new.templates` when writing a Leiningen Template. The built-in templates are Boot templates, that produce Boot projects.
 

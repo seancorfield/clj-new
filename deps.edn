@@ -1,0 +1,2 @@
+{:deps {stencil {:mvn/version "0.5.0"}
+        org.clojure/tools.deps.alpha {:mvn/version "0.5.417"}}}

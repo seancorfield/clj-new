@@ -1,10 +1,10 @@
 (ns boot.new-helpers
   "The top-level logic for the new task. This namespace is dynamically
   loaded into the new task so as to reduce and delay dependencies."
-  (:require [clojure.string :as str]
-            [boot.core :as core]
+  (:require [clojure.stacktrace :as stack]
+            [clojure.string :as str]
+            [clojure.tools.deps.alpha :as deps]
             [boot.new.templates :as bnt]
-            [boot.util :as util]
             ;; this is Boot's version with no Leiningen dependencies:
             [leiningen.new.templates :as lnt])
   (:import java.io.FileNotFoundException))
@@ -28,25 +28,28 @@
         (with-out-str
           (binding [*err* *out*]
             (try
-              (core/merge-env! :dependencies [[(symbol boot-tmp-name)
-                                               tmp-version]])
+              (deps/resolve-deps {:deps {(symbol boot-tmp-name)
+                                         {:mvn/version tmp-version}}}
+                                 {})
 
               (reset! selected :boot)
               (catch Exception e
                 (when (and *debug* (> *debug* 2))
                   (println "Unable to find Boot template:")
-                  (clojure.stacktrace/print-stack-trace e))
+                  (stack/print-stack-trace e))
                 (reset! failure e)
                 (try
-                  (core/merge-env! :dependencies [['leiningen-core "2.5.3"]
-                                                  ['slingshot "0.10.3"]
-                                                  [(symbol lein-tmp-name)
-                                                   tmp-version]])
+                  (deps/resolve-deps {:deps {(symbol lein-tmp-name)
+                                             {:mvn/version tmp-version}}}
+                                     {:extra-deps {'leiningen-core
+                                                   {:mvn/version "2.5.3"}
+                                                   'slingshot "0.10.3"}})
+
                   (reset! selected :leiningen)
                   (catch Exception e
                     (when (and *debug* (> *debug* 1))
                       (println "Unable to find Leiningen template:")
-                      (clojure.stacktrace/print-stack-trace e))
+                      (stack/print-stack-trace e))
                     (reset! failure e)))))))]
     (when *debug*
       (println "Output from locating template:")
@@ -58,23 +61,24 @@
           @selected
           (catch Exception e
             (when *debug*
-              (when (> *debug* 3)
-                (println "Boot environment at failure:" (core/get-env)))
               (println "Unable to require the template symbol:" sym-name)
-              (clojure.stacktrace/print-stack-trace e)
+              (stack/print-stack-trace e)
               (when (> *debug* 1)
-                (clojure.stacktrace/print-cause-trace e)))
-            (util/exit-error (println "Could not load template, require of"
-                                      sym-name
-                                      "failed with:" (.getMessage e))))))
-      (util/exit-error (println output)
-                       (println "Failed with:" (.getMessage @failure))
-                       (println "Could not load artifact for template:" template-name)
-                       (println (format (str "\tTried coordinates:\n"
-                                             "\t\t[%s \"%s\"]\n"
-                                             "\t\t[%s \"%s\"]")
-                                        boot-tmp-name tmp-version
-                                        lein-tmp-name tmp-version))))))
+                (stack/print-cause-trace e)))
+            (throw (ex-info (format "Could not load template, require of %s failed with: %s"
+                                    sym-name
+                                    (.getMessage e)) {})))))
+      (do
+        (println output)
+        (println "Failed with:" (.getMessage @failure))
+        (throw (ex-info
+                (format (str "Could not load artifact for template: %s\n"
+                             "\tTried coordinates:\n"
+                             "\t\t[%s \"%s\"]\n"
+                             "\t\t[%s \"%s\"]")
+                        template-name
+                        boot-tmp-name tmp-version
+                        lein-tmp-name tmp-version) {}))))))
 
 (defn resolve-template
   "Given a template name, resolve it to a symbol (or exit if not possible)."
@@ -86,9 +90,13 @@
     (let [the-ns (str (name type) ".new." template-name)]
       (if-let [sym (resolve (symbol the-ns template-name))]
         sym
-        (util/exit-error (println "Found template" template-name "but could not resolve"
-                                  (str the-ns "/" template-name) "within it."))))
-    (util/exit-error (println "Could not find template" template-name "on the classpath."))))
+        (throw (ex-info (format (str "Found template %s but could not "
+                                     "resolve %s/%s within it.")
+                                template-name
+                                the-ns
+                                template-name) {}))))
+    (throw (ex-info (format "Could not find template %s on the classpath."
+                            template-name) {}))))
 
 (defn create*
   "Given a template name, a project name and list of template arguments,
@@ -96,27 +104,10 @@
   generate the project from the template."
   [template-name project-name args]
   (cond
-    (and (re-find #"(?i)(?<!(clo|compo))jure" project-name)
-         (not (System/getenv "BOOT_IRONIC_JURE")))
-    (util/exit-error (println "Sorry, names such as clojure or *jure are not allowed."
-                              "\nIf you intend to use this name ironically, please set the"
-                              "\nBOOT_IRONIC_JURE environment variable and try again."))
-    (and (re-find #"(?i)(?<!(cl|comp))eaxure" project-name)
-         (not (System/getenv "BOOT_IRONIC_EAXURE")))
-    (util/exit-error (println "Sorry, names such as cleaxure or *eaxure are not allowed."
-                              "\nIf you intend to use this name ironically, please set the"
-                              "\nBOOT_IRONIC_EAXURE environment variable and try again."))
-    (= project-name "clojure")
-    (util/exit-error (println "Sorry, clojure can't be used as a project name."
-                              "\nIt will confuse Clojure compiler and cause obscure issues."))
-    (and (re-find #"[A-Z]" project-name)
-         (not (System/getenv "BOOT_BREAK_CONVENTION")))
-    (util/exit-error (println "Project names containing uppercase letters are not recommended"
-                              "\nand will be rejected by repositories like Clojars and Central."
-                              "\nIf you're truly unable to use a lowercase name, please set the"
-                              "\nBOOT_BREAK_CONVENTION environment variable and try again."))
     (not (symbol? (try (read-string project-name) (catch Exception _))))
-    (util/exit-error (println "Project names must be valid Clojure symbols."))
+    (throw (ex-info "Project names must be valid Clojure symbols."
+                    {:project-name project-name}))
+    ;; consider requiring qualified symbol name!
     :else (apply (resolve-template template-name) project-name args)))
 
 (defn create
