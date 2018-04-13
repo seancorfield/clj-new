@@ -10,4 +10,5 @@
               :sanitized (name-to-path name)}]
     (println "Generating fresh 'clj new' {{name}} project.")
     (->files data
+             ["deps.edn" (render "deps.edn" data)]
              ["src/{{placeholder}}/foo.clj" (render "foo.clj" data)])))
