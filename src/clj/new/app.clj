@@ -15,7 +15,9 @@
               :nested-dirs (name-to-path main-ns)
               :year (year)
               :date (date)}]
-    (println "Generating a project called" name "based on the 'app' template.")
+    (println "Generating a project called"
+             (project-name name)
+             "based on the 'app' template.")
     (->files data
              ["deps.edn" (render "deps.edn" data)]
              ["README.md" (render "README.md" data)]

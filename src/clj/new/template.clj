@@ -1,5 +1,6 @@
 (ns clj.new.template
-  (:require [clj.new.templates :refer [renderer sanitize year date ->files]]))
+  (:require [clj.new.templates :refer [project-name
+                                       renderer sanitize year date ->files]]))
 
 (defn template
   "A meta-template for 'clj new' templates."
@@ -10,7 +11,9 @@
               :placeholder "{{sanitized}}"
               :year (year)
               :date (date)}]
-    (println "Generating fresh 'clj new' template project.")
+    (println "Generating a project called"
+             (project-name name)
+             "that is a 'clj-new' template")
     (->files data
              ["deps.edn" (render "deps.edn" data)]
              ["README.md" (render "README.md" data)]

@@ -17,7 +17,9 @@ Accepts a group id in the project name: `clj -A:new lib foo.bar/baz`"
               :nested-dirs (name-to-path main-ns)
               :year (year)
               :date (date)}]
-    (println "Generating a project called" name "based on the 'lib' template.")
+    (println "Generating a project called"
+             (project-name name)
+             "based on the 'lib' template.")
     (println "The lib template is intended for library projects, not applications.")
     (->files data
              ["deps.edn" (render "deps.edn" data)]
