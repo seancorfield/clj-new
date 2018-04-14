@@ -2,7 +2,7 @@
  :deps {org.clojure/clojure {:mvn/version "RELEASE"}
         seancorfield/clj-new
         {:git/url "https://github.com/seancorfield/clj-new"
-         :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}
+         :sha "8ec575192780df05fbf5571ae77663177372e47c"}}
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "RELEASE"}}}

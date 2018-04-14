@@ -9,7 +9,7 @@ You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
                          {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}
+                          :sha "8ec575192780df05fbf5571ae77663177372e47c"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
@@ -27,7 +27,7 @@ Built-in templates are:
 
 * `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -m` and can test it with `clj -A:test:runner`.
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner`.
-* `template` -- A minimal `clj-new` template. Can test it with `clj -A:test:runner`. Can produce a new template with `clj -m clj-new.create myapp mynewapp` (where `myapp` is whatever project name you used when you asked `clj-new` to create the template project).
+* `template` -- A minimal `clj-new` template. Can test it with `clj -A:test:runner`. Can produce a new template with `clj -m clj-new.create mytemplate myname/mynewapp` (where `mytemplate` is the appropriate part of whatever project name you used when you asked `clj-new` to create the template project).
 
 The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created). An alternative is to use a multi-segment project name, such as `foo.bar` (the folder created will be called `foo.bar` and will contain `src/foo/bar.clj`).
 
