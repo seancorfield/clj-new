@@ -6,7 +6,7 @@ A work-in-progress that will allow generation of projects from Leiningen or Boot
 
 Create a basic application:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "5f52765aef0000ef5e27e6b97dbda61679197e47"}}}' -m clj-new.create app myapp
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}}' -m clj-new.create app myapp
     cd myapp
     clj -m myapp.core
 
@@ -22,11 +22,20 @@ Built-in templates are:
 
 ## General Usage
 
-You can specify a template and a project name:
+You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` like this:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "5f52765aef0000ef5e27e6b97dbda61679197e47"}}}' -m clj-new.create template-name project-name
+    {:aliases
+     {:new {:extra-deps {seancorfield/clj-new
+                         {:git/url "https://github.com/seancorfield/clj-new"
+                          :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}
+            :main-opts ["-m" "clj-new.create"]}}
+     ...}
 
-This will look for `template-name/clj-template` (on Clojars and Maven Central). If it doesn't find a `clj` template, it will look for `template-name/boot-template` instead. If it doesn't find a Boot template, it will look for `template-name/lein-template` instead. `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!). `clj-new` will then generate a new project folder called `project-name` containing files generated from the specified `template-name`.
+Then you can just use:
+
+    clj -A:new template-name project-name
+
+If `template-name` is not one of the built-in ones (or is not already on the classpath), this will look for `template-name/clj-template` (on Clojars and Maven Central). If it doesn't find a `clj` template, it will look for `template-name/boot-template` instead. If it doesn't find a Boot template, it will look for `template-name/lein-template` instead. `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!). `clj-new` will then generate a new project folder called `project-name` containing files generated from the specified `template-name`.
 
 If the folder `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added). By default, `clj-new` will look for the most recent stable release of the specified template (an option may be added to search for snapshots and/or specify and particular version to use). Only `:mvn/version` releases are supported at the moment.
 
