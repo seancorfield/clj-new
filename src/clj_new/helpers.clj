@@ -30,6 +30,8 @@
 
 (def ^:private git-url-sha #"(https?://.*/([^/]+))@([a-fA-Z0-9]+)")
 
+(def ^:private local-root  #"(.+)::(.+)")
+
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a clj template first, then
   as a Boot template, then as a Leiningen template. Return the type of template
@@ -40,15 +42,23 @@
         tmp-version   (cond *template-version* *template-version*
                             *use-snapshots?*   "(0.0.0,)"
                             :else              "RELEASE")
-        [_ git-url tmp-name sha] (re-find git-url-sha template-name)
-        clj-only?     (and git-url tmp-name sha)
-        template-name (if (and git-url tmp-name sha)
-                        tmp-name
-                        template-name)
+        [_ git-url git-tmp-name sha]  (re-find git-url-sha template-name)
+        [_ local-root local-tmp-name] (re-find local-root  template-name)
+        clj-only?     (or (and git-url git-tmp-name sha)
+                          (and local-root local-tmp-name))
+        template-name (cond (and git-url git-tmp-name sha)
+                            git-tmp-name
+                            (and local-root local-tmp-name)
+                            local-tmp-name
+                            :else
+                            template-name)
         clj-tmp-name  (str template-name "/clj-template")
-        clj-version   (if (and git-url tmp-name sha)
-                        {:git/url git-url :sha sha}
-                        {:mvn/version tmp-version})
+        clj-version   (cond (and git-url git-tmp-name sha)
+                            {:git/url git-url :sha sha}
+                            (and local-root local-tmp-name)
+                            {:local/root local-root}
+                            :else
+                            {:mvn/version tmp-version})
         boot-tmp-name (str template-name "/boot-template")
         lein-tmp-name (str template-name "/lein-template")
         environment   (clojure-env)
