@@ -28,19 +28,29 @@
       (str/split (re-pattern java.io.File/pathSeparator))
       (->> (run! pom/add-classpath))))
 
+(def ^:private git-url-sha #"(https?://.*/([^/]+))@([a-fA-Z0-9]+)")
+
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a clj template first, then
   as a Boot template, then as a Leiningen template. Return the type of template
-  we found."
+  we found and the final, derived template-name."
   [template-name]
   (let [selected      (atom nil)
         failure       (atom nil)
-        clj-tmp-name  (str template-name "/clj-template")
-        boot-tmp-name (str template-name "/boot-template")
-        lein-tmp-name (str template-name "/lein-template")
         tmp-version   (cond *template-version* *template-version*
                             *use-snapshots?*   "(0.0.0,)"
                             :else              "RELEASE")
+        [_ git-url tmp-name sha] (re-find git-url-sha template-name)
+        clj-only?     (and git-url tmp-name sha)
+        template-name (if (and git-url tmp-name sha)
+                        tmp-name
+                        template-name)
+        clj-tmp-name  (str template-name "/clj-template")
+        clj-version   (if (and git-url tmp-name sha)
+                        {:git/url git-url :sha sha}
+                        {:mvn/version tmp-version})
+        boot-tmp-name (str template-name "/boot-template")
+        lein-tmp-name (str template-name "/lein-template")
         environment   (clojure-env)
         all-deps      (read-deps (:config-files environment))
         output
@@ -54,49 +64,50 @@
                all-deps
                {:verbose (and *debug* (> *debug* 1))
                 :extra-deps
-                {(symbol clj-tmp-name) {:mvn/version tmp-version}}})
+                {(symbol clj-tmp-name) clj-version}})
 
-              (reset! selected :clj)
+              (reset! selected [:clj template-name])
               (catch Exception e
                 (when (and *debug* (> *debug* 2))
                   (println "Unable to find clj template:")
                   (stack/print-stack-trace e))
                 (reset! failure e)
-                (try
-                  (resolve-and-load
-                   all-deps
-                   {:verbose (and *debug* (> *debug* 1))
-                    :extra-deps
-                    {(symbol boot-tmp-name) {:mvn/version tmp-version}}})
+                (when-not clj-only?
+                  (try
+                    (resolve-and-load
+                     all-deps
+                     {:verbose (and *debug* (> *debug* 1))
+                      :extra-deps
+                      {(symbol boot-tmp-name) {:mvn/version tmp-version}}})
 
-                  (reset! selected :boot)
-                  (catch Exception e
-                    (when (and *debug* (> *debug* 2))
-                      (println "Unable to find Boot template:")
-                      (stack/print-stack-trace e))
-                    (reset! failure e)
-                    (try
-                      (resolve-and-load
-                       all-deps
-                       {:verbose (and *debug* (> *debug* 1))
-                        :extra-deps
-                        {(symbol lein-tmp-name) {:mvn/version tmp-version}
-                         'leiningen-core {:mvn/version "2.7.1"}
-                         'org.sonatype.aether/aether-api {:mvn/version "1.13.1"}
-                         'org.sonatype.aether/aether-impl {:mvn/version "1.13.1"}
-                         'slingshot {:mvn/version "0.10.3"}}})
+                    (reset! selected [:boot template-name])
+                    (catch Exception e
+                      (when (and *debug* (> *debug* 2))
+                        (println "Unable to find Boot template:")
+                        (stack/print-stack-trace e))
+                      (reset! failure e)
+                      (try
+                        (resolve-and-load
+                         all-deps
+                         {:verbose (and *debug* (> *debug* 1))
+                          :extra-deps
+                          {(symbol lein-tmp-name) {:mvn/version tmp-version}
+                           'leiningen-core {:mvn/version "2.7.1"}
+                           'org.sonatype.aether/aether-api {:mvn/version "1.13.1"}
+                           'org.sonatype.aether/aether-impl {:mvn/version "1.13.1"}
+                           'slingshot {:mvn/version "0.10.3"}}})
 
-                      (reset! selected :leiningen)
-                      (catch Exception e
-                        (when (and *debug* (> *debug* 1))
-                          (println "Unable to find Leiningen template:")
-                          (stack/print-stack-trace e))
-                        (reset! failure e)))))))))]
+                        (reset! selected [:leiningen template-name])
+                        (catch Exception e
+                          (when (and *debug* (> *debug* 1))
+                            (println "Unable to find Leiningen template:")
+                            (stack/print-stack-trace e))
+                          (reset! failure e))))))))))]
     (when *debug*
       (println "Output from locating template:")
       (println output))
     (if @selected
-      (let [sym-name (str (name @selected) ".new." template-name)]
+      (let [sym-name (str (name (first @selected)) ".new." (second @selected))]
         (try
           (require (symbol sym-name))
           @selected
@@ -124,10 +135,11 @@
 (defn resolve-template
   "Given a template name, resolve it to a symbol (or exit if not possible)."
   [template-name]
-  (if-let [type (try (require (symbol (str "clj.new." template-name)))
-                     :clj
-                     (catch FileNotFoundException _
-                       (resolve-remote-template template-name)))]
+  (if-let [[type template-name]
+           (try (require (symbol (str "clj.new." template-name)))
+                [:clj template-name]
+                (catch FileNotFoundException _
+                  (resolve-remote-template template-name)))]
     (let [the-ns (str (name type) ".new." template-name)]
       (if-let [sym (resolve (symbol the-ns template-name))]
         sym
