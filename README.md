@@ -6,7 +6,9 @@ A work-in-progress that will allow generation of projects from Leiningen or Boot
 
 Create a basic application:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}}' -m clj-new.create app myname/myapp
+    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" \
+                                              :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}}' \
+        -m clj-new.create app myname/myapp
     cd myapp
     clj -m myname.myapp
 
