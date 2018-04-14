@@ -144,12 +144,12 @@
   perform sanity checking on the project name and, if it's sane, then
   generate the project from the template."
   [template-name project-name args]
-  (cond
-    (not (symbol? (try (read-string project-name) (catch Exception _))))
-    (throw (ex-info "Project names must be valid Clojure symbols."
-                    {:project-name project-name}))
-    ;; consider requiring qualified symbol name!
-    :else (apply (resolve-template template-name) project-name args)))
+  (let [project-sym (try (read-string project-name) (catch Exception _))]
+    (if (or (qualified-symbol? project-sym)
+            (and (symbol? project-sym) (re-find #"\." (name project-sym))))
+      (apply (resolve-template template-name) project-name args)
+      (throw (ex-info "Project names must be valid qualified or multi-segment Clojure symbols."
+                      {:project-name project-name})))))
 
 (defn create
   "Exposed to clj-new command-line with simpler signature."

@@ -11,7 +11,7 @@
   "Bare bones entry point to create a new project from a template.
 
   May eventually support more options."
-  [template-name project-name & args]
+  [& [template-name project-name & args]]
   (if (and template-name project-name)
     (helpers/create {:template template-name
                      :name project-name
@@ -24,5 +24,6 @@
       (println "* app - create a new application based on deps.edn")
       (println "* lib - create a new library based on deps.edn")
       (println "* template - create a new clj template based on deps.edn")
-      (println "\nThe project-name must be a valid Clojure symbol.")))
+      (println "\nThe project-name must be a valid Clojure symbol and must either be a")
+      (println "qualified name or a multi-segment name (to avoid .core namespaces!).")))
   (shutdown-agents))
