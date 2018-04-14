@@ -1,14 +1,21 @@
 # clj-new
 
-A work-in-progress that will allow generation of projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clj` command-line installation of Clojure.
+Generate new projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clj` command-line installation of Clojure!
 
 ## Getting Started
 
+You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` like this:
+
+    {:aliases
+     {:new {:extra-deps {seancorfield/clj-new
+                         {:git/url "https://github.com/seancorfield/clj-new"
+                          :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}
+            :main-opts ["-m" "clj-new.create"]}}
+     ...}
+
 Create a basic application:
 
-    clj -Sdeps '{:deps {seancorfield/clj-new {:git/url "https://github.com/seancorfield/clj-new" \
-                                              :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}}' \
-        -m clj-new.create app myname/myapp
+    clj -A:new app myname/myapp
     cd myapp
     clj -m myname.myapp
 
@@ -22,28 +29,19 @@ Built-in templates are:
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner`.
 * `template` -- A minimal `clj-new` template. Can test it with `clj -A:test:runner`. Can produce a new template with `clj -m clj-new.create myapp mynewapp` (where `myapp` is whatever project name you used when you asked `clj-new` to create the template project).
 
-The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created).
+The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created). An alternative is to use a multi-segment project name, such as `foo.bar` (the folder created will be called `foo.bar` and will contain `src/foo/bar.clj`).
 
 ## General Usage
 
-You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` like this:
+The general form of the command is:
 
-    {:aliases
-     {:new {:extra-deps {seancorfield/clj-new
-                         {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "f6fcc24bfa5d77167ff826990cd2c9c65eed4fed"}}
-            :main-opts ["-m" "clj-new.create"]}}
-     ...}
-
-Then you can just use:
-
-    clj -A:new template-name project-name
+    clj -A:new template-name project-name arg1 arg2 arg3 ...
 
 If `template-name` is not one of the built-in ones (or is not already on the classpath), this will look for `template-name/clj-template` (on Clojars and Maven Central). If it doesn't find a `clj` template, it will look for `template-name/boot-template` instead. If it doesn't find a Boot template, it will look for `template-name/lein-template` instead. `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!). `clj-new` will then generate a new project folder based on the `project-name` containing files generated from the specified `template-name`.
 
 If the folder for `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added). By default, `clj-new` will look for the most recent stable release of the specified template (an option may be added to search for snapshots and/or specify and particular version to use). Only `:mvn/version` releases are supported at the moment.
 
-You can pass arguments through to the underlying template: any arguments after the `project-name` are passed directly to the template.
+Any arguments after the `project-name` are passed directly to the template (`arg1`, `arg2`, `arg3`, ... above).
 
 ## `clj` Templates
 
