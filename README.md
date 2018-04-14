@@ -9,7 +9,7 @@ You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
                          {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "b74f4eeef55de6b5a962498f32c58efb119f8bdc"}}
+                          :sha "025f678af79c460e23f762aeb33dbb4af16f7ec7"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
@@ -39,13 +39,23 @@ The general form of the command is:
 
 If `template-name` is not one of the built-in ones (or is not already on the classpath), this will look for `template-name/clj-template` (on Clojars and Maven Central). If it doesn't find a `clj` template, it will look for `template-name/boot-template` instead. If it doesn't find a Boot template, it will look for `template-name/lein-template` instead. `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!). `clj-new` will then generate a new project folder based on the `project-name` containing files generated from the specified `template-name`.
 
-Alternatively, `template-name` can be a `:git/url` and `:sha` like:
+Alternatively, `template-name` can be a `:git/url` and `:sha` like this:
 
     clj -A:new https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
 
-If the folder for `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added). By default, `clj-new` will look for the most recent stable release of the specified template (an option may be added to search for snapshots and/or specify and particular version to use). Only `:mvn/version` releases are supported at the moment.
+In this case, `clj.new.someapp` must exist in the template and `clj.new.someapp/someapp` will be invoked to generate the template.
+
+Or, `template-name` can be a `:local/root` and template name like this:
+
+    clj -A:new /path/to/clj-template::new-app project-name arg1 arg2 arg3 ...
+
+In this case, `clj.new.new-app` must exist in the template and `clj.new.new-app/new-app` will be invoked to generate the template.
+
+If the folder for `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added).
 
 Any arguments after the `project-name` are passed directly to the template (`arg1`, `arg2`, `arg3`, ... above).
+
+Note: not all Leiningen or Boot templates accept a qualified `project-name` so you may have to use a multi-segment name instead, e.g., `project.name`.
 
 ## `clj` Templates
 
