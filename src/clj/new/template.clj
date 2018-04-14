@@ -6,7 +6,8 @@
   "A meta-template for 'clj new' templates."
   [name]
   (let [render (renderer "template")
-        data {:name name
+        data {:raw-name name
+              :name (project-name name)
               :sanitized (sanitize name)
               :placeholder "{{sanitized}}"
               :year (year)
