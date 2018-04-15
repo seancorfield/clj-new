@@ -9,7 +9,7 @@ You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
                          {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "025f678af79c460e23f762aeb33dbb4af16f7ec7"}}
+                          :sha "492bb2e7ad7373a8b5958124a86cddc4c7a123d5"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
