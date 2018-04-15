@@ -197,32 +197,21 @@
   (when template-name (resolve-template template-name))
   (doseq [thing generations]
     (let [[gen-type gen-arg] (str/split thing #"=")
-          _ (try (require (symbol (str "boot.generate." gen-type))) (catch Exception _))
-          generator (resolve (symbol (str "boot.generate." gen-type) "generate"))]
+          _ (try (require (symbol (str "clj.generate." gen-type))) (catch Exception _ (println _)))
+          generator (resolve (symbol (str "clj.generate." gen-type) "generate"))]
       (if generator
         (apply generator prefix gen-arg args)
-        (println (str "Unable to resolve boot.generate."
+        (println (str "Unable to resolve clj.generate."
                       gen-type
                       "/generate -- ignoring: "
                       gen-type
                       (when gen-arg (str "=\"" gen-arg "\""))))))))
 
 (defn generate-code
-  "TBD: add clj generator!
-
-  Exposed to Boot new task with simpler signature."
+  "Exposed to clj new task with simpler signature."
   [{:keys [args force generate prefix template]
     :or {prefix "src"}}]
-  (binding [bnt/*dir*        "."
-            bnt/*force?*     force
-            bnt/*overwrite?* false]
+  (binding [cnt/*dir*        "."
+            cnt/*force?*     force
+            cnt/*overwrite?* false]
     (generate-code* template (or prefix "src") generate args)))
-
-(defn template-show
-  "Show details for a given template."
-  [template-name]
-  (let [resolved (meta (resolve-template template-name))]
-    (println (:doc resolved "No documentation available."))
-    (println)
-    (println "Argument list:" (or (:help-arglists resolved)
-                                  (:arglists resolved)))))

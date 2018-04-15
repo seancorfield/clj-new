@@ -78,13 +78,11 @@ These arguments are accessible in the `custom-template` function as a second arg
   (println name " has the following arguments: " args))
 ```
 
-## Boot Generators (to be rewritten)
+## clj Generators
 
-(the `boot.generate` logic has yet to be refactored to work with `clj` -- coming "soon")
+Whereas clj templates will generate an entire new project in a new directory, clj generators are intended to add / modify code in an existing project. `clj -m clj-new.generate` will run a generator with an argument for the `type` or `type=name` options. The `type` specifies the type of generator to use. The `name` is the main argument that is passed to the generator.
 
-Whereas Boot templates will generate an entire new project in a new directory, Boot generators are intended to add / modify code in an existing project. `boot-new` will run a generator with the `-g type` or `-g type=name` options. The `type` specifies the type of generator to use. The `name` is the main argument that is passed to the generator.
-
-A Boot generator can be part of a project or a template. A generator `foo`, has a `boot.generate.foo/generate` function that accepts at least two arguments, `prefix` and the `name` specified in the `-g` / `--generate` option (which will be `nil` if no `name` was specified -- the generator should validate that). `prefix` specifies the directory in which to perform the code generation and defaults to `src`. It can be overridden with the `-p` / `--prefix` option, but a generator is also free to simply ignore it anyway. In addition, any arguments specified by the `-a` / `--args` option are passed as additional arguments to the generator.
+A clj generator can be part of a project or a template. A generator `foo`, has a `clj.generate.foo/generate` function that accepts at least two arguments, `prefix` and the `name` specified as the main argument. `prefix` specifies the directory in which to perform the code generation and defaults to `src` (it cannot currently be overridden). In addition, any additional arguments are passed as additional arguments to the generator.
 
 There are currently a few built-in generators:
 - `file`
@@ -93,19 +91,19 @@ There are currently a few built-in generators:
 - `defn`
 - `edn`
 
-The `file` generator creates files relative to the prefix. It optionally accepts a body, file extension, and append? argument.
+The `file` generator creates files relative to the prefix. It optionally accepts a body, and file extension. Those default to `nil` and `"clj"` respectively.
 ```bash
-boot -d boot/new new -g file=foo.bar -a "(ns foo.bar)" -a "clj"
+clj -m clj-new.generate file=foo.bar "(ns foo.bar)" "clj"
 ```
 
 The `ns` generator creates a clojure namespace by using the `file` generator and providing a few defaults.
 ```bash
-boot -d boot/new new -g ns=foo.bar
+clj -m clj-new.generate ns=foo.bar
 ```
 
-This will generate `src/foo/bar.clj` containing `(ns foo.bar)` (and a placeholder docstring). It will not replace an existing file unless you specify `-f` / `--force` (so `ns` generators are safe-by-default.
+This will generate `src/foo/bar.clj` containing `(ns foo.bar)` (and a placeholder docstring). It will not replace an existing file.
 ```bash
-boot -d boot/new new -g defn=foo.bar/my-func
+clj -m clj-new.generate defn=foo.bar/my-func
 ```
 
 If `src/foo/bar.clj` does not exist, it will be generated as a namespace first (using the `ns` generator above), then a definition for `my-func` will be appended to that file (with a placeholder docstring and a dummy argument vector of `[args]`). The generator does not check whether that `defn` already exists so it always appends a new `defn`.
@@ -114,12 +112,11 @@ Both the `def` and `defn` generators create files using the `ns` generator above
 
 The `edn` generator uses the `file` generator internally, with a default extension of `"edn"`.
 ```bash
-boot -d boot/new new -g edn=foo.bar -a "(ns foo.bar)"
+clj -m clj-new.generate edn=foo.bar "(ns foo.bar)"
 ```
 
 ## Roadmap
 
-* Refactor Boot generator stuff to `clj-new.generate`.
 * Improve the built-in template `template` so that it can be used to seed a new `clj` project.
 
 ## License
