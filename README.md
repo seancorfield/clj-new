@@ -4,7 +4,19 @@ Generate new projects from Leiningen or Boot templates, or `clj-template` projec
 
 ## Getting Started
 
-You'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` like this:
+You can use this from the command line...
+
+```
+clj -Sdeps '{:deps
+              {seancorfield/clj-new
+                {:git/url "https://github.com/seancorfield/clj-new"
+                 :sha "492bb2e7ad7373a8b5958124a86cddc4c7a123d5"}}}' \
+  -m clj-new.create \
+  app \
+  myname/myapp
+```
+
+...but you'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` like this:
 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
