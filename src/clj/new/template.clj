@@ -8,7 +8,7 @@
   (let [render (renderer "template")
         data {:raw-name name
               :name (project-name name)
-              :sanitized (sanitize name)
+              :sanitized (sanitize (project-name name))
               :placeholder "{{sanitized}}"
               :year (year)
               :date (date)}]
