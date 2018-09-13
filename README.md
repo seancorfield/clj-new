@@ -10,7 +10,7 @@ You can use this from the command line...
 clj -Sdeps '{:deps
               {seancorfield/clj-new
                 {:git/url "https://github.com/seancorfield/clj-new"
-                 :sha "108f27159501f8ce12564b398b0ea50def3892b1"}}}' \
+                 :sha "9e89ef49ced0be7d75bf87a7127a2941e70ad69a"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -21,7 +21,7 @@ clj -Sdeps '{:deps
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
                          {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "108f27159501f8ce12564b398b0ea50def3892b1"}}
+                          :sha "9e89ef49ced0be7d75bf87a7127a2941e70ad69a"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
@@ -41,7 +41,8 @@ Built-in templates are:
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner`.
 * `template` -- A minimal `clj-new` template. Can test it with `clj -A:test:runner`. Can produce a new template with `clj -m clj-new.create mytemplate myname/mynewapp` (where `mytemplate` is the appropriate part of whatever project name you used when you asked `clj-new` to create the template project).
 
-The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created). An alternative is to use a multi-segment project name, such as `foo.bar` (the folder created will be called `foo.bar` and will contain `src/foo/bar.clj`).
+The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`.
+An alternative is to use a multi-segment project name, such as `foo.bar` (the folder created will be called `foo.bar` and will contain `src/foo/bar.clj`).
 
 ## General Usage
 
@@ -65,7 +66,15 @@ In this case, `clj.new.new-app` must exist in the template and `clj.new.new-app/
 
 If the folder for `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added).
 
-Any arguments after the `project-name` are passed directly to the template (`arg1`, `arg2`, `arg3`, ... above).
+Any arguments after the `project-name` are parsed using `tools.cli` for flags, and any non-flag arguments are passed directly to the template (`arg1`, `arg2`, `arg3`, ... above).
+
+Flag arguments for `clj-new.create` are:
+* `-f` or `--force` -- will force overwrite the target directory if it exists
+* `-h` or `--help` -- will provide a summary of these options as help
+* `-o` or `--output`, followed by a directory path -- specify the project directory to create (the default is to use the project name as the directory)
+* `-S` or `--snapshot` -- look for -SNAPSHOT version of the template (not just a release version)
+* `-v` or `--verbose` -- enable debugging -- be verbose!
+* `-V` or `--version`, followed by a version -- use this specific version of the template
 
 Note: not all Leiningen or Boot templates accept a qualified `project-name` so you may have to use a multi-segment name instead, e.g., `project.name`.
 
@@ -126,6 +135,14 @@ The `edn` generator uses the `file` generator internally, with a default extensi
 ```bash
 clj -m clj-new.generate edn=foo.bar "(ns foo.bar)"
 ```
+
+Any arguments after `type=name` are parsed using `tools.cli` for flags, and any non-flag arguments are passed directly to the generator.
+
+Flag arguments for `clj-new.generate` are:
+* `-f` or `--force` -- will force overwrite the target directory/file if it exists
+* `-h` or `--help` -- will provide a summary of these options as help
+* `-p` or `--prefix`, followed by a directory path -- specify the project directory in which to run the generator (the default is `src` but `-p .` will allow a generator to modify files in the root of your project)
+* `-t` or `--template`, followed by a template name -- load this template (using the same rules as for `clj-new.create` above) and then run the specified generator
 
 ## Roadmap
 
