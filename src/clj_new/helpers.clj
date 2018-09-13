@@ -2,6 +2,7 @@
   "The top-level logic for the clj-new create/generate entry points."
   (:require [clojure.stacktrace :as stack]
             [clojure.string :as str]
+            [clojure.tools.cli :as cli]
             [clojure.tools.deps.alpha :as deps]
             [clojure.tools.deps.alpha.reader :refer [clojure-env
                                                      read-deps]]
@@ -173,20 +174,37 @@
       (throw (ex-info "Project names must be valid qualified or multi-segment Clojure symbols."
                       {:project-name project-name})))))
 
+(def ^:private create-cli
+  "Command line argument spec for create command."
+  [["-f" "--force"           "Force overwite"]
+   ["-h" "--help"            "Provide this help"]
+   ["-o" "--output DIR"      "Directory prefix for project creation"]
+   ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
+   ["-v" "--verbose"         "Be verbose"]
+   ["-V" "--version VERSION" "Use this version of the template"]])
+
 (defn create
   "Exposed to clj-new command-line with simpler signature."
-  [{:keys [args force name snapshot template template-version to-dir verbose]
-    :or {template "default"}}]
-  (binding [*debug*            verbose
-            *use-snapshots?*   snapshot
-            *template-version* template-version
-            bnt/*dir*          to-dir
-            bnt/*force?*       force
-            cnt/*dir*          to-dir
-            cnt/*force?*       force
-            lnt/*dir*          to-dir
-            lnt/*force?*       force]
-    (create* template name args)))
+  [{:keys [args name template]}]
+  (let [{:keys [options arguments summary errors]}
+        (cli/parse-opts args create-cli)]
+    (if (or (:help options) errors)
+      (do
+        (println "Usage:")
+        (println summary)
+        (doseq [err errors]
+          (println err)))
+      (let [{:keys [force snapshot version output verbose]} options]
+        (binding [*debug*            verbose
+                  *use-snapshots?*   snapshot
+                  *template-version* version
+                  bnt/*dir*          output
+                  bnt/*force?*       force
+                  cnt/*dir*          output
+                  cnt/*force?*       force
+                  lnt/*dir*          output
+                  lnt/*force?*       force]
+          (create* template name arguments))))))
 
 (defn generate-code*
   "Given an optional template name, an optional path prefix, a list of
@@ -207,11 +225,26 @@
                       gen-type
                       (when gen-arg (str "=\"" gen-arg "\""))))))))
 
+(def ^:private generate-cli
+  "Command line argument spec for generate command."
+  [["-f" "--force"         "Force overwite"]
+   ["-h" "--help"          "Provide this help"]
+   ["-p" "--prefix DIR"    "Directory prefix for generation"]
+   ["-t" "--template NAME" "Override the template name"]])
+
 (defn generate-code
   "Exposed to clj new task with simpler signature."
-  [{:keys [args force generate prefix template]
-    :or {prefix "src"}}]
-  (binding [cnt/*dir*        "."
-            cnt/*force?*     force
-            cnt/*overwrite?* false]
-    (generate-code* template (or prefix "src") generate args)))
+  [{:keys [args generate]}]
+  (let [{:keys [options arguments summary errors]}
+        (cli/parse-opts args generate-cli)]
+    (if (or (:help options) errors)
+      (do
+        (println "Usage:")
+        (println summary)
+        (doseq [err errors]
+          (println err)))
+      (let [{:keys [force prefix template]} options]
+        (binding [cnt/*dir*        "."
+                  cnt/*force?*     force
+                  cnt/*overwrite?* false]
+          (generate-code* template (or prefix "src") generate arguments))))))

@@ -15,8 +15,7 @@
   (if (and template-name project-name)
     (helpers/create {:template template-name
                      :name project-name
-                     :args args
-                     :verbose nil})
+                     :args args})
     (do
       (println "Usage: clj -m clj-new.create template-name project-name\n")
       (println "Any additional arguments are passed directly to the template.")

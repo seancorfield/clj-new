@@ -1,3 +1,4 @@
 {:deps {com.cemerick/pomegranate {:mvn/version "1.0.0"}
+        org.clojure/tools.cli {:mvn/version "0.4.0"}
         org.clojure/tools.deps.alpha {:mvn/version "0.5.425"}
         stencil {:mvn/version "0.5.0"}}}
