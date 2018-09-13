@@ -10,7 +10,7 @@ You can use this from the command line...
 clj -Sdeps '{:deps
               {seancorfield/clj-new
                 {:git/url "https://github.com/seancorfield/clj-new"
-                 :sha "9e89ef49ced0be7d75bf87a7127a2941e70ad69a"}}}' \
+                 :sha "21ca1b27f46dc324be084ba839beca555aeda387"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -21,7 +21,7 @@ clj -Sdeps '{:deps
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
                          {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "9e89ef49ced0be7d75bf87a7127a2941e70ad69a"}}
+                          :sha "21ca1b27f46dc324be084ba839beca555aeda387"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
@@ -142,7 +142,9 @@ Flag arguments for `clj-new.generate` are:
 * `-f` or `--force` -- will force overwrite the target directory/file if it exists
 * `-h` or `--help` -- will provide a summary of these options as help
 * `-p` or `--prefix`, followed by a directory path -- specify the project directory in which to run the generator (the default is `src` but `-p .` will allow a generator to modify files in the root of your project)
+* `-S` or `--snapshot` -- look for -SNAPSHOT version of the template (not just a release version)
 * `-t` or `--template`, followed by a template name -- load this template (using the same rules as for `clj-new.create` above) and then run the specified generator
+* `-V` or `--version`, followed by a version -- use this specific version of the template
 
 ## Roadmap
 
