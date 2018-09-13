@@ -176,7 +176,7 @@
 
 (def ^:private create-cli
   "Command line argument spec for create command."
-  [["-f" "--force"           "Force overwite"]
+  [["-f" "--force"           "Force overwrite"]
    ["-h" "--help"            "Provide this help"]
    ["-o" "--output DIR"      "Directory prefix for project creation"]
    ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
@@ -227,7 +227,7 @@
 
 (def ^:private generate-cli
   "Command line argument spec for generate command."
-  [["-f" "--force"         "Force overwite"]
+  [["-f" "--force"         "Force overwrite"]
    ["-h" "--help"          "Provide this help"]
    ["-p" "--prefix DIR"    "Directory prefix for generation"]
    ["-t" "--template NAME" "Override the template name"]])
