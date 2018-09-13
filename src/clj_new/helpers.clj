@@ -227,10 +227,12 @@
 
 (def ^:private generate-cli
   "Command line argument spec for generate command."
-  [["-f" "--force"         "Force overwrite"]
-   ["-h" "--help"          "Provide this help"]
-   ["-p" "--prefix DIR"    "Directory prefix for generation"]
-   ["-t" "--template NAME" "Override the template name"]])
+  [["-f" "--force"           "Force overwrite"]
+   ["-h" "--help"            "Provide this help"]
+   ["-p" "--prefix DIR"      "Directory prefix for generation"]
+   ["-t" "--template NAME"   "Override the template name"]
+   ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
+   ["-V" "--version VERSION" "Use this version of the template"]])
 
 (defn generate-code
   "Exposed to clj new task with simpler signature."
@@ -243,8 +245,10 @@
         (println summary)
         (doseq [err errors]
           (println err)))
-      (let [{:keys [force prefix template]} options]
-        (binding [cnt/*dir*        "."
-                  cnt/*force?*     force
-                  cnt/*overwrite?* false]
+      (let [{:keys [force prefix snapshot template version]} options]
+        (binding [cnt/*dir*          "."
+                  cnt/*force?*       force
+                  *use-snapshots?*   snapshot
+                  *template-version* version
+                  cnt/*overwrite?*   false]
           (generate-code* template (or prefix "src") generate arguments))))))
