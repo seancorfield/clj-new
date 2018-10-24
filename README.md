@@ -9,8 +9,7 @@ You can use this from the command line...
 ```
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:git/url "https://github.com/seancorfield/clj-new"
-                 :sha "21ca1b27f46dc324be084ba839beca555aeda387"}}}' \
+                {:mvn/version "0.1.2"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -20,8 +19,7 @@ clj -Sdeps '{:deps
 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:git/url "https://github.com/seancorfield/clj-new"
-                          :sha "21ca1b27f46dc324be084ba839beca555aeda387"}}
+                         {:mvn/version "0.1.2"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 

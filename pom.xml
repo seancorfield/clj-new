@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>seancorfield</groupId>
+  <artifactId>clj-new</artifactId>
+  <version>0.1.2</version>
+  <name>clj-new</name>
+
+  <description>Generate new projects based on Boot Templates and/or Leiningen Templates!</description>
+  <url>https://github.com/seancorfield/clj-new</url>
+  <licenses>
+    <license>
+      <name>Eclipse Public License</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Sean Corfield</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:seancorfield/clj-new.git</connection>
+    <developerConnection>scm:git:git@github.com:seancorfield/clj-new.git</developerConnection>
+    <url>git@github.com:seancorfield/clj-new.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>clojure</artifactId>
+      <version>1.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cemerick</groupId>
+      <artifactId>pomegranate</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>tools.cli</artifactId>
+      <version>0.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>tools.deps.alpha</artifactId>
+      <version>0.5.425</version>
+    </dependency>
+    <dependency>
+      <groupId>stencil</groupId>
+      <artifactId>stencil</artifactId>
+      <version>0.5.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>clojars</id>
+      <url>https://repo.clojars.org/</url>
+    </repository>
+    <repository>
+      <id>sonatype</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>clojars</id>
+      <name>Clojars repository</name>
+      <url>https://clojars.org/repo</url>
+    </repository>
+  </distributionManagement>
+
+</project>
