@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>seancorfield</groupId>
   <artifactId>clj-new</artifactId>
-  <version>0.5.4</version>
+  <version>0.5.5</version>
   <name>clj-new</name>
 
   <description>Generate new projects based on Boot Templates and/or Leiningen Templates!</description>
@@ -24,8 +24,8 @@
   <scm>
     <connection>scm:git:git@github.com:seancorfield/clj-new.git</connection>
     <developerConnection>scm:git:git@github.com:seancorfield/clj-new.git</developerConnection>
-    <url>git@github.com:seancorfield/clj-new.git</url>
-    <tag>HEAD</tag>
+    <url>https://github.com/seancorfield/clj-new</url>
+    <tag>904d7894929f8e371d85f6160cc7445841d1086a</tag>
   </scm>
 
   <dependencies>
@@ -37,17 +37,17 @@
     <dependency>
       <groupId>com.cemerick</groupId>
       <artifactId>pomegranate</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.cli</artifactId>
-      <version>0.4.0</version>
+      <version>0.4.1</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.5.425</version>
+      <version>0.5.460</version>
     </dependency>
     <dependency>
       <groupId>stencil</groupId>
