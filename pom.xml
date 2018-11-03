@@ -25,7 +25,7 @@
     <connection>scm:git:git@github.com:seancorfield/clj-new.git</connection>
     <developerConnection>scm:git:git@github.com:seancorfield/clj-new.git</developerConnection>
     <url>https://github.com/seancorfield/clj-new</url>
-    <tag>ee4a6c08186bd6036d66965ac82f61aaaf350294</tag>
+    <tag>b5b6742ac9c2f9982c98ccd4d88295d8652ce82d</tag>
   </scm>
 
   <dependencies>
