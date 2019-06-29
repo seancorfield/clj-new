@@ -150,14 +150,15 @@
                 [:clj template-name]
                 (catch FileNotFoundException _
                   (resolve-remote-template template-name)))]
-    (let [the-ns (str (name type) ".new." template-name)]
-      (if-let [sym (resolve (symbol the-ns template-name))]
+    (let [the-ns (str (name type) ".new." template-name)
+          fn-name (str/replace template-name #"^.+\." "")]
+      (if-let [sym (resolve (symbol the-ns fn-name))]
         sym
         (throw (ex-info (format (str "Found template %s but could not "
                                      "resolve %s/%s within it.")
                                 template-name
                                 the-ns
-                                template-name) {}))))
+                                fn-name) {}))))
     (throw (ex-info (format "Could not find template %s on the classpath."
                             template-name) {}))))
 
