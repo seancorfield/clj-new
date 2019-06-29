@@ -150,6 +150,6 @@ Flag arguments for `clj-new.generate` are:
 
 ## License
 
-Copyright © 2016-2018 Sean Corfield and the Leiningen Team for much of the code -- thank you!
+Copyright © 2016-2019 Sean Corfield and the Leiningen Team for much of the code -- thank you!
 
 Distributed under the Eclipse Public License version 1.0.

@@ -4,7 +4,7 @@
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
             [clojure.tools.deps.alpha :as deps]
-            [clojure.tools.deps.alpha.reader :refer [clojure-env
+            [clojure.tools.deps.alpha.reader :refer [default-deps
                                                      read-deps]]
             ;; support boot-template projects:
             [boot.new.templates :as bnt]
@@ -62,8 +62,7 @@
                             {:mvn/version tmp-version})
         boot-tmp-name (str template-name "/boot-template")
         lein-tmp-name (str template-name "/lein-template")
-        environment   (clojure-env)
-        all-deps      (read-deps (:config-files environment))
+        all-deps      (read-deps (default-deps))
         output
         (with-out-str
           (binding [*err* *out*]
