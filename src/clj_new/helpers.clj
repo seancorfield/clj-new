@@ -180,7 +180,7 @@
    ["-h" "--help"            "Provide this help"]
    ["-o" "--output DIR"      "Directory prefix for project creation"]
    ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
-   ["-v" "--verbose"         "Be verbose"]
+   ["-v" "--verbose"         "Be verbose" :default 0 :update-fn inc]
    ["-V" "--version VERSION" "Use this version of the template"]])
 
 (defn create
