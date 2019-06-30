@@ -42,12 +42,12 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.cli</artifactId>
-      <version>0.4.1</version>
+      <version>0.4.2</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.5.460</version>
+      <version>0.7.516</version>
     </dependency>
     <dependency>
       <groupId>stencil</groupId>
