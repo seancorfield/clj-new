@@ -169,7 +169,7 @@
                 (-> (System/getProperty "user.dir")
                     (io/file name) (.getPath)))]
     (if (or (= "." dir) (.mkdir (io/file dir)) *force?*)
-      (doseq [path paths]
+      (doseq [path (remove nil? paths)]
         (if (string? path)
           (.mkdirs (template-path dir path data))
           (let [[path content & options] path
