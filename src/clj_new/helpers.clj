@@ -29,7 +29,14 @@
       (str/split (re-pattern java.io.File/pathSeparator))
       (->> (run! pom/add-classpath))))
 
-(def ^:private git-url-sha #"(https?://.*/([^/]+))@([a-fA-Z0-9]+)")
+(def ^:private git-url-sha #"(https?://[^/]+/[^/]+/([^/@]+)).*@([a-fA-Z0-9]+)")
+(def ^:private git-path-template #"(https?://[^/]+/[^/]+/[^/]+)/((.*/)?([^/]+))@([a-fA-Z0-9]+)")
+
+(comment
+  (re-find git-url-sha "https://github.com/org-name/repo-name@abc")
+  (re-find git-url-sha "https://github.com/org-name/repo-a/to/template-name@abc")
+  (re-find git-path-template "https://github.com/org-name/repo-name@abc")
+  (re-find git-path-template "https://github.com/org-name/repo-a/to/template-name@abc"))
 
 (def ^:private local-root  #"(.+)::(.+)")
 
@@ -43,8 +50,10 @@
         tmp-version   (cond *template-version* *template-version*
                             *use-snapshots?*   "(0.0.0,)"
                             :else              "RELEASE")
-        [_ git-url git-tmp-name sha]  (re-find git-url-sha template-name)
-        [_ local-root local-tmp-name] (re-find local-root  template-name)
+        [_ git-url git-tmp-name-1 sha]    (re-find git-url-sha template-name)
+        [_ _ git-path _ git-tmp-name-2 _] (re-find git-path-template template-name)
+        git-tmp-name  (or git-tmp-name-2 git-tmp-name-1)
+        [_ local-root local-tmp-name]     (re-find local-root  template-name)
         clj-only?     (or (and git-url git-tmp-name sha)
                           (and local-root local-tmp-name))
         template-name (cond (and git-url git-tmp-name sha)
@@ -55,7 +64,8 @@
                             template-name)
         clj-tmp-name  (str template-name "/clj-template")
         clj-version   (cond (and git-url git-tmp-name sha)
-                            {:git/url git-url :sha sha}
+                            (cond-> {:git/url git-url :sha sha}
+                              git-path (assoc :deps/root git-path))
                             (and local-root local-tmp-name)
                             {:local/root local-root}
                             :else

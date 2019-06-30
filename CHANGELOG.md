@@ -1,6 +1,7 @@
 # Changes
 
 * ?.?.? -- unreleased
+  * Fixes #20 by allowing more complex Git URLs.
   * Fixes #15 by allowing (and ignoring) `nil` paths to `->files`.
 * 0.7.5 -- 2019-06-29
   * Fixes #21 by updating `tools.deps.alpha` (to 0.7.516) and switching from `clojure-env` to `default-deps`.
