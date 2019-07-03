@@ -55,7 +55,11 @@ Alternatively, `template-name` can be a `:git/url` and `:sha` like this:
 
     clj -A:new https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
 
-In this case, `clj.new.someapp` must exist in the template and `clj.new.someapp/someapp` will be invoked to generate the template.
+In this case, `clj.new.someapp` must exist in the template and `clj.new.someapp/someapp` will be invoked to generate the template. A GitHub repository may include multiple templates, so you can also use this form:
+
+    clj -A:new https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
+
+`somename/somerepo` here contains templates in subdirectories, including `someapp`. Again, `clj.new.someapp` must exist in the template in that subdirectory and `clj.new.someapp/someapp` will be invoked to generate the template.
 
 Or, `template-name` can be a `:local/root` and template name like this:
 
@@ -63,7 +67,7 @@ Or, `template-name` can be a `:local/root` and template name like this:
 
 In this case, `clj.new.new-app` must exist in the template and `clj.new.new-app/new-app` will be invoked to generate the template.
 
-If the folder for `project-name` already exists, `clj-new` will not overwrite it (an option to force overwriting may be added).
+If the folder for `project-name` already exists, `clj-new` will not overwrite it unless you specify the `-f` / `--force` option.
 
 Any arguments after the `project-name` are parsed using `tools.cli` for flags, and any non-flag arguments are passed directly to the template (`arg1`, `arg2`, `arg3`, ... above).
 
