@@ -1,6 +1,6 @@
 # Changes
 
-* ?.?.? -- unreleased
+* 0.7.6 -- 2019-07-04
   * Fixes #20 by allowing more complex Git URLs (and documenting them in the README).
   * Fixes #15 by allowing (and ignoring) `nil` paths to `->files`.
 * 0.7.5 -- 2019-06-29

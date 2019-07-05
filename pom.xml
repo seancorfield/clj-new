@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>seancorfield</groupId>
   <artifactId>clj-new</artifactId>
-  <version>0.7.5</version>
+  <version>0.7.6</version>
   <name>clj-new</name>
 
   <description>Generate new projects based on Boot Templates and/or Leiningen Templates!</description>
