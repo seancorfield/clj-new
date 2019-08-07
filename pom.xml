@@ -47,7 +47,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.7.516</version>
+      <version>0.7.527</version>
     </dependency>
     <dependency>
       <groupId>stencil</groupId>
