@@ -1,8 +1,8 @@
 {:paths ["resources" "src"]
- :deps {org.clojure/clojure {:mvn/version "RELEASE"}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "RELEASE"}}}
+         :extra-deps {org.clojure/test.check {:mvn/version "0.10.0-RC1"}}}
   :runner
   {:extra-deps {com.cognitect/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner"
