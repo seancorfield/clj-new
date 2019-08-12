@@ -1,5 +1,7 @@
 # Changes
 
+* 0.7.8 -- unreleased
+  * Update `org.clojure/test.check` to `"0.10.0"`.
 * 0.7.7 -- 2019-08-07
   * Fixed #23 by pinning versions in the templates (`org.clojure/clojure "1.10.1"` and `org.clojure/test.check "0.10.0-RC1"`).
   * Also updates `tools.deps.alpha` to 0.7.527.

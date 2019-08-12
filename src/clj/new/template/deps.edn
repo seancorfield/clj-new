@@ -5,7 +5,7 @@
          :sha "492bb2e7ad7373a8b5958124a86cddc4c7a123d5"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "0.10.0-RC1"}}}
+         :extra-deps {org.clojure/test.check {:mvn/version "0.10.0"}}}
   :runner
   {:extra-deps {com.cognitect/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner"
