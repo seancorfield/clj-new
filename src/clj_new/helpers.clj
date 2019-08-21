@@ -123,7 +123,7 @@
                             (println "Unable to find Leiningen template:")
                             (stack/print-stack-trace e))
                           (reset! failure e))))))))))]
-    (when *debug*
+    (when (and *debug* (pos? *debug*))
       (println "Output from locating template:")
       (println output))
     (if @selected
@@ -132,7 +132,7 @@
           (require (symbol sym-name))
           @selected
           (catch Exception e
-            (when *debug*
+            (when (and *debug* (pos? *debug*))
               (println "Unable to require the template symbol:" sym-name)
               (stack/print-stack-trace e)
               (when (> *debug* 1)
