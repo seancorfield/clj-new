@@ -6,6 +6,7 @@
             [clojure.tools.deps.alpha :as deps]
             [clojure.tools.deps.alpha.reader :refer [default-deps
                                                      read-deps]]
+            [clojure.tools.deps.alpha.util.session :as session]
             ;; support boot-template projects:
             [boot.new.templates :as bnt]
             ;; needed for dynamic classloader/add-classpath stuff:
@@ -24,10 +25,11 @@
   "Given a deps map and an extra-deps map, resolve the dependencies, figure
   out the classpath, and load everything into our (now dynamic) classloader."
   [deps resolve-args]
-  (-> (deps/resolve-deps deps resolve-args)
-      (deps/make-classpath (:paths deps) {})
-      (str/split (re-pattern java.io.File/pathSeparator))
-      (->> (run! pom/add-classpath))))
+  (session/with-session
+    (-> (deps/resolve-deps deps resolve-args)
+        (deps/make-classpath (:paths deps) {})
+        (str/split (re-pattern java.io.File/pathSeparator))
+        (->> (run! pom/add-classpath)))))
 
 (def ^:private git-url-sha #"(https?://[^/]+/[^/]+/([^/@]+)).*@([a-fA-Z0-9]+)")
 (def ^:private git-path-template #"(https?://[^/]+/[^/]+/[^/]+)/((.*/)?([^/]+))@([a-fA-Z0-9]+)")
