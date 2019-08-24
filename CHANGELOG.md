@@ -1,6 +1,6 @@
 # Changes
 
-* 0.7.8 -- unreleased
+* 0.7.8 -- 2019-08-24
   * Fixes `-v` / `--verbose` option handling (again!).
   * Updates `org.clojure/test.check` to `"0.10.0"` and `tools.deps.alpha` to 0.7.541 (and add `slf4j-nop` as a dependency now that t.d.a has removed it).
   * Pins Jackson libraries in `deps.edn` to avoid potential version conflicts (such as when generating a Luminus template).
