@@ -35,9 +35,9 @@
       <version>1.10.1</version>
     </dependency>
     <dependency>
-      <groupId>com.cemerick</groupId>
-      <artifactId>pomegranate</artifactId>
-      <version>1.1.0</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.7.5</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
@@ -45,14 +45,39 @@
       <version>0.4.2</version>
     </dependency>
     <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-cbor</artifactId>
+      <version>2.7.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.7.5</version>
+    </dependency>
+    <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.7.527</version>
+      <version>0.7.541</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cemerick</groupId>
+      <artifactId>pomegranate</artifactId>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>stencil</groupId>
       <artifactId>stencil</artifactId>
       <version>0.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-smile</artifactId>
+      <version>2.7.5</version>
     </dependency>
   </dependencies>
 
