@@ -1,6 +1,7 @@
 (ns clj-new.helpers
   "The top-level logic for the clj-new create/generate entry points."
-  (:require [clojure.stacktrace :as stack]
+  (:require [clojure.pprint :as pp]
+            [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
             [clojure.tools.deps.alpha :as deps]
@@ -174,23 +175,36 @@
     (throw (ex-info (format "Could not find template %s on the classpath."
                             template-name) {}))))
 
+(defn- valid-project?
+  "Return true if the project name is 'valid': qualified and/or multi-segment."
+  [project-name]
+  (let [project-sym (try (read-string project-name) (catch Exception _))]
+    (or (qualified-symbol? project-sym)
+        (and (symbol? project-sym) (re-find #"\." (name project-sym))))))
+
 (defn create*
   "Given a template name, a project name and list of template arguments,
   perform sanity checking on the project name and, if it's sane, then
   generate the project from the template."
   [template-name project-name args]
-  (let [project-sym (try (read-string project-name) (catch Exception _))]
-    (if (or (qualified-symbol? project-sym)
-            (and (symbol? project-sym) (re-find #"\." (name project-sym))))
-      (apply (resolve-template template-name) project-name args)
-      (throw (ex-info "Project names must be valid qualified or multi-segment Clojure symbols."
-                      {:project-name project-name})))))
+  (if (valid-project? project-name)
+    (apply (resolve-template template-name) project-name args)
+    (throw (ex-info "Project names must be valid qualified or multi-segment Clojure symbols."
+                    {:project-name project-name}))))
+
+(defn- add-env
+  "Add a new SYM=VAL variable to the environment."
+  [m k v]
+  (let [[sym val] (str/split v #"=")]
+    (update-in m [k] assoc (keyword sym) val)))
 
 (def ^:private create-cli
   "Command line argument spec for create command."
-  [["-f" "--force"           "Force overwrite"]
+  [["-e" "--env SYM=VAL"     "Environment variables" :default {} :assoc-fn add-env]
+   ["-f" "--force"           "Force overwrite"]
    ["-h" "--help"            "Provide this help"]
    ["-o" "--output DIR"      "Directory prefix for project creation"]
+   ["-?" "--query"           "Display information about what will happen"]
    ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
    ["-v" "--verbose"         "Be verbose" :default 0 :update-fn inc]
    ["-V" "--version VERSION" "Use this version of the template"]])
@@ -200,23 +214,39 @@
   [{:keys [args name template]}]
   (let [{:keys [options arguments summary errors]}
         (cli/parse-opts args create-cli)]
-    (if (or (:help options) errors)
-      (do
-        (println "Usage:")
-        (println summary)
-        (doseq [err errors]
-          (println err)))
-      (let [{:keys [force snapshot version output verbose]} options]
-        (binding [*debug*            verbose
-                  *use-snapshots?*   snapshot
-                  *template-version* version
-                  bnt/*dir*          output
-                  bnt/*force?*       force
-                  cnt/*dir*          output
-                  cnt/*force?*       force
-                  lnt/*dir*          output
-                  lnt/*force?*       force]
-          (create* template name arguments))))))
+    (cond (or (:help options) errors)
+          (do
+            (println "Usage:")
+            (println summary)
+            (doseq [err errors]
+              (println err)))
+          (:query options)
+          (if-not (valid-project? name)
+            (println "Error:" name "is not a qualified symbol or multi-segment name.")
+            (let [project-sym (try (read-string name) (catch Exception _))]
+              (println "Will create the folder:"
+                       (or (:output options)
+                           (clojure.core/name project-sym)))
+              (println "From the template:" template)
+              (when (seq arguments)
+                (println "Passing these arguments:"
+                         (str/join " " arguments)))
+              (println "The following substitutions will be used:")
+              (binding [cnt/*environment* (:env options)]
+                (pp/pprint (cnt/project-data name)))))
+          :else
+          (let [{:keys [env force snapshot version output verbose]} options]
+            (binding [*debug*            verbose
+                      *use-snapshots?*   snapshot
+                      *template-version* version
+                      bnt/*dir*          output
+                      bnt/*force?*       force
+                      cnt/*dir*          output
+                      cnt/*force?*       force
+                      cnt/*environment*  env
+                      lnt/*dir*          output
+                      lnt/*force?*       force]
+              (create* template name arguments))))))
 
 (defn generate-code*
   "Given an optional template name, an optional path prefix, a list of

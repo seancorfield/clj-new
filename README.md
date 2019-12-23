@@ -72,9 +72,11 @@ If the folder for `project-name` already exists, `clj-new` will not overwrite it
 Any arguments after the `project-name` are parsed using `tools.cli` for flags, and any non-flag arguments are passed directly to the template (`arg1`, `arg2`, `arg3`, ... above).
 
 Flag arguments for `clj-new.create` are:
+* `-e` or `--env` -- accepts `sym=val` to add `{:sym "val"}` as additional variable substitutions in templates; can be used to provide new variables or override existing ones (new in 0.7.9)
 * `-f` or `--force` -- will force overwrite the target directory if it exists
 * `-h` or `--help` -- will provide a summary of these options as help
 * `-o` or `--output`, followed by a directory path -- specify the project directory to create (the default is to use the project name as the directory)
+* `-?` or `--query` -- instead of actually looking up the template and generating the project, output an explanation of what `clj-new` will try to do (new in 0.7.9)
 * `-S` or `--snapshot` -- look for -SNAPSHOT version of the template (not just a release version)
 * `-v` or `--verbose` -- enable debugging -- be verbose!
 * `-V` or `--version`, followed by a version -- use this specific version of the template

@@ -1,20 +1,13 @@
 (ns clj.new.app
   "Generate a basic application project."
-  (:require [clj.new.templates :refer [renderer year date project-name
-                                       ->files sanitize-ns name-to-path
-                                       multi-segment]]))
+  (:require [clj.new.templates
+             :refer [renderer project-data project-name ->files]]))
 
 (defn app
   "An application project template."
-  [name]
+  [name & args]
   (let [render (renderer "app")
-        main-ns (multi-segment (sanitize-ns name))
-        data {:raw-name name
-              :name (project-name name)
-              :namespace main-ns
-              :nested-dirs (name-to-path main-ns)
-              :year (year)
-              :date (date)}]
+        data   (project-data name)]
     (println "Generating a project called"
              (project-name name)
              "based on the 'app' template.")

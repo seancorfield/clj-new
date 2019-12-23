@@ -1,22 +1,15 @@
 (ns clj.new.lib
   "Generate a library project."
-  (:require [clj.new.templates :refer [renderer year date project-name
-                                       ->files sanitize-ns name-to-path
-                                       multi-segment]]))
+  (:require [clj.new.templates
+             :refer [renderer project-data project-name ->files]]))
 
 (defn lib
   "A general project template for libraries.
 
 Accepts a group id in the project name: `clj -A:new lib foo.bar/baz`"
-  [name]
+  [name & args]
   (let [render (renderer "lib")
-        main-ns (multi-segment (sanitize-ns name))
-        data {:raw-name name
-              :name (project-name name)
-              :namespace main-ns
-              :nested-dirs (name-to-path main-ns)
-              :year (year)
-              :date (date)}]
+        data   (project-data name)]
     (println "Generating a project called"
              (project-name name)
              "based on the 'lib' template.")

@@ -98,6 +98,25 @@
   (let [df (java.text.SimpleDateFormat. "yyyy-MM-dd")]
     (.format df (java.util.Date.))))
 
+(def ^:dynamic *environment* {})
+
+(defn project-data
+  "Return a standard packet of substitution data for use in a template."
+  [name]
+  (let [main-ns (multi-segment (sanitize-ns name))]
+    (merge {:raw-name name
+            :name (project-name name)
+            :namespace main-ns
+            :nested-dirs (name-to-path main-ns)
+            :sanitized (sanitize (project-name name))
+            :placeholder "{{sanitized}}"
+            :group (or (group-name name) name)
+            :artifact (project-name name)
+            :user (System/getenv "USER")
+            :year (year)
+            :date (date)}
+           *environment*)))
+
 ;; It'd be silly to expect people to pull in stencil just to render a mustache
 ;; string. We can just provide this function instead. In doing so, it is much
 ;; less likely that template authors will have to pull in any external
