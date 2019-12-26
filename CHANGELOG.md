@@ -3,7 +3,8 @@
 * 0.7.9 in progress
   * Fixes #28 by adding `-?` / `--query` option to explain what `clj-new` will attempt to do.
   * Fixes #27 by adding `-e` / `--env` option to add "environment variables" that will be available to templates via the new `project-data` function; also standardizes the data passed to the `app`, `lib`, and `template` built-in templates.
-  * Fix some issues with the `template` project generator.
+  * Fixes #25 by adding `pom.xml` to `lib` and `template` built-in templates.
+  * Fixes some issues with the `template` project generator.
   * Update `seancorfield/clj-new` coordinates in generated projects (to use current version).
   * Update Cognitect's `test-runner` to latest SHA in generated projects.
 * 0.7.8 -- 2019-08-24
