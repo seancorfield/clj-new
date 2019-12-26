@@ -1,1 +1,1 @@
-(ns {{root-ns}}.foo)
+(ns {{namespace}}.foo)

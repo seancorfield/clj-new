@@ -3,6 +3,9 @@
 * 0.7.9 in progress
   * Fixes #28 by adding `-?` / `--query` option to explain what `clj-new` will attempt to do.
   * Fixes #27 by adding `-e` / `--env` option to add "environment variables" that will be available to templates via the new `project-data` function; also standardizes the data passed to the `app`, `lib`, and `template` built-in templates.
+  * Fix some issues with the `template` project generator.
+  * Update `seancorfield/clj-new` coordinates in generated projects (to use current version).
+  * Update Cognitect's `test-runner` to latest SHA in generated projects.
 * 0.7.8 -- 2019-08-24
   * Fixes `-v` / `--verbose` option handling (again!).
   * Updates `org.clojure/test.check` to `"0.10.0"` and `tools.deps.alpha` to 0.7.541 (and add `slf4j-nop` as a dependency now that t.d.a has removed it).
@@ -17,7 +20,7 @@
   * Fixes #21 by updating `tools.deps.alpha` (to 0.7.516) and switching from `clojure-env` to `default-deps`.
   * Fixes #19 by expanding the explanation of qualified/dotted project names in the README.
   * Fixes #18 by supporting dotted names in templates.
-  * Fixes #14 by adding `root-ns` to the `template` setup.
+  * Fixes #14 by adding `root-ns` to the `template` setup (renamed to `namespace` in 0.7.9).
   * Fixes `-v` / `--verbose` option handling.
 * 0.5.5 -- 2018-11-12
   * Update `tools.deps.alpha` version.

@@ -109,7 +109,7 @@
             :namespace main-ns
             :nested-dirs (name-to-path main-ns)
             :sanitized (sanitize (project-name name))
-            :placeholder "{{sanitized}}"
+            :template-nested-dirs "{{nested-dirs}}"
             :group (or (group-name name) name)
             :artifact (project-name name)
             :user (System/getenv "USER")
