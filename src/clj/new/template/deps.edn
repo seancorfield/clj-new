@@ -1,4 +1,4 @@
-{:paths ["resources" "src"]
+{:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}
         seancorfield/clj-new {:mvn/version "0.7.8"}}
  :aliases

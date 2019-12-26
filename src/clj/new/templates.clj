@@ -112,6 +112,7 @@
             :template-nested-dirs "{{nested-dirs}}"
             :group (or (group-name name) name)
             :artifact (project-name name)
+            :version "0.1.0-SNAPSHOT"
             :user (System/getenv "USER")
             :year (year)
             :date (date)}

@@ -1,4 +1,4 @@
-{:paths ["resources" "src"]
+{:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
  :aliases
  {:test {:extra-paths ["test"]
