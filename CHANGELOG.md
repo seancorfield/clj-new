@@ -1,6 +1,6 @@
 # Changes
 
-* 0.7.9 in progress
+* 0.8.0 -- 2019-12-25
   * Fixes #28 by adding `-?` / `--query` option to explain what `clj-new` will attempt to do.
   * Fixes #27 by adding `-e` / `--env` option to add "environment variables" that will be available to templates via the new `project-data` function; also standardizes the data passed to the `app`, `lib`, and `template` built-in templates.
   * Fixes #25 by adding `pom.xml` to `lib` and `template` built-in templates.
@@ -21,7 +21,7 @@
   * Fixes #21 by updating `tools.deps.alpha` (to 0.7.516) and switching from `clojure-env` to `default-deps`.
   * Fixes #19 by expanding the explanation of qualified/dotted project names in the README.
   * Fixes #18 by supporting dotted names in templates.
-  * Fixes #14 by adding `root-ns` to the `template` setup (renamed to `namespace` in 0.7.9).
+  * Fixes #14 by adding `root-ns` to the `template` setup (renamed to `namespace` in 0.8.0).
   * Fixes `-v` / `--verbose` option handling.
 * 0.5.5 -- 2018-11-12
   * Update `tools.deps.alpha` version.

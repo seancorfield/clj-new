@@ -3,10 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>seancorfield</groupId>
   <artifactId>clj-new</artifactId>
-  <version>0.7.8</version>
+  <version>0.8.0</version>
   <name>clj-new</name>
-
-  <description>Generate new projects based on Boot Templates and/or Leiningen Templates!</description>
+  <description>Generate new projects based on clj, Boot, or Leiningen Templates!</description>
   <url>https://github.com/seancorfield/clj-new</url>
   <licenses>
     <license>
@@ -14,20 +13,17 @@
       <url>http://www.eclipse.org/legal/epl-v10.html</url>
     </license>
   </licenses>
-
   <developers>
     <developer>
       <name>Sean Corfield</name>
     </developer>
   </developers>
-
   <scm>
     <connection>scm:git:git@github.com:seancorfield/clj-new.git</connection>
     <developerConnection>scm:git:git@github.com:seancorfield/clj-new.git</developerConnection>
     <url>https://github.com/seancorfield/clj-new</url>
     <tag>ea65f3bef9afbaf17c1d3405eb8b0e86eaf25aff</tag>
   </scm>
-
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
@@ -80,11 +76,9 @@
       <version>2.7.5</version>
     </dependency>
   </dependencies>
-
   <build>
     <sourceDirectory>src</sourceDirectory>
   </build>
-
   <repositories>
     <repository>
       <id>clojars</id>
@@ -95,7 +89,6 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
   </repositories>
-
   <distributionManagement>
     <repository>
       <id>clojars</id>
@@ -103,5 +96,4 @@
       <url>https://clojars.org/repo</url>
     </repository>
   </distributionManagement>
-
 </project>
