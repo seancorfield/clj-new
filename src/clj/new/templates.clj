@@ -103,7 +103,9 @@
 (defn project-data
   "Return a standard packet of substitution data for use in a template."
   [name]
-  (let [main-ns (multi-segment (sanitize-ns name))]
+  (let [main-ns  (multi-segment (sanitize-ns name))
+        username (or (System/getenv "USER")
+                  (System/getProperty "user.name"))]
     (merge {:raw-name name
             :name (project-name name)
             :namespace main-ns
@@ -113,7 +115,8 @@
             :group (or (group-name name) name)
             :artifact (project-name name)
             :version "0.1.0-SNAPSHOT"
-            :user (System/getenv "USER")
+            :user username
+            :developer (string/capitalize username)
             :year (year)
             :date (date)}
            *environment*)))

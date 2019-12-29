@@ -4,7 +4,7 @@
   <groupId>{{group}}</groupId>
   <artifactId>{{artifact}}</artifactId>
   <version>{{version}}</version>
-  <name>{{artifact}}</name>
+  <name>{{raw-name}}</name>
   <description>{{description}}</description>
   <url>https://github.com/{{group}}/{{artifact}}</url>
   <licenses>

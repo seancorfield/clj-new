@@ -9,7 +9,7 @@ You can use this from the command line...
 ```
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "0.8.0"}}}' \
+                {:mvn/version "0.8.1"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -19,7 +19,7 @@ clj -Sdeps '{:deps
 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "0.8.0"}}
+                         {:mvn/version "0.8.1"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
@@ -42,6 +42,49 @@ Built-in templates are:
 The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`.
 
 An alternative is to use a multi-segment project name, such as `com.acme.another-project`. This will create a folder called `com.acme.another-project` (compared to above, which just uses the portion after the `/`). The main namespace will be `com.acme.another-project` in `src/com/acme/another_project.clj`, similar to the qualified project name above.
+
+### The `app` Template
+
+The generated project is an application. It has a `-main` function in the main project
+namespace, with a `(:gen-class)` class in the `ns` form. In addition to being able to
+run the project directly (with `clojure -m myname.myapp`) and run the tests, you can
+also build an uberjar for the project with `clojure -A:uberjar`, which you can then
+run with `java -jar myapp`.
+
+### The `lib` Template
+
+The generated project is a library. It has no `-main` function. In addition to
+being able to run the tests, you can also build a jar file for deployment
+with `clojure -A:jar`. You will probably need to adjust some of the information
+inside the generated `pom.xml` file before deploying the jar file.
+
+### The `template` Template
+
+The generated project is a very minimal `clj-template`. It has no `-main`
+function and has no tests. You can however build a jar file for deployment
+with `clojure -A:jar`. You will probably need to adjust some of the information
+inside the generated `pom.xml` file before deploying the jar file.
+
+### The Generated `pom.xml` File
+
+Each of the built-in templates produces a project that contains a `pom.xml`
+file, which is used to build the uberjar (`app`) or jar file (`lib` and `template`),
+as well as guide the deployment of the latter two.
+
+The goal is that if you used an appropriate `myname/myapp` style name for the
+project that you asked `clj-new` to create, then most of the fields in the
+`pom.xml` file should be usable as-is.
+
+You can override the default value of several fields in the `pom.xml` file
+using the `-e` option to `clj-new.create`:
+
+* `group` -- defaults to the `myname` portion of `myname/myapp`,
+* `artifact` -- defaults to the `myapp` portion of `myname/myapp`,
+* `version` -- defaults to `"0.1.0-SNAPSHOT"`,
+* `description` -- defaults to `"FIXME: my new ..."` (`application`, `library`, or `template`),
+* `developer` -- defaults to a capitalized version of your computer's logged in username.
+
+The `description` field is also used in the generated project's `README.md` file.
 
 ## General Usage
 

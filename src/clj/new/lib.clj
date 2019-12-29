@@ -9,7 +9,8 @@
 Accepts a group id in the project name: `clj -A:new lib foo.bar/baz`"
   [name & args]
   (let [render (renderer "lib")
-        data   (project-data name)]
+        data   (merge {:description "FIXME: my new library."}
+                      (project-data name))]
     (println "Generating a project called"
              (project-name name)
              "based on the 'lib' template.")

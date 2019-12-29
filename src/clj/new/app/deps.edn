@@ -8,4 +8,9 @@
                 {:git/url "https://github.com/cognitect-labs/test-runner"
                  :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
    :main-opts ["-m" "cognitect.test-runner"
-               "-d" "test"]}}}
+               "-d" "test"]}
+  :compile {:main-opts ["-e" "(compile,'{{namespace}})"]}
+  :uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.3.4"}}
+            :extra-paths ["classes"]
+            :main-opts ["-e" "(compile,'{{namespace}})"
+                        "-m" "hf.depstar.uberjar" "{{name}}.jar" "-m" "{{namespace}}"]}}}

@@ -6,7 +6,8 @@
   "A meta-template for 'clj new' templates."
   [name & args]
   (let [render (renderer "template")
-        data   (project-data name)]
+        data   (merge {:description "FIXME: my new template."}
+                      (project-data name))]
     (println "Generating a project called"
              (project-name name)
              "that is a 'clj-new' template")

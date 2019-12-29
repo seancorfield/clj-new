@@ -5,7 +5,7 @@
   <artifactId>{{artifact}}</artifactId>
   <version>{{version}}</version>
   <name>{{artifact}}</name>
-  <description>FIXME: my new template.</description>
+  <description>{{description}}</description>
   <url>https://github.com/{{group}}/{{artifact}}</url>
   <licenses>
     <license>
@@ -15,7 +15,7 @@
   </licenses>
   <developers>
     <developer>
-      <name>FIXME: Your Name</name>
+      <name>{{developer}}</name>
     </developer>
   </developers>
   <scm>

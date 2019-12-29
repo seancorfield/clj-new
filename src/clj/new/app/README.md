@@ -1,10 +1,10 @@
 # {{name}}
 
-FIXME: description
+{{description}}
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Download from https://github.com/{{group}}/{{artifact}}.
 
 ## Usage
 
@@ -12,11 +12,19 @@ FIXME: explanation
 
 Run the project directly:
 
-    $ clj -m {{namespace}}
+    $ clojure -m {{namespace}}
 
 Run the project's tests (they'll fail until you edit them):
 
-    $ clj -A:test:runner
+    $ clojure -A:test:runner
+
+Build an uberjar:
+
+    $ clojure -A:uberjar
+
+Run that uberjar:
+
+    $ java -jar {{name}}.jar
 
 ## Options
 
@@ -36,7 +44,7 @@ FIXME: listing of options this app accepts.
 
 ## License
 
-Copyright © {{year}} FIXME
+Copyright © {{year}} {{developer}}
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

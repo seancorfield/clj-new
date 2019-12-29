@@ -1,5 +1,9 @@
 # Changes
 
+* 0.8.1 -- 2019-12-29
+  * Adds `pom.xml` generation to `app` built-in template.
+  * Adds `:uberjar` alias to `app` built-in template and `:jar` alias to `lib` and `template` built-in templates.
+  * Expand documentation for built-in templates, including environment variables used in `pom.xml` files.
 * 0.8.0 -- 2019-12-25
   * Fixes #28 by adding `-?` / `--query` option to explain what `clj-new` will attempt to do.
   * Fixes #27 by adding `-e` / `--env` option to add "environment variables" that will be available to templates via the new `project-data` function; also standardizes the data passed to the `app`, `lib`, and `template` built-in templates.

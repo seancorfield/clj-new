@@ -1,14 +1,18 @@
 # {{name}}
 
-A clj template for FIXME.
+{{description}}
 
 ## Usage
 
-FIXME
+FIXME: write usage documentation!
+
+Build a deployable jar of this template:
+
+    $ clojure -A:jar
 
 ## License
 
-Copyright © {{year}} FIXME
+Copyright © {{year}} {{developer}}
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

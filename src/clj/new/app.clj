@@ -7,7 +7,8 @@
   "An application project template."
   [name & args]
   (let [render (renderer "app")
-        data   (project-data name)]
+        data   (merge {:description "FIXME: my new application."}
+                      (project-data name))]
     (println "Generating a project called"
              (project-name name)
              "based on the 'app' template.")
@@ -21,4 +22,6 @@
              ["test/{{nested-dirs}}_test.clj" (render "test.clj" data)]
              ["LICENSE" (render "LICENSE" data)]
              ["CHANGELOG.md" (render "CHANGELOG.md" data)]
-             "resources/.keep" "")))
+             ["pom.xml" (render "pom.xml" data)]
+             "resources/.keep" ""
+             "classes/.keep" "")))
