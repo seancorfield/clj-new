@@ -9,7 +9,7 @@ You can use this from the command line...
 ```
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "0.8.1"}}}' \
+                {:mvn/version "0.8.2"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -19,7 +19,7 @@ clj -Sdeps '{:deps
 
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "0.8.1"}}
+                         {:mvn/version "0.8.2"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 
@@ -64,6 +64,8 @@ The generated project is a very minimal `clj-template`. It has no `-main`
 function and has no tests. You can however build a jar file for deployment
 with `clojure -A:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
+
+> Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `mytemplate/clj-template` which is the convention expected by `clj-new`.
 
 ### The Generated `pom.xml` File
 
