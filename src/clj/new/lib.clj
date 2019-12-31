@@ -26,4 +26,4 @@ Accepts a group id in the project name: `clj -A:new lib foo.bar/baz`"
              ["LICENSE" (render "LICENSE" data)]
              ["CHANGELOG.md" (render "CHANGELOG.md" data)]
              ["pom.xml" (render "pom.xml" data)]
-             "resources/.keep" "")))
+             ["resources/.keep" ""])))

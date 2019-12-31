@@ -23,5 +23,5 @@
              ["LICENSE" (render "LICENSE" data)]
              ["CHANGELOG.md" (render "CHANGELOG.md" data)]
              ["pom.xml" (render "pom.xml" data)]
-             "resources/.keep" ""
-             "classes/.keep" "")))
+             ["resources/.keep" ""]
+             ["classes/.keep" ""])))

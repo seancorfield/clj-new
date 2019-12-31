@@ -9,8 +9,7 @@
                  :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]}
-  :compile {:main-opts ["-e" "(compile,'{{namespace}})"]}
-  :uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.3.4"}}
+  :uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.4.0"}}
             :extra-paths ["classes"]
-            :main-opts ["-e" "(compile,'{{namespace}})"
-                        "-m" "hf.depstar.uberjar" "{{name}}.jar" "-m" "{{namespace}}"]}}}
+            :main-opts ["-m" "hf.depstar.uberjar" "{{name}}.jar"
+                        "-C" "-m" "{{namespace}}"]}}}

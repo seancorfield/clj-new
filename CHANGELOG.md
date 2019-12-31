@@ -1,5 +1,8 @@
 # Changes
 
+* 0.8.2 -- in progress
+  * Address #30 by updating `depstar` to 0.4.0 and relying on its `-C` option for AOT in `app`'s `:uberjar` alias.
+  * Ensure `.keep` is a file, not a directory.
 * 0.8.1 -- 2019-12-29
   * Adds `pom.xml` generation to `app` built-in template.
   * Adds `:uberjar` alias to `app` built-in template and `:jar` alias to `lib` and `template` built-in templates.
