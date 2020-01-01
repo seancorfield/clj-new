@@ -1,4 +1,4 @@
-;; copyright (c) 2018 Sean Corfield, all rights reserved
+;; copyright (c) 2018-2020 Sean Corfield, all rights reserved
 
 (ns clj-new.generate
   "Command-line driver for generating new code into existing projects from

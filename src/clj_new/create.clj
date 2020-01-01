@@ -1,4 +1,4 @@
-;; copyright (c) 2018 Sean Corfield, all rights reserved
+;; copyright (c) 2018-2020 Sean Corfield, all rights reserved
 
 (ns clj-new.create
   "Command-line driver for creating new projects from templates, using just
