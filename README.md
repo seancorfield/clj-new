@@ -6,10 +6,10 @@ Generate new projects from Leiningen or Boot templates, or `clj-template` projec
 
 You can use this from the command line...
 
-```
+```bash
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "0.8.2"}}}' \
+                {:mvn/version "0.8.3"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -17,21 +17,27 @@ clj -Sdeps '{:deps
 
 ...but you'll probably want to add `clj-new` as an alias in your `~/.clojure/deps.edn` like this:
 
+```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "0.8.2"}}
+                         {:mvn/version "0.8.3"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
+```
 
 Create a basic application:
 
+```bash
     clj -A:new app myname/myapp
     cd myapp
     clj -m myname.myapp
+```
 
 Run the tests:
 
+```bash
     clj -A:test:runner
+```
 
 Built-in templates are:
 

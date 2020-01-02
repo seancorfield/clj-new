@@ -1,5 +1,7 @@
 # Changes
 
+* 0.8.3 -- 2020-01-02
+  * Update to `depstar` 0.5.0 and remove `classes` folder since `depstar` manages that automatically now.
 * 0.8.2 -- 2019-12-31
   * Addresses #30 by updating `depstar` to 0.4.1 and relying on its `-C` option for AOT in `app`'s `:uberjar` alias.
   * Fixes #29 by changing group/artifact in `template` project.
