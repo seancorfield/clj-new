@@ -1,5 +1,7 @@
 # Changes
 
+* 0.8.4 -- 2020-01-02
+  * Update to `depstar` 0.5.1 for bug fix to main namespaces containing `-`.
 * 0.8.3 -- 2020-01-02
   * Update to `depstar` 0.5.0 and remove `classes` folder since `depstar` manages that automatically now.
 * 0.8.2 -- 2019-12-31

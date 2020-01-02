@@ -1,6 +1,6 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}
-        seancorfield/clj-new {:mvn/version "0.8.3"}}
+        seancorfield/clj-new {:mvn/version "0.8.4"}}
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "0.10.0"}}}
@@ -10,5 +10,5 @@
                  :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]}
-  :jar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.0"}}
+  :jar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.1"}}
         :main-opts ["-m" "hf.depstar.jar" "{{name}}.jar"]}}}
