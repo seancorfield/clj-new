@@ -9,7 +9,7 @@ You can use this from the command line...
 ```bash
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "0.8.4"}}}' \
+                {:mvn/version "0.8.5"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -20,7 +20,7 @@ clj -Sdeps '{:deps
 ```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "0.8.4"}}
+                         {:mvn/version "0.8.5"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 ```

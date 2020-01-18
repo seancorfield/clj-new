@@ -1,5 +1,7 @@
 # Changes
 
+* 0.8.5 -- 2020-01-17
+  * Add `install`/`deploy` aliases to `lib`/`template` project generators.
 * 0.8.4 -- 2020-01-02
   * Update to `depstar` 0.5.1 for bug fix to main namespaces containing `-`.
 * 0.8.3 -- 2020-01-02
