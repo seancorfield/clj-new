@@ -64,6 +64,13 @@ being able to run the tests, you can also build a jar file for deployment
 with `clojure -A:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
+Once you've updated the `pom.xml` file, you can install it locally with
+`clojure -A:install` or deploy it to Clojars with `clojure -A:deploy`. For
+that you need these environment variables set:
+
+* `CLOJARS_USERNAME` -- your Clojars username
+* `CLOJARS_PASSWORD` -- your Clojars password
+
 ### The `template` Template
 
 The generated project is a very minimal `clj-template`. It has no `-main`
@@ -72,6 +79,9 @@ with `clojure -A:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
 > Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `mytemplate/clj-template` which is the convention expected by `clj-new`.
+
+As with the `lib` template, once you've updated the `pom.xml` file, you can
+install it locally or deploy it to Clojars, via the appropriate aliases.
 
 ### The Generated `pom.xml` File
 
