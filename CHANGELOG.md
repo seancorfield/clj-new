@@ -1,5 +1,7 @@
 # Changes
 
+* 0.8.6 -- 2020-01-24
+  * Attempt to fix #33 by bumping dependencies across the board. Note: we still pin Jackson to 2.7.5 to reduce transitive version conflicts in (Leiningen) templates.
 * 0.8.5 -- 2020-01-17
   * Add `install`/`deploy` aliases to `lib`/`template` project generators.
 * 0.8.4 -- 2020-01-02
