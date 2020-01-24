@@ -53,7 +53,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.7.541</version>
+      <version>0.8.640</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -61,14 +61,14 @@
       <version>1.7.25</version>
     </dependency>
     <dependency>
-      <groupId>com.cemerick</groupId>
-      <artifactId>pomegranate</artifactId>
-      <version>1.1.0</version>
-    </dependency>
-    <dependency>
       <groupId>stencil</groupId>
       <artifactId>stencil</artifactId>
       <version>0.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-commons</groupId>
+      <artifactId>pomegranate</artifactId>
+      <version>1.2.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
