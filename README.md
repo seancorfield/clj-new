@@ -204,6 +204,7 @@ There are currently a few built-in generators:
 
 The `file` generator creates files relative to the prefix. It optionally accepts a body, and file extension. Those default to `nil` and `"clj"` respectively.
 ```bash
+# Inside project folder, relying on the clj-new dependency.
 clj -m clj-new.generate file=foo.bar "(ns foo.bar)" "clj"
 ```
 
