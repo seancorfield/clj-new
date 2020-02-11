@@ -39,6 +39,8 @@ Run the tests:
     clj -A:test:runner
 ```
 
+### Templates
+
 Built-in templates are:
 
 * `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -m` and can test it with `clj -A:test:runner`.
@@ -49,7 +51,7 @@ The project name should be a qualified Clojure symbol, where the first part is t
 
 An alternative is to use a multi-segment project name, such as `com.acme.another-project`. This will create a folder called `com.acme.another-project` (compared to above, which just uses the portion after the `/`). The main namespace will be `com.acme.another-project` in `src/com/acme/another_project.clj`, similar to the qualified project name above.
 
-### The `app` Template
+#### The `app` Template
 
 The generated project is an application. It has a `-main` function in the main project
 namespace, with a `(:gen-class)` class in the `ns` form. In addition to being able to
@@ -57,7 +59,7 @@ run the project directly (with `clojure -m myname.myapp`) and run the tests, you
 also build an uberjar for the project with `clojure -A:uberjar`, which you can then
 run with `java -jar myapp`.
 
-### The `lib` Template
+#### The `lib` Template
 
 The generated project is a library. It has no `-main` function. In addition to
 being able to run the tests, you can also build a jar file for deployment
@@ -71,7 +73,7 @@ that you need these environment variables set:
 * `CLOJARS_USERNAME` -- your Clojars username
 * `CLOJARS_PASSWORD` -- your Clojars password
 
-### The `template` Template
+#### The `template` Template
 
 The generated project is a very minimal `clj-template`. It has no `-main`
 function and has no tests. You can however build a jar file for deployment
@@ -83,7 +85,7 @@ inside the generated `pom.xml` file before deploying the jar file.
 As with the `lib` template, once you've updated the `pom.xml` file, you can
 install it locally or deploy it to Clojars, via the appropriate aliases.
 
-### The Generated `pom.xml` File
+#### The Generated `pom.xml` File
 
 Each of the built-in templates produces a project that contains a `pom.xml`
 file, which is used to build the uberjar (`app`) or jar file (`lib` and `template`),
@@ -104,7 +106,7 @@ using the `-e` option to `clj-new.create`:
 
 The `description` field is also used in the generated project's `README.md` file.
 
-## General Usage
+#### General Usage
 
 The general form of the command is:
 
@@ -146,7 +148,7 @@ Flag arguments for `clj-new.create` are:
 
 Note: not all Leiningen or Boot templates accept a qualified `project-name` so you may have to use a multi-segment name instead, e.g., `project.name`.
 
-## Example Usage
+#### Example Usage
 
 Here are some examples, generating projects from existing templates:
 
@@ -168,7 +170,7 @@ clj -A:new electron-app yourname/example
 
 This creates a folder called `example` with a skeleton Electron application, using Figwheel and Reagent. The entry point is in the `example.main.core` namespace which is in the `example/src/main/example/main/core.cljs` file. This [Electron template](https://github.com/paulbutcher/electron-app) produces a CLI/`deps.edn`-based project.
 
-## `clj` Templates
+#### `clj` Templates
 
 `clj` templates are very similar to Leiningen and Boot templates but have an artifact name based on `clj-template` instead of `lein-template` or `boot-template` and use `clj` instead of `leiningen` or `boot` in all the namespace names. In particular the `clj.new.templates` namespace provides functions such as `renderer` and `->files` that are the equivalent of the ones found in `leiningen.new.templates` when writing a Leiningen Template (or `boot.new.templates` when writing a Boot Template). The built-in templates are `clj` templates, that produce `clj` projects with `deps.edn` files.
 
@@ -186,7 +188,7 @@ If your template name is `foo-bar`, then you should have `clj.new.foo-bar` as th
 
 When you publish it to Clojars, it should have a group ID matching the template name and an artifact ID of `clj-template`: `foo-bar/clj-template`. If you expect people to depend on the template via GitHub, you should also name the repo `foo-bar` so that `https://github.com/<username>/foo-bar` is the `:git/url` people will use.
 
-### Arguments
+#### Arguments
 
 Previous sections have revealed that it is possible to pass arguments to templates. For example:
 
@@ -219,6 +221,7 @@ There are currently a few built-in generators:
 
 The `file` generator creates files relative to the prefix. It optionally accepts a body, and file extension. Those default to `nil` and `"clj"` respectively.
 ```bash
+# Inside project folder, relying on the clj-new dependency.
 clj -m clj-new.generate file=foo.bar "(ns foo.bar)" "clj"
 ```
 
