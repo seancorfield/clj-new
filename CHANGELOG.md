@@ -1,7 +1,8 @@
 # Changes
 
-* 0.9.0 in progress
+* 0.9.0 -- 2020-02-13
   * Remove Jackson dependencies since `tools.deps.alpha` no longer brings in a version (after the S3 Transporter change), so there's no longer a potential conflict with templates.
+  * Various documentation improvements.
 * 0.8.6 -- 2020-01-24
   * Attempt to fix #33 by bumping dependencies across the board. Note: we still pin Jackson to 2.7.5 to reduce transitive version conflicts in (Leiningen) templates.
 * 0.8.5 -- 2020-01-17
