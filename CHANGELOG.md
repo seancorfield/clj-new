@@ -1,7 +1,7 @@
 # Changes
 
 * 1.0.next -- in progress
-  * Document how to find templates on Clojars. (PR #37, @holyjak)
+  * Add documentation on how to find 3rd party templates (PR #37, @holyjak).
   * Move to MAJOR.MINOR.COMMITS versioning scheme.
 
 * 0.9.0 -- 2020-02-13
