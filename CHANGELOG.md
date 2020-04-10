@@ -1,9 +1,9 @@
 # Changes
 
-* 1.0.next -- in progress
+* 1.0.199 -- 2020-04-10
   * Add documentation on how to find 3rd party templates (PR #37, @holyjak).
+  * Update to `depstar` 1.0.94 and `test.check` 1.0.0 in templates.
   * Move to MAJOR.MINOR.COMMITS versioning scheme.
-
 * 0.9.0 -- 2020-02-13
   * Remove Jackson dependencies since `tools.deps.alpha` no longer brings in a version (after the S3 Transporter change), so there's no longer a potential conflict with templates.
   * Various documentation improvements.
