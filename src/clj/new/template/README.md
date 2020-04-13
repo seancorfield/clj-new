@@ -6,6 +6,10 @@
 
 FIXME: write usage documentation!
 
+Run the tests:
+
+    $ clojure -A:test:runner
+
 Build a deployable jar of this template:
 
     $ clojure -A:jar
