@@ -6,6 +6,10 @@
 
 FIXME: write usage documentation!
 
+Run the project's tests (they'll fail until you edit them):
+
+    $ clojure -A:test:runner
+
 Build a deployable jar of this library:
 
     $ clojure -A:jar
