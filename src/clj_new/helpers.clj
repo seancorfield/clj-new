@@ -206,7 +206,8 @@
    ["-o" "--output DIR"      "Directory prefix for project creation"]
    ["-?" "--query"           "Display information about what will happen"]
    ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
-   ["-v" "--verbose"         "Be verbose" :default 0 :update-fn inc]
+   ["-v" "--verbose"         "Be verbose; -vvv is very, very verbose!"
+    :default 0 :update-fn inc]
    ["-V" "--version VERSION" "Use this version of the template"]])
 
 (defn create

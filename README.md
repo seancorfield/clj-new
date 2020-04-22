@@ -145,7 +145,7 @@ Flag arguments for `clj-new.create` are:
 * `-o` or `--output`, followed by a directory path -- specify the project directory to create (the default is to use the project name as the directory)
 * `-?` or `--query` -- instead of actually looking up the template and generating the project, output an explanation of what `clj-new` will try to do (new in 0.8.0)
 * `-S` or `--snapshot` -- look for -SNAPSHOT version of the template (not just a release version)
-* `-v` or `--verbose` -- enable debugging -- be verbose!
+* `-v` or `--verbose` -- enable debugging -- be verbose! `-vv` and `-vvv` are increasingly verbose
 * `-V` or `--version`, followed by a version -- use this specific version of the template
 
 Note: not all Leiningen or Boot templates accept a qualified `project-name` so you may have to use a multi-segment name instead, e.g., `project.name`.
