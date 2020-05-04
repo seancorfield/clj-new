@@ -39,6 +39,15 @@ Run the tests:
     clj -A:test:runner
 ```
 
+> Note: Unlike Leiningen, `clj-new` requires that you use either a qualified
+name for your project, such as `<username>/<project-name>` or
+`<org-name>/<project-name>` (e.g., your GitHub username or organization name),
+or a dotted name, such as `my.project`. Leiningen's default behavior, of adding
+`.core` to a single segment name such as `foo`, can be achieved with
+`clj -A:new lib foo.core`. Although very common in older Clojure projects, the
+use of a `core` namespace is really just a historical accident because it was
+Leiningen's default behavior!
+
 ### Templates
 
 Built-in templates are:
@@ -49,9 +58,11 @@ Built-in templates are:
 
 > Note: you can find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template).
 
-The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`.
+The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`. In the generated `pom.xml` file, the group ID will be `com.acme` and the artifact ID will be `my-cool-project` -- following this pattern means you are already set up for publishing to Clojars (or some other Maven-like repository).
 
-An alternative is to use a multi-segment project name, such as `com.acme.another-project`. This will create a folder called `com.acme.another-project` (compared to above, which just uses the portion after the `/`). The main namespace will be `com.acme.another-project` in `src/com/acme/another_project.clj`, similar to the qualified project name above.
+An alternative is to use a multi-segment project name, such as `com.acme.another-project`. This will create a folder called `com.acme.another-project` (compared to above, which just uses the portion after the `/`). The main namespace will be `com.acme.another-project` in `src/com/acme/another_project.clj`, similar to the qualified project name above. In the generated `pom.xml` file, the group ID will be the "stem" of the project name (`com.acme`) and the artifact ID will be the full project name (`com.acme.another-project`) -- again, you'll be set up for publishing to Clojars etc, but be aware of the difference between how dotted names and qualified names affect the generated project.
+
+You can, of course, modify the generated `pom.xml` file to have whatever group and artifact ID you want, if you don't like these defaults.
 
 #### The `app` Template
 
