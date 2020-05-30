@@ -126,9 +126,10 @@
                             (println "Unable to find Leiningen template:")
                             (stack/print-stack-trace e))
                           (reset! failure e))))))))))]
-    (when (and *debug* (pos? *debug*))
+    (when (and *debug* (pos? *debug*)
+               output (seq (str/trim output)))
       (println "Output from locating template:")
-      (println (if (and output (seq (str/trim output))) output "<none>")))
+      (println output))
     (if @selected
       (let [sym-name (str (name (first @selected)) ".new." (second @selected))]
         (try
@@ -148,9 +149,10 @@
                       (if *debug*
                         (if (< *debug* 3)
                           (str "\n\nFor more detail, increase verbose logging with "
-                               (if (< *debug* 2)
-                                 "-vv or -vvv"
-                                 "-vvv"))
+                               (case *debug*
+                                 0 "-v, -vv, or -vvv"
+                                 1 "-vv or -vvv"
+                                 2 "-vvv"))
                           "")
                         "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
               {})))))
@@ -248,7 +250,7 @@
                 (pp/pprint (cnt/project-data name)))))
           :else
           (let [{:keys [env force snapshot version output verbose]} options]
-            (binding [*debug*            verbose
+            (binding [*debug*            (when (pos? verbose) verbose)
                       *use-snapshots?*   snapshot
                       *template-version* version
                       bnt/*dir*          output
