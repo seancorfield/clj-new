@@ -128,7 +128,7 @@
                           (reset! failure e))))))))))]
     (when (and *debug* (pos? *debug*))
       (println "Output from locating template:")
-      (println output))
+      (println (if (and output (seq (str/trim output))) output "<none>")))
     (if @selected
       (let [sym-name (str (name (first @selected)) ".new." (second @selected))]
         (try
@@ -140,9 +140,20 @@
               (stack/print-stack-trace e)
               (when (> *debug* 1)
                 (stack/print-cause-trace e)))
-            (throw (ex-info (format "Could not load template, require of %s failed with: %s"
-                                    sym-name
-                                    (.getMessage e)) {})))))
+            (throw
+             (ex-info
+              (format "Could not load template, require of %s failed with: %s%s"
+                      sym-name
+                      (.getMessage e)
+                      (if *debug*
+                        (if (< *debug* 3)
+                          (str "\n\nFor more detail, increase verbose logging with "
+                               (if (< *debug* 2)
+                                 "-vv or -vvv"
+                                 "-vvv"))
+                          "")
+                        "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
+              {})))))
       (do
         (println output)
         (println "Failed with:" (.getMessage @failure))
