@@ -43,6 +43,20 @@
 
 (def ^:private local-root  #"(.+)::(.+)")
 
+(defn- more-debugging
+  "Return a string that can be added to exception messages to suggest
+  using more verbose logging in order to debug problems."
+  []
+  (if *debug*
+    (if (< *debug* 3)
+      (str "\n\nFor more detail, increase verbose logging with "
+           (case *debug*
+             0 "-v, -vv, or -vvv"
+             1 "-vv or -vvv"
+             2 "-vvv"))
+      "")
+    "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
+
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a clj template first, then
   as a Boot template, then as a Leiningen template. Return the type of template
@@ -126,12 +140,12 @@
                             (println "Unable to find Leiningen template:")
                             (stack/print-stack-trace e))
                           (reset! failure e))))))))))]
-    (when (and *debug* (pos? *debug*)
-               output (seq (str/trim output)))
-      (println "Output from locating template:")
-      (println output))
     (if @selected
       (let [sym-name (str (name (first @selected)) ".new." (second @selected))]
+        (when (and *debug* (pos? *debug*)
+                   output (seq (str/trim output)))
+          (println "Output from locating template:")
+          (println output))
         (try
           (require (symbol sym-name))
           @selected
@@ -146,15 +160,7 @@
               (format "Could not load template, require of %s failed with: %s%s"
                       sym-name
                       (.getMessage e)
-                      (if *debug*
-                        (if (< *debug* 3)
-                          (str "\n\nFor more detail, increase verbose logging with "
-                               (case *debug*
-                                 0 "-v, -vv, or -vvv"
-                                 1 "-vv or -vvv"
-                                 2 "-vvv"))
-                          "")
-                        "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
+                      (more-debugging))
               {})))))
       (do
         (println output)
@@ -163,10 +169,12 @@
                 (format (str "Could not load artifact for template: %s\n"
                              "\tTried coordinates:\n"
                              "\t\t[%s \"%s\"]\n"
-                             "\t\t[%s \"%s\"]")
+                             "\t\t[%s \"%s\"]%s")
                         template-name
                         boot-tmp-name tmp-version
-                        lein-tmp-name tmp-version) {}))))))
+                        lein-tmp-name tmp-version
+                        (more-debugging))
+                {}))))))
 
 (defn resolve-template
   "Given a template name, resolve it to a symbol (or exit if not possible)."
@@ -181,12 +189,16 @@
       (if-let [sym (resolve (symbol the-ns fn-name))]
         sym
         (throw (ex-info (format (str "Found template %s but could not "
-                                     "resolve %s/%s within it.")
+                                     "resolve %s/%s within it.%s")
                                 template-name
                                 the-ns
-                                fn-name) {}))))
-    (throw (ex-info (format "Could not find template %s on the classpath."
-                            template-name) {}))))
+                                fn-name
+                                (more-debugging))
+                        {}))))
+    (throw (ex-info (format "Could not find template %s on the classpath.%s"
+                            template-name
+                            (more-debugging))
+                    {}))))
 
 (defn- valid-project?
   "Return true if the project name is 'valid': qualified and/or multi-segment."
@@ -202,8 +214,14 @@
   [template-name project-name args]
   (if (valid-project? project-name)
     (apply (resolve-template template-name) project-name args)
-    (throw (ex-info "Project names must be valid qualified or multi-segment Clojure symbols."
-                    {:project-name project-name}))))
+    (throw (ex-info
+            (let [project-name (or project-name "your-project")]
+              (str "Project names must be valid qualified or "
+                   "multi-segment Clojure symbols."
+                   "\n\nFor example: yourname/" project-name
+                   ", yourname." project-name
+                   ", or " project-name ".main"))
+            {:project-name project-name}))))
 
 (defn- add-env
   "Add a new SYM=VAL variable to the environment."
