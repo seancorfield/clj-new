@@ -1,7 +1,7 @@
 # Changes
 
 * 1.0.next in progress
-  * Improve documentation of `-v`/`--verbose` option.
+  * Improve documentation of `-v`/`--verbose` option (#39).
   * Add test running instructions to generated readme for `lib` template.
 
 * 1.0.199 -- 2020-04-10
