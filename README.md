@@ -9,7 +9,7 @@ You can use this from the command line...
 ```bash
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "1.0.210"}}}' \
+                {:mvn/version "1.0.211"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -20,7 +20,7 @@ clj -Sdeps '{:deps
 ```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "1.0.210"}}
+                         {:mvn/version "1.0.211"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 ```
@@ -271,7 +271,7 @@ Flag arguments for `clj-new.generate` are:
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.0.210
+Latest stable release: 1.0.211
 
 ## Roadmap
 

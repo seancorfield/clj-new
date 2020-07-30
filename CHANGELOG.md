@@ -1,6 +1,6 @@
 # Changes
 
-* 1.0.210 -- 2020--07-29
+* 1.0.211 -- 2020--07-29
   * Stop using single-segment lib names in templates.
   * Improve documentation of `-v`/`--verbose` option (#39).
   * Add test running instructions to generated readme for `lib` template.
