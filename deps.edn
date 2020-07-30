@@ -6,5 +6,5 @@
         org.slf4j/slf4j-nop {:mvn/version "1.7.25"}}
  :aliases {:jar {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}
                  :main-opts ["-m" "hf.depstar.jar" "clj-new.jar"]}
-           :deploy {:extra-deps {deps-deploy {:mvn/version "0.0.9"}}
+           :deploy {:extra-deps {deps-deploy/deps-deploy {:mvn/version "0.0.9"}}
                     :main-opts ["-m" "deps-deploy.deps-deploy" "deploy" "clj-new.jar"]}}}
