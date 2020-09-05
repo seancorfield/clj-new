@@ -241,44 +241,77 @@
     :default 0 :update-fn inc]
    ["-V" "--version VERSION" "Use this version of the template"]])
 
+(defn- create-help []
+  (println "Usage:")
+  (println "  clojure -m clj-new.create template-name project-name options\n")
+  (println "or:")
+  (println "  clojure -X clj-new/create :template template-name :name project-name options\n")
+  (println "Any additional arguments are passed directly to the template.")
+  (println "\nThe template-name may be:")
+  (println "* app - create a new application based on deps.edn")
+  (println "* lib - create a new library based on deps.edn")
+  (println "* template - create a new clj template based on deps.edn")
+  (println "\nThe project-name must be a valid Clojure symbol and must either be a")
+  (println "qualified name or a multi-segment name (to avoid .core namespaces!).")
+  (println "\nThe following options are accepted (as keywords for -X):"))
+
+(defn create-x
+  "Project creation entry point with a hash map."
+  [{:keys [env force help output query snapshot verbose version ; options
+           args ; sequence of arguments to pass to the template
+           name template] ; project name and template name
+    :or {verbose 0}}]
+  (let [name     (some-> name str) ; ensure a string
+        template (some-> template str)] ; ensure a string
+
+    (cond (or help (not (and (seq name) (seq template))))
+          (let [{:keys [summary]} (cli/parse-opts [] create-cli)]
+            (create-help)
+            (println summary))
+
+          query
+          (if-not (valid-project? name)
+            (println "Error:" name "is not a qualified symbol or multi-segment name.")
+            (let [project-sym (try (read-string name) (catch Exception _))]
+              (println "Will create the folder:"
+                       (or output (clojure.core/name project-sym)))
+              (println "From the template:" template)
+              (when (seq args)
+                (println "Passing these arguments:"
+                         (str/join " " args)))
+              (println "The following substitutions will be used:")
+              (binding [cnt/*environment* env]
+                (pp/pprint (cnt/project-data name)))))
+
+          :else
+          (binding [*debug*            (when (pos? verbose) verbose)
+                    *use-snapshots?*   snapshot
+                    *template-version* version
+                    bnt/*dir*          output
+                    bnt/*force?*       force
+                    cnt/*dir*          output
+                    cnt/*force?*       force
+                    cnt/*environment*  env
+                    lnt/*dir*          output
+                    lnt/*force?*       force]
+            (create* template name args))))
+  (shutdown-agents))
+
 (defn create
   "Exposed to clj-new command-line with simpler signature."
   [{:keys [args name template]}]
   (let [{:keys [options arguments summary errors]}
         (cli/parse-opts args create-cli)]
-    (cond (or (:help options) errors)
-          (do
-            (println "Usage:")
-            (println summary)
-            (doseq [err errors]
-              (println err)))
-          (:query options)
-          (if-not (valid-project? name)
-            (println "Error:" name "is not a qualified symbol or multi-segment name.")
-            (let [project-sym (try (read-string name) (catch Exception _))]
-              (println "Will create the folder:"
-                       (or (:output options)
-                           (clojure.core/name project-sym)))
-              (println "From the template:" template)
-              (when (seq arguments)
-                (println "Passing these arguments:"
-                         (str/join " " arguments)))
-              (println "The following substitutions will be used:")
-              (binding [cnt/*environment* (:env options)]
-                (pp/pprint (cnt/project-data name)))))
-          :else
-          (let [{:keys [env force snapshot version output verbose]} options]
-            (binding [*debug*            (when (pos? verbose) verbose)
-                      *use-snapshots?*   snapshot
-                      *template-version* version
-                      bnt/*dir*          output
-                      bnt/*force?*       force
-                      cnt/*dir*          output
-                      cnt/*force?*       force
-                      cnt/*environment*  env
-                      lnt/*dir*          output
-                      lnt/*force?*       force]
-              (create* template name arguments))))))
+    (if (or (:help options) errors)
+      (do
+        (println "Usage:")
+        (println summary)
+        (doseq [err errors]
+          (println err)))
+      (create-x (assoc options
+                       :args arguments
+                       :name name
+                       :template template)))))
 
 (defn generate-code*
   "Given an optional template name, an optional path prefix, a list of
@@ -308,6 +341,44 @@
    ["-S" "--snapshot"        "Look for -SNAPSHOT version of the template"]
    ["-V" "--version VERSION" "Use this version of the template"]])
 
+(defn- generate-help []
+  (println "Usage:")
+  (println "  clojure -m clj-new.generate generator options\n")
+  (println "or:")
+  (println "  clojure -X clj-new/generate :generator [generators] options\n")
+  (println "Any additional arguments are passed directly to the generator.")
+  (println "\nThe generators may be:")
+  (println "* ns=the.ns - generate a new Clojure namespace")
+  (println "* file=the.ns body - generate a new file for the namespace with the given body")
+  (println "  - an optional argument can specify the extension (clj by default)")
+  (println "* defn=the.ns/the-fn - generate a new defn for the-fn within the.ns")
+  (println "* def=the.ns/the-sym - generate a new def for the-sym within the.ns")
+  (println "  - an optional argument can specify the body (nil by default)")
+  (println "* edn=the.ns body - gen a new edn file for the namespace with the given body")
+  (println "  - an optional argument can specify the extension (edn by default)")
+  (println "Note: you can provide multiple generators when using -X")
+  (println "      but only one generator when using -m.")
+  (println "\nThe following options are accepted (as keywords for -X):"))
+
+(defn generate-x
+  "Project creation entry point with a hash map."
+  [{:keys [force help prefix snapshot template version ; options
+           args ; sequence of arguments to pass to the generator
+           generate] ; sequence of generator spec strings
+    :or {prefix "src"}}]
+  (if (or help (not (seq generate)))
+    (let [{:keys [summary]} (cli/parse-opts [] generate-cli)]
+      (generate-help)
+      (println summary))
+
+    (binding [cnt/*dir*          "."
+              cnt/*force?*       force
+              *use-snapshots?*   snapshot
+              *template-version* version
+              cnt/*overwrite?*   false]
+      (generate-code* template prefix generate args)))
+  (shutdown-agents))
+
 (defn generate-code
   "Exposed to clj new task with simpler signature."
   [{:keys [args generate]}]
@@ -319,10 +390,6 @@
         (println summary)
         (doseq [err errors]
           (println err)))
-      (let [{:keys [force prefix snapshot template version]} options]
-        (binding [cnt/*dir*          "."
-                  cnt/*force?*       force
-                  *use-snapshots?*   snapshot
-                  *template-version* version
-                  cnt/*overwrite?*   false]
-          (generate-code* template (or prefix "src") generate arguments))))))
+      (generate-x (assoc options
+                         :args arguments
+                         :generate generate)))))

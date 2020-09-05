@@ -28,7 +28,7 @@ clj -Sdeps '{:deps
 Create a basic application:
 
 ```bash
-    clj -A:new app myname/myapp
+    clj -A:new -M:new app myname/myapp
     cd myapp
     clj -m myname.myapp
 ```
@@ -36,7 +36,7 @@ Create a basic application:
 Run the tests:
 
 ```bash
-    clj -A:test:runner
+    clj -A:test:runner -M:runner
 ```
 
 > Note: Unlike Leiningen, `clj-new` requires that you use either a qualified
@@ -44,7 +44,7 @@ name for your project, such as `<username>/<project-name>` or
 `<org-name>/<project-name>` (e.g., your GitHub username or organization name),
 or a dotted name, such as `my.project`. Leiningen's default behavior, of adding
 `.core` to a single segment name such as `foo`, can be achieved with
-`clj -A:new lib foo.core`. Although very common in older Clojure projects, the
+`clj -A:new -M:new lib foo.core`. Although very common in older Clojure projects, the
 use of a `core` namespace is really just a historical accident because it was
 Leiningen's default behavior!
 
@@ -52,8 +52,8 @@ Leiningen's default behavior!
 
 Built-in templates are:
 
-* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -m` and can test it with `clj -A:test:runner`.
-* `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner`.
+* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -m` and can test it with `clj -A:test:runner -M:runner`.
+* `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner -M:runner`.
 * `template` -- A minimal `clj-new` template. Can produce a new template with `clj -m clj-new.create mytemplate myname/mynewapp` (where `mytemplate` is the appropriate part of whatever project name you used when you asked `clj-new` to create the template project).
 
 > Note: you can find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template).
@@ -69,18 +69,18 @@ You can, of course, modify the generated `pom.xml` file to have whatever group a
 The generated project is an application. It has a `-main` function in the main project
 namespace, with a `(:gen-class)` class in the `ns` form. In addition to being able to
 run the project directly (with `clojure -m myname.myapp`) and run the tests, you can
-also build an uberjar for the project with `clojure -A:uberjar`, which you can then
+also build an uberjar for the project with `clojure -A:uberjar -M:uberjar`, which you can then
 run with `java -jar myapp`.
 
 #### The `lib` Template
 
 The generated project is a library. It has no `-main` function. In addition to
 being able to run the tests, you can also build a jar file for deployment
-with `clojure -A:jar`. You will probably need to adjust some of the information
+with `clojure -A:jar -M:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
 Once you've updated the `pom.xml` file, you can install it locally with
-`clojure -A:install` or deploy it to Clojars with `clojure -A:deploy`. For
+`clojure -A:install -M:install` or deploy it to Clojars with `clojure -A:deploy -M:deploy`. For
 that you need these environment variables set:
 
 * `CLOJARS_USERNAME` -- your Clojars username
@@ -90,7 +90,7 @@ that you need these environment variables set:
 
 The generated project is a very minimal `clj-template`. It has no `-main`
 function and has no tests. You can however build a jar file for deployment
-with `clojure -A:jar`. You will probably need to adjust some of the information
+with `clojure -A:jar -M:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
 > Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `mytemplate/clj-template` which is the convention expected by `clj-new`.
@@ -123,7 +123,7 @@ The `description` field is also used in the generated project's `README.md` file
 
 The general form of the command is:
 
-    clj -A:new template-name project-name arg1 arg2 arg3 ...
+    clj -A:new -M:new template-name project-name arg1 arg2 arg3 ...
 
 As noted above, `project-name` should be a qualified symbol, such as `mygithubusername/my-new-project`, or a multi-segment symbol, such as `my.cool.project`. Some templates will not work with the former but it is recommended you try that format first.
 
@@ -131,17 +131,17 @@ If `template-name` is not one of the built-in ones (or is not already on the cla
 
 Alternatively, `template-name` can be a `:git/url` and `:sha` like this:
 
-    clj -A:new https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
+    clj -A:new -M:new https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
 
 In this case, `clj.new.someapp` must exist in the template and `clj.new.someapp/someapp` will be invoked to generate the template. A GitHub repository may include multiple templates, so you can also use this form:
 
-    clj -A:new https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
+    clj -A:new -M:new https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89 project-name arg1 arg2 arg3 ...
 
 `somename/somerepo` here contains templates in subdirectories, including `someapp`. Again, `clj.new.someapp` must exist in the template in that subdirectory and `clj.new.someapp/someapp` will be invoked to generate the template.
 
 Or, `template-name` can be a `:local/root` and template name like this:
 
-    clj -A:new /path/to/clj-template::new-app project-name arg1 arg2 arg3 ...
+    clj -A:new -M:new /path/to/clj-template::new-app project-name arg1 arg2 arg3 ...
 
 In this case, `clj.new.new-app` must exist in the template and `clj.new.new-app/new-app` will be invoked to generate the template.
 
@@ -166,19 +166,19 @@ Note: not all Leiningen or Boot templates accept a qualified `project-name` so y
 Here are some examples, generating projects from existing templates:
 
 ```
-clj -A:new luminus yourname/example.webapp -o mywebapp +http-kit +h2 +reagent +auth
+clj -A:new -M:new luminus yourname/example.webapp -o mywebapp +http-kit +h2 +reagent +auth
 ```
 
 This creates a folder called `mywebapp` with a Luminus web application that will use `http-kit`, the H2 database, the Reagent ClojureScript library, and the Buddy library for authentication. The `-main` function is in `yourname.example.webapp.core`, which is in the  `mywebapp/src/clj/yourname/example/webapp/core.clj` file. Note that the [Luminus template](https://github.com/luminus-framework/luminus-template) produces a Leiningen-based project, not a CLI/`deps.edn` one, but you can also tell it to produce a Boot-based project (with `+boot`).
 
 ```
-clj -A:new re-frame yourname/spa -o front-end +garden +10x +routes
+clj -A:new -M:new re-frame yourname/spa -o front-end +garden +10x +routes
 ```
 
 This creates a folder called `front-end` with a ClojureScript Single Page Application that uses Garden for CSS, `re-frame-10x` for debugging, and Secretary for routing. The entry point is in the `yourname.spa.core` namespace which is in the `front-end/src/cljs/yourname/spa/core.cljs` file. As with Luminus, the [`re-frame` template](https://github.com/day8/re-frame-template) produces a Leiningen-based project, not a CLI/`deps.edn` one.
 
 ```
-clj -A:new electron-app yourname/example
+clj -A:new -M:new electron-app yourname/example
 ```
 
 This creates a folder called `example` with a skeleton Electron application, using Figwheel and Reagent. The entry point is in the `example.main.core` namespace which is in the `example/src/main/example/main/core.cljs` file. This [Electron template](https://github.com/paulbutcher/electron-app) produces a CLI/`deps.edn`-based project.
@@ -206,7 +206,7 @@ When you publish it to Clojars, it should have a group ID matching the template 
 Previous sections have revealed that it is possible to pass arguments to templates. For example:
 
 ```
-clj -A:new custom-template project-name arg1 arg2 arg3
+clj -A:new -M:new custom-template project-name arg1 arg2 arg3
 ```
 
 These arguments are accessible in the `custom-template` function as a second argument.
@@ -266,6 +266,48 @@ Flag arguments for `clj-new.generate` are:
 * `-S` or `--snapshot` -- look for -SNAPSHOT version of the template (not just a release version)
 * `-t` or `--template`, followed by a template name -- load this template (using the same rules as for `clj-new.create` above) and then run the specified generator
 * `-V` or `--version`, followed by a version -- use this specific version of the template
+
+## `clojure -X` Usage
+
+The Clojure CLI is adding a `-X` option to execute a specific function and pass a hash map of arguments. See [Executing a function that takes a map](https://clojure.org/reference/deps_and_cli_prerelease#_executing_a_function) in the Deps and CLI reference for details.
+
+As of 1.0.next (not implemented yet), `clj-new` supports this via `clj-new/create` and `clj-new/generate` which both accept a hash map that mirrors the available command-line arguments:
+
+For `clojure -X clj-new/create`:
+* `:name` -- the name of the project (as a symbol or a string); required; must be a qualified project name or a multi-segment dotted project name
+* `:template` -- the name of the template to use (as a symbol or a string); required
+* `:env` -- a hash map of additional variable substitutions in templates
+* `:force` -- if `true`, will force overwrite the target directory if it exists
+* `:help` -- if `true`, will provide a summary of these options as help
+* `:output` -- specify the project directory to create (the default is to use the project name as the directory)
+* `:query` -- if `true`, instead of actually looking up the template and generating the project, output an explanation of what `clj-new` will try to do
+* `:snapshot` -- if `true`, look for -SNAPSHOT version of the template (not just a release version)
+* `:verbose` -- 1, 2, or 3, indicating the level of debugging in increasing detail
+* `:version` -- use this specific version of the template
+
+```bash
+clojure -X clj-new/create :template app :name myname/myapp
+# equivalent to:
+clojure -m clj-new.create app myname/myapp
+```
+
+For `clojure -X clj-new/generate`:
+* `:generate` -- a (non-empty) vector of generator strings to use
+* `:force` -- if `true`, will force overwrite the target directory/file if it exists
+* `:help` -- if `true`, will provide a summary of these options as help
+* `:prefix` -- specify the project directory in which to run the generator (the default is `src` but `:p '"."'` will allow a generator to modify files in the root of your project)
+* `:snapshot` -- if `true`, look for -SNAPSHOT version of the template (not just a release version)
+* `:template` -- load this template (using the same rules as for `clj-new/create` above) and then run the specified generator
+* `:version` -- use this specific version of the template
+
+```bash
+clojure -X clj-new/generate :generate '["ns=example.thing" "defn=example.thing/hello"]'
+# equivalent to:
+clojure -m clj-new/generate ns=example.thing
+clojure -m clj-new/generate defn=example.thing/hello
+```
+
+You can only provide one generator at a time via the `-m` usage but you can provide a sequence of generators via the `-X` usage.
 
 # Releases
 

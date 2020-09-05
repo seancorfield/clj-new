@@ -8,19 +8,19 @@ FIXME: write usage documentation!
 
 Run the project's tests (they'll fail until you edit them):
 
-    $ clojure -A:test:runner
+    $ clojure -A:test:runner -M:runner
 
 Build a deployable jar of this library:
 
-    $ clojure -A:jar
+    $ clojure -A:jar -M:jar
 
 Install it locally:
 
-    $ clojure -A:install
+    $ clojure -A:install -M:install
 
 Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables:
 
-    $ clojure -A:deploy
+    $ clojure -A:deploy -M:deploy
 
 ## License
 

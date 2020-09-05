@@ -9,7 +9,7 @@
                  :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]}
-  :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}
+  :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.104"}}
         :main-opts ["-m" "hf.depstar.jar" "{{name}}.jar"]}
   :install {:extra-deps {deps-deploy/deps-deploy {:mvn/version "0.0.9"}}
             :main-opts ["-m" "deps-deploy.deps-deploy" "install" "{{name}}.jar"]}

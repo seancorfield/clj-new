@@ -1,5 +1,9 @@
 # Changes
 
+* 1.0.next -- in progress
+  * Fix #41 by providing `clj-new/create` and `clj-new/generate` as entry points that can be used by the Clojure CLI `-X` option (to execute a specific function and pass a map of arguments).
+  * Update to `depstar` 1.1.104 in templates.
+
 * 1.0.211 -- 2020--07-29
   * Stop using single-segment lib names in templates.
   * Improve documentation of `-v`/`--verbose` option (#39).

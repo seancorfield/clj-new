@@ -12,17 +12,6 @@
 
   May eventually support more options."
   [& [template-name project-name & args]]
-  (if (and template-name project-name)
-    (helpers/create {:template template-name
-                     :name project-name
-                     :args args})
-    (do
-      (println "Usage: clj -m clj-new.create template-name project-name\n")
-      (println "Any additional arguments are passed directly to the template.")
-      (println "\nThe template-name may be:")
-      (println "* app - create a new application based on deps.edn")
-      (println "* lib - create a new library based on deps.edn")
-      (println "* template - create a new clj template based on deps.edn")
-      (println "\nThe project-name must be a valid Clojure symbol and must either be a")
-      (println "qualified name or a multi-segment name (to avoid .core namespaces!).")))
-  (shutdown-agents))
+  (helpers/create {:template template-name
+                   :name project-name
+                   :args args}))
