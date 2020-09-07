@@ -11,7 +11,7 @@ You can use this from the command line...
 ```bash
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "1.0.211"}}}' \
+                {:mvn/version "1.1.215"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -22,7 +22,7 @@ clj -Sdeps '{:deps
 ```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "1.0.211"}}
+                         {:mvn/version "1.1.215"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 ```
@@ -237,17 +237,17 @@ There are currently a few built-in generators:
 The `file` generator creates files relative to the prefix. It optionally accepts a body, and file extension. Those default to `nil` and `"clj"` respectively.
 ```bash
 # Inside project folder, relying on the clj-new dependency.
-clj -m clj-new.generate file=foo.bar "(ns foo.bar)" "clj"
+clojure -A:new -m clj-new.generate file=foo.bar "(ns foo.bar)" "clj"
 ```
 
 The `ns` generator creates a clojure namespace by using the `file` generator and providing a few defaults.
 ```bash
-clj -m clj-new.generate ns=foo.bar
+clojure -A:new -m clj-new.generate ns=foo.bar
 ```
 
 This will generate `src/foo/bar.clj` containing `(ns foo.bar)` (and a placeholder docstring). It will not replace an existing file.
 ```bash
-clj -m clj-new.generate defn=foo.bar/my-func
+clojure -A:new -m clj-new.generate defn=foo.bar/my-func
 ```
 
 If `src/foo/bar.clj` does not exist, it will be generated as a namespace first (using the `ns` generator above), then a definition for `my-func` will be appended to that file (with a placeholder docstring and a dummy argument vector of `[args]`). The generator does not check whether that `defn` already exists so it always appends a new `defn`.
@@ -256,7 +256,7 @@ Both the `def` and `defn` generators create files using the `ns` generator above
 
 The `edn` generator uses the `file` generator internally, with a default extension of `"edn"`.
 ```bash
-clj -m clj-new.generate edn=foo.bar "(ns foo.bar)"
+clojure -A:new -m clj-new.generate edn=foo.bar "(ns foo.bar)"
 ```
 
 Any arguments after `type=name` are parsed using `tools.cli` for flags, and any non-flag arguments are passed directly to the generator.
@@ -273,9 +273,17 @@ Flag arguments for `clj-new.generate` are:
 
 The Clojure CLI is adding a `-X` option to execute a specific function and pass a hash map of arguments. See [Executing a function that takes a map](https://clojure.org/reference/deps_and_cli_prerelease#_executing_a_function) in the Deps and CLI reference for details.
 
-As of 1.0.next (not implemented yet), `clj-new` supports this via `clj-new/create` and `clj-new/generate` which both accept a hash map that mirrors the available command-line arguments:
+As of 1.1.215, `clj-new` supports this via `clj-new/create` and `clj-new/generate` which both accept a hash map that mirrors the available command-line arguments. If you all the following alias to your `deps.edn` (instead of the alias shown above) then you can use this new `-X` option:
 
-For `clojure -X clj-new/create`:
+```clj
+    {:aliases
+     {:new {:extra-deps {seancorfield/clj-new
+                         {:mvn/version "1.1.215"}}
+            :ns-default clj-new}}
+     ...}
+```
+
+For `clojure -X:new create`:
 * `:name` -- the name of the project (as a symbol or a string); required; must be a qualified project name or a multi-segment dotted project name
 * `:template` -- the name of the template to use (as a symbol or a string); required
 * `:env` -- a hash map of additional variable substitutions in templates
@@ -288,12 +296,12 @@ For `clojure -X clj-new/create`:
 * `:version` -- use this specific version of the template
 
 ```bash
-clojure -X clj-new/create :template app :name myname/myapp
+clojure -X:new create :template app :name myname/myapp
 # equivalent to:
-clojure -m clj-new.create app myname/myapp
+clojure -M:new -m clj-new.create app myname/myapp
 ```
 
-For `clojure -X clj-new/generate`:
+For `clojure -X:new generate`:
 * `:generate` -- a (non-empty) vector of generator strings to use
 * `:force` -- if `true`, will force overwrite the target directory/file if it exists
 * `:help` -- if `true`, will provide a summary of these options as help
@@ -303,11 +311,33 @@ For `clojure -X clj-new/generate`:
 * `:version` -- use this specific version of the template
 
 ```bash
-clojure -X clj-new/generate :generate '["ns=example.thing" "defn=example.thing/hello"]'
+clojure -X:new generate :generate '["ns=example.thing" "defn=example.thing/hello"]'
 # equivalent to:
-clojure -m clj-new/generate ns=example.thing
-clojure -m clj-new/generate defn=example.thing/hello
+clojure -M:new -m clj-new/generate ns=example.thing
+clojure -M:new -m clj-new/generate defn=example.thing/hello
 ```
+
+You can simplify this further with the following aliases:
+
+```clj
+    {:aliases
+     {:create   {:extra-deps {seancorfield/clj-new
+                               {:mvn/version "1.1.215"}}
+                 :exec-fn clj-new/create}
+      :generate {:extra-deps {seancorfield/clj-new
+                               {:mvn/version "1.1.215"}}
+                 :exec-fn clj-new/generate}}
+     ...}
+```
+
+Then you can say
+
+```bash
+clojure -X:create :template app :name myname/myapp
+clojure -X:generate :generate '["ns=example.thing" "defn=example.thing/hello"]'
+```
+
+The `:create` alias includes `:exec-fn` so that is the function that will be executed when you use `-X:create`, and the `:generate` alias includes `:exec-fn` so that is the function that will be executed when you use `-X:generate`.
 
 You can only provide one generator at a time via the `-m` usage but you can provide a sequence of generators via the `-X` usage.
 
@@ -315,7 +345,7 @@ You can only provide one generator at a time via the `-m` usage but you can prov
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.0.211
+Latest stable release: 1.1.215
 
 ## Roadmap
 

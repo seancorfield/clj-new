@@ -1,12 +1,12 @@
 (ns clj-new.helpers
   "The top-level logic for the clj-new create/generate entry points."
-  (:require [clojure.pprint :as pp]
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [clojure.pprint :as pp]
             [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
             [clojure.tools.deps.alpha :as deps]
-            [clojure.tools.deps.alpha.reader :refer [default-deps
-                                                     read-deps]]
             [clojure.tools.deps.alpha.util.session :as session]
             ;; support boot-template projects:
             [boot.new.templates :as bnt]
@@ -57,6 +57,13 @@
       "")
     "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
 
+(def ^:private basis
+  "Return the runtime basis from the Clojure CLI invocation."
+  (delay (-> (System/getProperty "clojure.basis")
+             (io/file)
+             (slurp)
+             (edn/read-string))))
+
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a clj template first, then
   as a Boot template, then as a Leiningen template. Return the type of template
@@ -89,7 +96,7 @@
                             {:mvn/version tmp-version})
         boot-tmp-name (str template-name "/boot-template")
         lein-tmp-name (str template-name "/lein-template")
-        all-deps      (read-deps (default-deps))
+        all-deps      @basis
         output
         (with-out-str
           (binding [*err* *out*]
@@ -222,6 +229,20 @@
                    ", yourname." project-name
                    ", or " project-name ".main"))
             {:project-name project-name}))))
+
+(comment
+  (binding [*debug*            1
+            *use-snapshots?*   false
+            *template-version* nil
+            bnt/*dir*          nil
+            bnt/*force?*       true
+            cnt/*dir*          nil
+            cnt/*force?*       true
+            cnt/*environment*  {}
+            lnt/*dir*          nil
+            lnt/*force?*       true]
+    (create* "compojure" "foo/bar" []))
+  nil)
 
 (defn- add-env
   "Add a new SYM=VAL variable to the environment."
