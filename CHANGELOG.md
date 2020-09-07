@@ -1,5 +1,8 @@
 # Changes
 
+* 1.1.216 -- 2020-09-07
+  * Fix #43 by restoring support for older Clojure CLI versions (by falling back to explicitly finding & merging EDN files if no runtime basis is available).
+
 * 1.1.215 -- 2020-09-06
   * Fix #41 by providing `clj-new/create` and `clj-new/generate` as entry points that can be used by the Clojure CLI `-X` option (to execute a specific function and pass a map of arguments).
   * Update to `depstar` 1.1.104 in templates.

@@ -58,11 +58,17 @@
     "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
 
 (def ^:private basis
-  "Return the runtime basis from the Clojure CLI invocation."
-  (delay (-> (System/getProperty "clojure.basis")
-             (io/file)
-             (slurp)
-             (edn/read-string))))
+  "Return the runtime basis from the Clojure CLI invocation.
+
+  If we're running under an older CLI version, construct the
+  equivalent of the basis manually."
+  (delay (if-let [basis-file (System/getProperty "clojure.basis")]
+           (-> basis-file
+               (io/file)
+               (slurp)
+               (edn/read-string))
+           (let [{:keys [root-edn user-edn project-edn]} (deps/find-edn-maps)]
+             (deps/merge-edns (filterv some? [root-edn user-edn project-edn]))))))
 
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a clj template first, then

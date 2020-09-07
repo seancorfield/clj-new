@@ -11,7 +11,7 @@ You can use this from the command line...
 ```bash
 clj -Sdeps '{:deps
               {seancorfield/clj-new
-                {:mvn/version "1.1.215"}}}' \
+                {:mvn/version "1.1.216"}}}' \
   -m clj-new.create \
   app \
   myname/myapp
@@ -22,7 +22,7 @@ clj -Sdeps '{:deps
 ```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "1.1.215"}}
+                         {:mvn/version "1.1.216"}}
             :main-opts ["-m" "clj-new.create"]}}
      ...}
 ```
@@ -278,7 +278,7 @@ As of 1.1.215, `clj-new` supports this via `clj-new/create` and `clj-new/generat
 ```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "1.1.215"}}
+                         {:mvn/version "1.1.216"}}
             :ns-default clj-new}}
      ...}
 ```
@@ -322,10 +322,10 @@ You can simplify this further with the following aliases:
 ```clj
     {:aliases
      {:create   {:extra-deps {seancorfield/clj-new
-                               {:mvn/version "1.1.215"}}
+                               {:mvn/version "1.1.216"}}
                  :exec-fn clj-new/create}
       :generate {:extra-deps {seancorfield/clj-new
-                               {:mvn/version "1.1.215"}}
+                               {:mvn/version "1.1.216"}}
                  :exec-fn clj-new/generate}}
      ...}
 ```
@@ -345,7 +345,7 @@ You can only provide one generator at a time via the `-m` usage but you can prov
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.1.215
+Latest stable release: 1.1.216
 
 ## Roadmap
 
