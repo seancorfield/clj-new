@@ -2,6 +2,8 @@
 
 Generate new projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clj` command-line installation of Clojure!
 
+For support, help, general questions, use the [#clj-new channel on the Clojurians Slack](https://app.slack.com/client/T03RZGPFR/C019ZQSPYG6).
+
 ## Getting Started
 
 You can use this from the command line...
