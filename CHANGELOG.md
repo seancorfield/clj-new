@@ -1,5 +1,8 @@
 # Changes
 
+* 1.1.next -- in progress
+  * Update `depstar` to 1.1.117 in templates.
+
 * 1.1.216 -- 2020-09-07
   * Fix #43 by restoring support for older Clojure CLI versions (by falling back to explicitly finding & merging EDN files if no runtime basis is available).
 
