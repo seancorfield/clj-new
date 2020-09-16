@@ -117,6 +117,7 @@
             :version "0.1.0-SNAPSHOT"
             :user username
             :developer (string/capitalize username)
+            :scm-domain "github.com"
             :year (year)
             :date (date)}
            *environment*)))

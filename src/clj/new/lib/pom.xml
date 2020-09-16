@@ -6,7 +6,7 @@
   <version>{{version}}</version>
   <name>{{artifact}}</name>
   <description>{{description}}</description>
-  <url>https://github.com/{{group}}/{{artifact}}</url>
+  <url>https://{{scm-domain}}/{{group}}/{{artifact}}</url>
   <licenses>
     <license>
       <name>Eclipse Public License</name>
@@ -19,9 +19,9 @@
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/{{group}}/{{artifact}}</url>
-    <connection>scm:git:git://github.com/{{group}}/{{artifact}}.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/{{group}}/{{artifact}}.git</developerConnection>
+    <url>https://{{scm-domain}}/{{group}}/{{artifact}}</url>
+    <connection>scm:git:git://{{scm-domain}}/{{group}}/{{artifact}}.git</connection>
+    <developerConnection>scm:git:ssh://git@{{scm-domain}}/{{group}}/{{artifact}}.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <dependencies>

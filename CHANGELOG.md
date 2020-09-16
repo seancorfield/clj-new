@@ -1,6 +1,7 @@
 # Changes
 
 * 1.1.next -- in progress
+  * Fix #44 by adding `:scm-domain` as an "env" variable that can be substituted.
   * Update `depstar` to 1.1.117 in templates.
 
 * 1.1.216 -- 2020-09-07

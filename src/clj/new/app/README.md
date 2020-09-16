@@ -4,7 +4,7 @@
 
 ## Installation
 
-Download from https://github.com/{{group}}/{{artifact}}.
+Download from https://{{scm-domain}}/{{group}}/{{artifact}}
 
 ## Usage
 

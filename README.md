@@ -118,6 +118,7 @@ using the `-e` option to `clj-new.create`:
 * `version` -- defaults to `"0.1.0-SNAPSHOT"`,
 * `description` -- defaults to `"FIXME: my new ..."` (`application`, `library`, or `template`),
 * `developer` -- defaults to a capitalized version of your computer's logged in username.
+* `scm-domain` -- defaults to `github.com`; used in all the SCM links in the generated projects: `https://{{scm-domain}}/{{group}}/{{artifact}}`
 
 The `description` field is also used in the generated project's `README.md` file.
 
