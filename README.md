@@ -56,7 +56,7 @@ Built-in templates are:
 
 * `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -m` and can test it with `clj -A:test:runner -M:runner`.
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clj -A:test:runner -M:runner`.
-* `template` -- A minimal `clj-new` template. Can produce a new template with `clj -m clj-new.create mytemplate myname/mynewapp` (where `mytemplate` is the appropriate part of whatever project name you used when you asked `clj-new` to create the template project).
+* `template` -- A minimal `clj-new` template.
 
 > Note: you can find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template).
 
@@ -203,6 +203,33 @@ If your template name is `foo-bar`, then you should have `clj.new.foo-bar` as th
 ```
 
 When you publish it to Clojars, it should have a group ID matching the template name and an artifact ID of `clj-template`: `foo-bar/clj-template`. If you expect people to depend on the template via GitHub, you should also name the repo `foo-bar` so that `https://github.com/<username>/foo-bar` is the `:git/url` people will use.
+
+A minimal example, using the default bare bones template:
+
+```
+$ clj -A:new -M:new template myname/mytemplate
+Generating a project called mytemplate that is a 'clj-new' template
+```
+
+You will now have a folder called `mytemplate` that is a very minimal template.
+
+To create a new project based on that template, you need to have it on the classpath (just as if it were a library) and you also need `clj-new` on the classpath since you are using it to generate a project from that template:
+
+```
+$ clj -Sdeps '{:deps {myname/mytemplate {:local/root "mytemplate"}}}' -A:new -M:new mytemplate myname/myproject
+Generating fresh 'clj new' mytemplate project.
+$ tree myproject
+myproject
+|____deps.edn
+|____src
+| |____myname
+| | |____myproject
+| | | |____foo.clj
+```
+
+This example uses a local template project structure, which is probably a good idea when you are developing your template, because the only real way to test a template is by trying to use it to generate a new project.
+
+Once you have it working, you can publish it to GitHub or Clojars just like a regular library.
 
 #### Arguments
 
