@@ -2,10 +2,10 @@
 
 * 1.1.next -- in progress
   * Fix #44 by adding `:scm-domain` as an "env" variable that can be substituted.
-  * Update examples to reflect updated Clojure CLI (1.10.1.697 and later) with `-M` instead of `-A`.
+  * Update examples to reflect updated Clojure CLI (1.10.1.697 and later) with `-X` exec option.
   * Update `tools.deps.alpha` to 0.9.816.
   * Update `deps-deploy` to reflect new group ID and version.
-  * Update `depstar` to 1.1.117 in templates.
+  * Update `depstar` to 1.1.126 in templates.
 
 * 1.1.216 -- 2020-09-07
   * Fix #43 by restoring support for older Clojure CLI versions (by falling back to explicitly finding & merging EDN files if no runtime basis is available).
