@@ -12,7 +12,7 @@ FIXME: explanation
 
 Run the project directly:
 
-    $ clojure -m {{namespace}}
+    $ clojure -M -m {{namespace}}
 
 Run the project's tests (they'll fail until you edit them):
 
