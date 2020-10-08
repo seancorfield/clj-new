@@ -13,5 +13,5 @@
         :main-opts ["-m" "hf.depstar.jar" "{{name}}.jar"]}
   :install {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
             :main-opts ["-m" "deps-deploy.deps-deploy" "install" "{{name}}.jar"]}
-  :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.0"}}
+  :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
            :main-opts ["-m" "deps-deploy.deps-deploy" "deploy" "{{name}}.jar"]}}}
