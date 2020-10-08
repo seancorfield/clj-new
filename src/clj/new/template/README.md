@@ -8,15 +8,15 @@ FIXME: write usage documentation!
 
 Build a deployable jar of this template:
 
-    $ clojure -A:jar -M:jar
+    $ clojure -M:jar
 
 Install it locally:
 
-    $ clojure -A:install -M:install
+    $ clojure -M:install
 
 Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables:
 
-    $ clojure -A:deploy -M:deploy
+    $ clojure -M:deploy
 
 ## License
 

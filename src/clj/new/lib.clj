@@ -6,7 +6,7 @@
 (defn lib
   "A general project template for libraries.
 
-Accepts a group id in the project name: `clj -A:new -M:new lib foo.bar/baz`"
+Accepts a group id in the project name: `clj -M:new lib foo.bar/baz`"
   [name & args]
   (let [render (renderer "lib")
         data   (merge {:description "FIXME: my new library."}

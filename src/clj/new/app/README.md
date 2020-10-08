@@ -16,11 +16,11 @@ Run the project directly:
 
 Run the project's tests (they'll fail until you edit them):
 
-    $ clojure -A:test:runner -M:runner
+    $ clojure -M:test:runner
 
 Build an uberjar:
 
-    $ clojure -A:uberjar -M:uberjar
+    $ clojure -M:uberjar
 
 Run that uberjar:
 
