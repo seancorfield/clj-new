@@ -14,7 +14,7 @@
            :new-lib {:exec-fn clj-new/create
                      :exec-args {:template "lib"}}
 
-           :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.126"}}
+           :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.128"}}
                  :main-opts ["-m" "hf.depstar.jar" "clj-new.jar"]}
            :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
                     :main-opts ["-m" "deps-deploy.deps-deploy" "deploy" "clj-new.jar"]}}}
