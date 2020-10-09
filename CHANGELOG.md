@@ -1,6 +1,6 @@
 # Changes
 
-* 1.1.next -- in progress
+* 1.1.226 -- 2020-10-08
   * Fix #44 by adding `:scm-domain` as an "env" variable that can be substituted.
   * Update examples to reflect updated Clojure CLI (1.10.1.697 and later) with `-X` exec option.
   * Update `tools.deps.alpha` to 0.9.816.
