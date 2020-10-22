@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.9.816</version>
+      <version>0.9.833</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

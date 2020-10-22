@@ -1,5 +1,9 @@
 # Changes
 
+* 1.1.next in progress
+  * Update `tools.deps.alpha` to 0.9.833.
+  * Update `depstar` to 1.1.132 in templates (for the `shutdown-agents` bug fix).
+
 * 1.1.228 -- 2020-10-09
   * Update `depstar` to 1.1.128 in templates (for license handling bug fix).
 
