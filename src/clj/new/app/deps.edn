@@ -1,7 +1,11 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
  :aliases
- {:test {:extra-paths ["test"]
+ {:run-m {:main-opts ["-m" "{{namespace}}"]}
+  :run-x {:ns-default {{namespace}}
+          :exec-fn greet
+          :exec-args {:name "Clojure"}}
+  :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
   :runner
   {:extra-deps {com.cognitect/test-runner

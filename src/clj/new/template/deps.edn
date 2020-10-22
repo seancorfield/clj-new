@@ -2,7 +2,9 @@
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}
         seancorfield/clj-new {:mvn/version "1.1.228"}}
  :aliases
- {:test {:extra-paths ["test"]
+ {:new {:ns-default clj-new
+        :exec-args {:template "{{name}}"}}
+  :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
   :runner
   {:extra-deps {com.cognitect/test-runner

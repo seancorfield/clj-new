@@ -6,6 +6,13 @@
 
 FIXME: write usage documentation!
 
+Creating a project from this template (the `:new` alias in this template project defaults `:template` to {{name}}):
+
+```bash
+    clojure -X:new create :name myname/myproject
+    cd myproject
+```
+
 Build a deployable jar of this template:
 
     $ clojure -M:jar

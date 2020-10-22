@@ -1,6 +1,7 @@
 # Changes
 
 * 1.1.next in progress
+  * Improve examples of `-X` usage in `app` and `template` templates.
   * Update `tools.deps.alpha` to 0.9.833.
   * Update `depstar` to 1.1.132 in templates (for the `shutdown-agents` bug fix).
 
