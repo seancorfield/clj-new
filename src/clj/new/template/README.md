@@ -15,7 +15,7 @@ Creating a project from this template (the `:new` alias in this template project
 
 Build a deployable jar of this template:
 
-    $ clojure -M:jar
+    $ clojure -X:jar
 
 Install it locally:
 
