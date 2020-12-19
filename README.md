@@ -8,7 +8,7 @@ For support, help, general questions, use the [#clj-new channel on the Clojurian
 
 > Note: these instructions assume you are using the Clojure CLI version 1.10.1.727 or later!
 
-The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.edn` file like this:
+The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.edn` file (or `~/.config/clojure/deps.edn` file) like this:
 
 ```clj
     {:aliases
