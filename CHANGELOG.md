@@ -1,9 +1,10 @@
 # Changes
 
-* 1.1.next in progress
+* 1.1.234 -- 2020-12-28
   * Improve examples of `-X` usage in `app` and `template` templates.
-  * Update `tools.deps.alpha` to 0.9.833.
-  * Update `depstar` to 1.1.133 in templates (for the `shutdown-agents` bug fix) and switch to `-X` invocation.
+  * Update `test.check` to 1.1.0 in templates.
+  * Update `tools.deps.alpha` to 0.9.857.
+  * Update `depstar` to 2.0.165 in templates and switch to `-X` invocation.
 
 * 1.1.228 -- 2020-10-09
   * Update `depstar` to 1.1.128 in templates (for license handling bug fix).

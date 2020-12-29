@@ -1,18 +1,18 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}
-        seancorfield/clj-new {:mvn/version "1.1.228"}}
+        seancorfield/clj-new {:mvn/version "1.1.234"}}
  :aliases
  {:new {:ns-default clj-new
         :exec-args {:template "{{name}}"}}
   :test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}}
   :runner
   {:extra-deps {com.cognitect/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner"
                  :sha "b6b3193fcc42659d7e46ecd1884a228993441182"}}
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]}
-  :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.133"}}
+  :jar {:replace-deps {seancorfield/depstar {:mvn/version "2.0.165"}}
         :exec-fn hf.depstar/jar
         :exec-args {:jar "{{name}}.jar"}}
   :install {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
