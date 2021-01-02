@@ -2,7 +2,7 @@
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}
         seancorfield/clj-new {:mvn/version "1.1.234"}}
  :aliases
- {:new {:ns-default clj-new
+ {:new {:exec-fn clj-new/create
         :exec-args {:template "{{name}}"}}
   :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}}

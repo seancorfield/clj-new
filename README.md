@@ -14,7 +14,7 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
                          {:mvn/version "1.1.234"}}
-            :ns-default clj-new
+            :exec-fn clj-new/create
             :exec-args {:template "app"}}}
      ...}
 ```
@@ -22,7 +22,7 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
 Now you can create a basic application:
 
 ```bash
-    clojure -X:new create :name myname/myapp
+    clojure -X:new :name myname/myapp
     cd myapp
     clojure -M -m myname.myapp
 ```
@@ -36,7 +36,7 @@ Run the tests:
 or you can create a basic library:
 
 ```bash
-    clojure -X:new create :template lib :name myname/mylib
+    clojure -X:new :template lib :name myname/mylib
     cd mylib
 ```
 
@@ -87,7 +87,7 @@ name for your project, such as `<username>/<project-name>` or
 `<org-name>/<project-name>` (e.g., your GitHub username or organization name),
 or a dotted name, such as `my.project`. Leiningen's default behavior, of adding
 `.core` to a single segment name such as `foo`, can be achieved with
-`clj -X:new create :template lib :name foo.core`. Although very common in older Clojure projects, the
+`clj -X:new :template lib :name foo.core`. Although very common in older Clojure projects, the
 use of a `core` namespace is really just a historical accident because it was
 Leiningen's default behavior!
 
@@ -184,7 +184,7 @@ This creates the same project structure as in the earlier `myname/myapp` example
 
 The general form of the command is:
 
-    clojure -X:new create :template template-name :name project-name :args '[arg1 arg2 arg3 ...]'
+    clojure -X:new :template template-name :name project-name :args '[arg1 arg2 arg3 ...]'
 
 As noted above, `project-name` should be a qualified symbol, such as `mygithubusername/my-new-project`, or a multi-segment symbol, such as `my.cool.project`. Some templates will not work with the former but it is recommended you try that format first.
 
@@ -192,19 +192,19 @@ If `template-name` is not one of the built-in ones (or is not already on the cla
 
 Alternatively, `template-name` can be a `:git/url` and `:sha` like this:
 
-    clj -X:new create :template '"https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
+    clj -X:new :template '"https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
       :name project-name :args '[arg1 arg2 arg3 ...]'
 
 In this case, `clj.new.someapp` must exist in the template and `clj.new.someapp/someapp` will be invoked to generate the template. A GitHub repository may include multiple templates, so you can also use this form:
 
-    clj -X:new create :template '"https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
+    clj -X:new :template '"https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
       :name project-name :args '[arg1 arg2 arg3 ...]'
 
 `somename/somerepo` here contains templates in subdirectories, including `someapp`. Again, `clj.new.someapp` must exist in the template in that subdirectory and `clj.new.someapp/someapp` will be invoked to generate the template.
 
 Or, `template-name` can be a `:local/root` and template name like this:
 
-    clj -X:new create :template '"/path/to/clj-template::new-app"' \
+    clj -X:new :template '"/path/to/clj-template::new-app"' \
       :name project-name :args '[arg1 arg2 arg3 ...]'
 
 In this case, `clj.new.new-app` must exist in the template and `clj.new.new-app/new-app` will be invoked to generate the template.
@@ -218,21 +218,21 @@ If the folder for `project-name` already exists, `clj-new` will not overwrite it
 Here are some examples, generating projects from existing templates:
 
 ```bash
-    clojure -X:new create :template luminus :name yourname/example.webapp \
+    clojure -X:new :template luminus :name yourname/example.webapp \
       :output '"mywebapp"' :args '["+http-kit" "+h2" "+reagent" "+auth"]'
 ```
 
 This creates a folder called `mywebapp` with a Luminus web application that will use `http-kit`, the H2 database, the Reagent ClojureScript library, and the Buddy library for authentication. The `-main` function is in `yourname.example.webapp.core`, which is in the  `mywebapp/src/clj/yourname/example/webapp/core.clj` file. Note that the [Luminus template](https://github.com/luminus-framework/luminus-template) produces a Leiningen-based project, not a CLI/`deps.edn` one, but you can also tell it to produce a Boot-based project (with `+boot`).
 
 ```
-    clojure -X:new create :template re-frame :name yourname/spa \
+    clojure -X:new :template re-frame :name yourname/spa \
       :output '"front-end"' :args '["+garden" "+10x" "+routes"]'
 ```
 
 This creates a folder called `front-end` with a ClojureScript Single Page Application that uses Garden for CSS, `re-frame-10x` for debugging, and Secretary for routing. The entry point is in the `yourname.spa.core` namespace which is in the `front-end/src/cljs/yourname/spa/core.cljs` file. As with Luminus, the [`re-frame` template](https://github.com/day8/re-frame-template) produces a Leiningen-based project, not a CLI/`deps.edn` one.
 
 ```
-    clojure -X:new create :template electron-app :name yourname/example
+    clojure -X:new :template electron-app :name yourname/example
 ```
 
 This creates a folder called `example` with a skeleton Electron application, using Figwheel and Reagent. The entry point is in the `example.main.core` namespace which is in the `example/src/main/example/main/core.cljs` file. This [Electron template](https://github.com/paulbutcher/electron-app) produces a CLI/`deps.edn`-based project.
@@ -258,7 +258,7 @@ When you publish it to Clojars, it should have a group ID matching the template 
 A minimal example, using the default bare bones template:
 
 ```
-$ clojure -X:new create :template template :name myname/mytemplate
+$ clojure -X:new :template template :name myname/mytemplate
 Generating a project called mytemplate that is a 'clj-new' template
 ```
 
@@ -268,7 +268,7 @@ To create a new project based on that template, you need to have it on the class
 
 ```
 $ clojure -Sdeps '{:deps {myname/mytemplate {:local/root "mytemplate"}}}' \
-  -X:new create :template mytemplate :name myname/myproject
+  -X:new :template mytemplate :name myname/myproject
 Generating fresh 'clj new' mytemplate project.
 $ tree myproject
 myproject
@@ -288,7 +288,7 @@ Once you have it working, you can publish it to GitHub or Clojars just like a re
 Previous sections have revealed that it is possible to pass arguments to templates. For example:
 
 ```
-    clojure -X:new create :template custom-template :name project-name \
+    clojure -X:new :template custom-template :name project-name \
       :args '[arg1 arg2 arg3]'
 ```
 
@@ -305,13 +305,25 @@ These arguments are accessible in the `custom-template` function as a second arg
 Nearly all templates will expect these to be strings so you will need to quote them in the `:args` vector:
 
 ```
-    clojure -X:new create :template custom-template :name project-name \
+    clojure -X:new :template custom-template :name project-name \
       :args '["arg1" "arg2" "arg3"]'
 ```
 
 ## clj Generators
 
-Whereas clj templates will generate an entire new project in a new directory, clj generators are intended to add / modify code in an existing project. `clojure -X:new generate` will one or more generators, based on a `:generate` vector argument that you provide. Each generator in the vector is a string -- either `"type"` or `"type=name"`. The `type` specifies the type of generator to use. The `name` is the main argument that is passed to the generator.
+Whereas clj templates will generate an entire new project in a new directory, clj generators are intended to add / modify code in an existing project.
+
+You can either say `clojure -X:new clj-new/generate ...` or add an alias for it:
+
+```clj
+    {:aliases
+     {:generate {:extra-deps {seancorfield/clj-new
+                              {:mvn/version "1.1.234"}}
+                 :exec-fn clj-new/generate}}
+     ...}
+```
+
+Given the alias above, you can say `clojure -X:generate` to run one or more generators, based on a `:generate` vector argument that you provide. Each generator in the vector is a string -- either `"type"` or `"type=name"`. The `type` specifies the type of generator to use. The `name` is the main argument that is passed to the generator.
 
 A clj generator can be part of a project or a template. A generator `foo`, has a `clj.generate.foo/generate` function that accepts at least two arguments, `prefix` and the `name` specified as the main argument. `prefix` specifies the directory in which to perform the code generation and defaults to `src` (it cannot currently be overridden). In addition, any additional arguments are passed as additional arguments to the generator.
 
@@ -325,17 +337,17 @@ There are currently a few built-in generators:
 The `file` generator creates files relative to the prefix. It optionally accepts a body, and file extension, supplied via an `:args` vector of strings. Those default to `nil` and `"clj"` respectively.
 ```bash
 # Inside project folder, relying on the clj-new dependency.
-clojure -X:new generate :generate '["file=foo.bar"]' :args '["(ns foo.bar)" "clj"]'
+clojure -X:generate :generate '["file=foo.bar"]' :args '["(ns foo.bar)" "clj"]'
 ```
 
 The `ns` generator creates a clojure namespace by using the `file` generator and providing a few defaults.
 ```bash
-clojure -X:new generate :generate '["ns=foo.bar"]'
+clojure -X:generate :generate '["ns=foo.bar"]'
 ```
 
 This will generate `src/foo/bar.clj` containing `(ns foo.bar)` (and a placeholder docstring). It will not replace an existing file.
 ```bash
-clojure -X:new generate :generate '["defn=foo.bar/my-func"]'
+clojure -X:generate :generate '["defn=foo.bar/my-func"]'
 ```
 
 If `src/foo/bar.clj` does not exist, it will be generated as a namespace first (using the `ns` generator above), then a definition for `my-func` will be appended to that file (with a placeholder docstring and a dummy argument vector of `[args]`). The generator does not check whether that `defn` already exists so it always appends a new `defn`.
@@ -344,10 +356,10 @@ Both the `def` and `defn` generators create files using the `ns` generator above
 
 The `edn` generator uses the `file` generator internally, with a default extension of `"edn"`.
 ```bash
-clojure -X:new generate :generate '["edn=foo.bar"]' :args '["(ns foo.bar)"]'
+clojure -X:generate :generate '["edn=foo.bar"]' :args '["(ns foo.bar)"]'
 ```
 
-You can provide as many generators as you want in the `:generate` vector, but if you provide an `:args` vector then those arguments will be passed into each of the generator functions, so you may still need to run multiple `clojure -X:new generate` commands.
+You can provide as many generators as you want in the `:generate` vector, but if you provide an `:args` vector then those arguments will be passed into each of the generator functions, so you may still need to run multiple `clojure -X:generate` commands.
 
 The exec-args available for the `generate` function are:
 

@@ -4,7 +4,7 @@
         stencil/stencil {:mvn/version "0.5.0"}
         ;; add this because tools.deps.alpha no longer includes it
         org.slf4j/slf4j-nop {:mvn/version "1.7.25"}}
- :aliases {:new {:ns-default clj-new
+ :aliases {:new {:exec-fn clj-new/create
                  :exec-args {:template "app"}}
            :create {:exec-fn clj-new/create}
            :generate {:exec-fn clj-new/generate}
