@@ -17,4 +17,5 @@
             :exec-fn hf.depstar/uberjar
             :exec-args {:aot true
                         :jar "{{name}}.jar"
-                        :main-class "{{namespace}}"}}}}
+                        :main-class "{{namespace}}"
+                        :sync-pom true}}}}

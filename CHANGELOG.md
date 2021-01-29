@@ -3,7 +3,7 @@
 * 1.1.next in progress
   * Update default version of Clojure to 1.10.2 in templates.
   * Update `deps-deploy` to 0.1.5 and switch to `-X` invocation in templates. Fixes #47.
-  * Update `depstar` to 2.0.171 in templates.
+  * Update `depstar` to 2.0.171 in templates and auto-sync `pom.xml`. Fixes #50.
 
 * 1.1.234 -- 2020-12-28
   * Improve examples of `-X` usage in `app` and `template` templates.
