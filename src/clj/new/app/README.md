@@ -38,6 +38,15 @@ Build an uberjar:
 
     $ clojure -X:uberjar
 
+This will update the generated `pom.xml` file to keep the dependencies synchronized with
+your `deps.edn` file. You can update the version information in the `pom.xml` using the
+`:version` argument:
+
+    $ clojure -X:uberjar :version '"1.2.3"'
+
+If you don't want the `pom.xml` file in your project, you can remove it, but you will
+also need to remove `:sync-pom true` from the `deps.edn` file (in the `:exec-args` for `depstar`).
+
 Run that uberjar:
 
     $ java -jar {{name}}.jar

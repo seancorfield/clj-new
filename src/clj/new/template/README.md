@@ -17,13 +17,24 @@ Build a deployable jar of this template:
 
     $ clojure -X:jar
 
-Install it locally:
+This will update the generated `pom.xml` file to keep the dependencies synchronized with
+your `deps.edn` file. You can update the version information in the `pom.xml` using the
+`:version` argument:
+
+    $ clojure -X:jar :version '"1.2.3"'
+
+Install it locally (requires the `pom.xml` file):
 
     $ clojure -X:install
 
-Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables:
+Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment
+variables (requires the `pom.xml` file):
 
     $ clojure -X:deploy
+
+If you don't plan to install/deploy the template as a library, you can remove the
+`pom.xml` file but you will also need to remove `:sync-pom true` from the `deps.edn`
+file (in the `:exec-args` for `depstar`).
 
 ## License
 

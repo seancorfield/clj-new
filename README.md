@@ -115,12 +115,29 @@ run the project directly (with `clojure -M -m myname.myapp`) and run the tests, 
 also build an uberjar for the project with `clojure -X:uberjar`, which you can then
 run with `java -jar myapp`.
 
+The generated project includes a `pom.xml` file purely for "good hygiene". It will be
+kept in sync with `deps.edn` automatically whenever you run `clojure -X:uberjar` to build
+the application and it will be added to the JAR file, along with a generated `pom.properties`
+file. If you delete `pom.xml`, you will also need to remove `:sync-pom true` from the
+`:exec-args` for `depstar` in the `deps.edn` file.
+
 #### The `lib` Template
 
 The generated project is a library. It has no `-main` function. In addition to
 being able to run the tests, you can also build a jar file for deployment
 with `clojure -X:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
+
+The generated project includes a `pom.xml` file on the assumption that you will be deploying
+the library to Clojars or a similar repository. It will be kept in sync with `deps.edn`
+automatically whenever you run `clojure -X:jar` to build the library and it will be added
+to the JAR file, along with a generated `pom.properties` file. If you do not intend to
+deploy the library and you want to delete the `pom.xml` file, you will also need to
+remove `:sync-pom true` from the `:exec-args` for `depstar` in the `deps.edn` file.
+
+If you are going to deploy the library, you'll probably want to review and adjust some
+of the fields in the `pom.xml` (developer information, group/artifact, version, SCM,
+licensing etc) -- although the defaults should mostly be suitable out of the box.
 
 Once you've updated the `pom.xml` file, you can install it locally with
 `clojure -X:install` or deploy it to Clojars with `clojure -X:deploy`. For
@@ -138,14 +155,19 @@ inside the generated `pom.xml` file before deploying the jar file.
 
 > Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `mytemplate/clj-template` which is the convention expected by `clj-new`.
 
-As with the `lib` template, once you've updated the `pom.xml` file, you can
-install it locally or deploy it to Clojars, via the appropriate aliases.
+As with the `lib` template, this template includes a `pom.xml` to make it easier
+to deploy the template as a library. Once you have reviewed and possibly updated
+the `pom.xml` file, you can install it locally or deploy it to Clojars, via the
+appropriate aliases.
 
 #### The Generated `pom.xml` File
 
 Each of the built-in templates produces a project that contains a `pom.xml`
 file, which is used to build the uberjar (`app`) or jar file (`lib` and `template`),
-as well as guide the deployment of the latter two.
+as well as guide the deployment of the latter two. If you don't plan to deploy the
+library or template, or you just don't want a `pom.xml` lying around for your application,
+you can delete it -- but you will also need to remove `:sync-pom true` from the `:exec-args`
+for `depstar` in the generated `deps.edn` file.
 
 The goal is that if you used an appropriate `myname/myapp` style name for the
 project that you asked `clj-new` to create, then most of the fields in the
@@ -179,6 +201,12 @@ This creates the same project structure as in the earlier `myname/myapp` example
   <description>FIXME: my new application.</description>
   <url>https://github.com/myusername/my-cool-app</url>
 ```
+
+Once you have generated the project, running `depstar` to build the JAR file will keep the
+`pom.xml` in sync with the dependencies in your `deps.edn` file, and you can update the
+version automatically using `depstar`'s `:version` exec argument. You can also change the
+`groupId` and/or `artifactId` via `depstar`'s `:group-id` and/or `:artifact-id` exec
+arguments respectively.
 
 #### General Usage
 
