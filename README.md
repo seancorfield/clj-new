@@ -208,7 +208,32 @@ version automatically using `depstar`'s `:version` exec argument. You can also c
 `groupId` and/or `artifactId` via `depstar`'s `:group-id` and/or `:artifact-id` exec
 arguments respectively.
 
-#### General Usage
+#### The Generated `LICENSE` File
+
+The generated projects (from the built-in `app`, `lib`, and `template` templates) all
+contain a `LICENSE` file which is the Eclipse Public License (version 1.0) and that
+is also mentioned in the generated `README.md` files. This is a tradition that started
+with Leiningen's `lein new` and carried over into `boot new` and now `clj-new`. The
+idea is that it's better to ensure any open source projects created have a valid
+license of some sort, as a starting point, and historically most Clojure projects use
+the EPLv1.0 because Clojure itself and the Contrib libraries have all used this license
+for a long time.
+
+**You are not required to open source your generated project!** Just because the projects
+are generated with an open source `LICENSE` file and have a **License** section in their
+`README.md` files does not mean you need to keep that license in place.
+
+**You are not required to use EPLv1.0 for your project!** If you prefer a different license,
+use it! Replace the `LICENSE` file and update the `README.md` file to reflect your personal
+preference in licensing (I have tended to use the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) in most of my open source projects, prior to working with Clojure).
+
+> Note: if you incorporate any source code from other people's open source projects, be
+aware of the legal implications and that you must respect whatever license _they_ have
+used for that code (which _may_ require you to release your enhancements under the same
+license and will, most likely, require you to include their copyright notices, etc).
+_Do not copy other people's code without attribution!_
+
+#### General Template Usage
 
 The general form of the command is:
 
@@ -412,6 +437,6 @@ Latest stable release: 1.1.234
 
 ## License
 
-Copyright © 2016-2020 Sean Corfield and the Leiningen Team for much of the code -- thank you!
+Copyright © 2016-2021 Sean Corfield and the Leiningen Team for much of the code -- thank you!
 
 Distributed under the Eclipse Public License version 1.0.

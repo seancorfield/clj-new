@@ -1,6 +1,8 @@
 # Changes
 
 * 1.1.next in progress
+  * Expand `README.md` (and generated `README.md` files) to clarify the presence and use of the `pom.xml` file -- and make it clear that you can remove it if you don't need/want it (and how to update the `deps.edn` file if you do remove it). Addresses part of #50.
+  * Expand `README.md` (and generated `README.md` files) to clarify the presence and use of the `LICENSE` file -- and make it clear that you can release your projects under whatever license you want, or not release them as open source at all if you don't want to. Addresses #49.
   * Update default version of Clojure to 1.10.2 in templates.
   * Update `deps-deploy` to 0.1.5 and switch to `-X` invocation in templates. Fixes #47.
   * Update `depstar` to 2.0.171 in templates and auto-sync `pom.xml`. Fixes #50.
