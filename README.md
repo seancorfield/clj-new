@@ -112,18 +112,18 @@ You can, of course, modify the generated `pom.xml` file to have whatever group a
 The generated project is an application. It has a `-main` function in the main project
 namespace, with a `(:gen-class)` class in the `ns` form. In addition to being able to
 run the project directly (with `clojure -M -m myname.myapp`) and run the tests, you can
-also build an uberjar for the project with `clojure -M:uberjar`, which you can then
+also build an uberjar for the project with `clojure -X:uberjar`, which you can then
 run with `java -jar myapp`.
 
 #### The `lib` Template
 
 The generated project is a library. It has no `-main` function. In addition to
 being able to run the tests, you can also build a jar file for deployment
-with `clojure -M:jar`. You will probably need to adjust some of the information
+with `clojure -X:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
 Once you've updated the `pom.xml` file, you can install it locally with
-`clojure -M:install` or deploy it to Clojars with `clojure -M:deploy`. For
+`clojure -X:install` or deploy it to Clojars with `clojure -X:deploy`. For
 that you need these environment variables set:
 
 * `CLOJARS_USERNAME` -- your Clojars username
@@ -133,7 +133,7 @@ that you need these environment variables set:
 
 The generated project is a very minimal `clj-template`. It has no `-main`
 function and has no tests. You can however build a jar file for deployment
-with `clojure -M:jar`. You will probably need to adjust some of the information
+with `clojure -X:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
 > Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `mytemplate/clj-template` which is the convention expected by `clj-new`.
