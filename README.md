@@ -82,14 +82,40 @@ The following `:exec-args` can be provided for `clj-new/create`:
 * `:verbose` -- 1, 2, or 3, indicating the level of debugging in increasing detail
 * `:version` -- use this specific version of the template
 
-> Note: Unlike Leiningen, `clj-new` requires that you use either a qualified
+Unlike Leiningen, `clj-new` requires that you use either a qualified
 name for your project, such as `<username>/<project-name>` or
-`<org-name>/<project-name>` (e.g., your GitHub username or organization name),
-or a dotted name, such as `my.project`. Leiningen's default behavior, of adding
-`.core` to a single segment name such as `foo`, can be achieved with
-`clj -X:new :template lib :name foo.core`. Although very common in older Clojure projects, the
-use of a `core` namespace is really just a historical accident because it was
-Leiningen's default behavior!
+`<org-name>/<project-name>`, or a dotted name, such as `my.project`.
+
+If you are going to publish a library, it will have a group ID and an artifact ID (e.g.,
+`seancorfield/clj-new`) and the group ID should be something unique to you or your
+organization -- most people use their GitHub username or their company name (or their domain
+name in reverse, e.g., `com.stuartsierra/component`). The qualified name you provide to
+`clj-new` is effectively `group/artifact`. `clj-new` uses that to create the main namespace:
+`src/group/artifact.clj` containing `(ns group.artifact ...)` -- this ensures that when someone
+uses your library, it's not going to clash with other code because the first portion of the
+namespace is, again, something unique to you or your organization.
+
+It's good practice to follow this convention even if you are creating an application, or a
+library that you don't plan to publish, because it will mean that your code is much less
+likely to clash with any libraries your code uses.
+
+`lein new myapp` will treat `myapp` as both the group ID and the artifact ID, which is why a
+lot of older Clojure libs just have an unqualified lib name, like `ring` -- but really it's
+`ring/ring` and recent versions of the Clojure CLI display a deprecation warning on just `ring`:
+see the **Deprecated unqualified lib names** section near the end of this
+[Inside Clojure post about the `-X` option](https://insideclojure.org/2020/07/28/clj-exec/).
+Leiningen also stuck `.core` onto your project name to create the main namespace, which is why
+a lot of older Clojure libs have a `something.core` namespace: just because Leiningen did that
+by default. Both default behaviors here are bad because they're likely to lead to conflicts
+with other libraries.
+
+If you really want Leiningen's default behavior -- because you can't think of a better name
+for your project's main namespace! -- of adding `.core` to a single segment name such as `foo`,
+that can be achieved with `clj -X:new :template lib :name foo.core`. That will create a folder
+called `foo.core` and the project will have a group ID of `foo.core` and an artifact ID of
+`foo.core` -- which is the same behavior as running `lein new foo.core` (`lein new foo` creates
+a folder called `foo` and the project has a group ID of `foo` and an artifact ID of `foo`, even
+though the main namespace will be `foo.core`).
 
 ### Templates
 
