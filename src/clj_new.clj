@@ -1,4 +1,4 @@
-;; copyright (c) 2020 sean corfield, all rights reserved
+;; copyright (c) 2020-2021 sean corfield, all rights reserved
 
 (ns clj-new
   "Provides an API suitable for use with the Clojure CLI's `-X` option."

@@ -13,7 +13,7 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
 ```clj
     {:aliases
      {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "1.1.234"}}
+                         {:mvn/version "1.1.243"}}
             :exec-fn clj-new/create
             :exec-args {:template "app"}}}
      ...}
@@ -51,11 +51,11 @@ If you think you are going to be creating more libraries than applications, you 
 ```clj
     {:aliases
      {:new-app {:extra-deps {seancorfield/clj-new
-                             {:mvn/version "1.1.234"}}
+                             {:mvn/version "1.1.243"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "app"}}
       :new-lib {:extra-deps {seancorfield/clj-new
-                             {:mvn/version "1.1.234"}}
+                             {:mvn/version "1.1.243"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "lib"}}}
      ...}
@@ -397,7 +397,7 @@ You can either say `clojure -X:new clj-new/generate ...` or add an alias for it:
 ```clj
     {:aliases
      {:generate {:extra-deps {seancorfield/clj-new
-                              {:mvn/version "1.1.234"}}
+                              {:mvn/version "1.1.243"}}
                  :exec-fn clj-new/generate}}
      ...}
 ```
@@ -455,7 +455,7 @@ The exec-args available for the `generate` function are:
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.1.234
+Latest stable release: 1.1.243
 
 ## Roadmap
 
