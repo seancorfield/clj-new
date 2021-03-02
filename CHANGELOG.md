@@ -1,5 +1,9 @@
 # Changes
 
+* 1.1.next in progress
+  * Fix #52 by setting initial SCM tag to `v{{version}}` in `pom.xml` files.
+  * Update `depstar` to 2.0.188 in templates.
+
 * 1.1.243 -- 2021-01-29
   * Expand `README.md` (and generated `README.md` files) to clarify the presence and use of the `pom.xml` file -- and make it clear that you can remove it if you don't need/want it (and how to update the `deps.edn` file if you do remove it). Addresses part of #50.
   * Expand `README.md` (and generated `README.md` files) to clarify the presence and use of the `LICENSE` file -- and make it clear that you can release your projects under whatever license you want, or not release them as open source at all if you don't want to. Addresses #49.

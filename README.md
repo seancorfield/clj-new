@@ -226,11 +226,18 @@ This creates the same project structure as in the earlier `myname/myapp` example
   <version>1.2.3</version>
   <description>FIXME: my new application.</description>
   <url>https://github.com/myusername/my-cool-app</url>
+  ...
+  <scm>
+    <url>https://github.com/myusername/my-cool-app</url>
+    <connection>scm:git:git://github.com/myusername/my-cool-app.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/myusername/my-cool-app.git</developerConnection>
+    <tag>v1.2.3</tag>
+  </scm>
 ```
 
 Once you have generated the project, running `depstar` to build the JAR file will keep the
 `pom.xml` in sync with the dependencies in your `deps.edn` file, and you can update the
-version automatically using `depstar`'s `:version` exec argument. You can also change the
+version (and SCM tag) automatically using `depstar`'s `:version` exec argument. You can also change the
 `groupId` and/or `artifactId` via `depstar`'s `:group-id` and/or `:artifact-id` exec
 arguments respectively.
 

@@ -39,7 +39,7 @@ Build an uberjar:
     $ clojure -X:uberjar
 
 This will update the generated `pom.xml` file to keep the dependencies synchronized with
-your `deps.edn` file. You can update the version information in the `pom.xml` using the
+your `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
 `:version` argument:
 
     $ clojure -X:uberjar :version '"1.2.3"'
