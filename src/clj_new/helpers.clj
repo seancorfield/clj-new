@@ -92,7 +92,8 @@
                             local-tmp-name
                             :else
                             template-name)
-        clj-tmp-name  (str template-name "/clj-template")
+        delimiter     (if (re-find #"/" template-name) "." "/")
+        clj-tmp-name  (str template-name delimiter "clj-template")
         clj-version   (cond (and git-url git-tmp-name sha)
                             (cond-> {:git/url git-url :sha sha}
                               git-path (assoc :deps/root git-path))
@@ -100,8 +101,8 @@
                             {:local/root local-root}
                             :else
                             {:mvn/version tmp-version})
-        boot-tmp-name (str template-name "/boot-template")
-        lein-tmp-name (str template-name "/lein-template")
+        boot-tmp-name (str template-name delimiter "boot-template")
+        lein-tmp-name (str template-name delimiter "lein-template")
         all-deps      @basis
         output
         (with-out-str
