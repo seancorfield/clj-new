@@ -101,7 +101,7 @@
   i.e., it looks like a reverse-domain-name. We don't try to
   be very smart about it: if it has a dot in it, and the first
   segment is 2 or 3 characters, we assume it is OK; otherwise
-  we'll prefix it with org.clojars.
+  we'll prefix it with net.clojars.
 
   Depending on feedback, we may adjust that heuristic."
   [s]
@@ -109,7 +109,7 @@
         [tld domain] (string/split group #"\.")]
     (if (and tld domain (<= 2 (count tld) 3))
       group
-      (str "org.clojars." group))))
+      (str "net.clojars." group))))
 
 (defn scm-domain
   "Returns the SCM domain from the project name.
