@@ -50,12 +50,16 @@
 
 (defn multi-segment
   "Make a namespace multi-segmented by adding another segment if necessary.
-  The additional segment defaults to \"core\"."
+  The additional segment defaults to \"core\".
+
+  We remove the leading prefix if it is a public open source repository
+  since io.github etc adds very little benefit at the namespace level."
   ([s] (multi-segment s "core"))
   ([s final-segment]
-   (if (.contains s ".")
-     s
-     (format "%s.%s" s final-segment))))
+   (let [s (string/replace s #"^(io|com)\.(github|gitlab)\." "")]
+     (if (.contains s ".")
+       s
+       (format "%s.%s" s final-segment)))))
 
 (defn name-to-path
   "Constructs directory structure from fully qualified artifact name:
@@ -127,8 +131,10 @@
 
 (comment
   (for [s ["myproj" "mygroup/myproj" "mygroup/my.proj" "my.group/my.proj" "my.group.proj"
-           "io.github.orgname/my.proj" "com.gitlab.orgname.proj" "io.gitlab.orgname/proj"]]
-    ((juxt identity sanitize-ns group-name project-name scm-domain scm-user) s))
+           "io.github.orgname/my.proj" "com.gitlab.orgname.proj" "io.gitlab.orgname/proj"
+           "com.acme/everything"]]
+    ((juxt identity sanitize-ns group-name project-name
+           scm-domain scm-user (comp name-to-path multi-segment sanitize-ns)) s))
   .)
 
 (defn year
