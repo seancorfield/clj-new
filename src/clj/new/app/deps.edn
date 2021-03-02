@@ -13,7 +13,7 @@
                  :sha "b6b3193fcc42659d7e46ecd1884a228993441182"}}
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]}
-  :uberjar {:replace-deps {seancorfield/depstar {:mvn/version "2.0.188"}}
+  :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.193"}}
             :exec-fn hf.depstar/uberjar
             :exec-args {:aot true
                         :jar "{{name}}.jar"

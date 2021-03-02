@@ -4,7 +4,7 @@
   * Fix #52 by setting initial SCM tag to `v{{version}}` in `pom.xml` files.
   * Fix #51 by adjusting the initial group ID, artifact ID, SCM domain name and username; uses a number of heuristics to try to derive those from the supplied project name in a way that should encourage users to adopt project names that are reverse-domain-name/project-name; in addition `:scm-user` is available as an "env" variable that can override the derived value.
   * Update `tools.deps.alpha` to 0.9.884.
-  * Update `depstar` to 2.0.188 in templates.
+  * Update `depstar` to 2.0.193 (and switching to `com.github.seancorfield/depstar`) in templates.
 
 * 1.1.243 -- 2021-01-29
   * Expand `README.md` (and generated `README.md` files) to clarify the presence and use of the `pom.xml` file -- and make it clear that you can remove it if you don't need/want it (and how to update the `deps.edn` file if you do remove it). Addresses part of #50.
