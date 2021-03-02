@@ -4,7 +4,7 @@
 
 ## Installation
 
-Download from https://{{scm-domain}}/{{group}}/{{artifact}}
+Download from https://{{scm-domain}}/{{scm-user}}/{{artifact}}
 
 ## Usage
 
