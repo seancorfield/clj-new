@@ -1,6 +1,7 @@
 # Changes
 
 * 1.1.next in progress
+  * Change coordinates to `com.github.seancorfield/clj-new` (although new versions will continue to be deployed to `seancorfield/clj-new` for a while -- see the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)).
   * Fix #52 by setting initial SCM tag to `v{{version}}` in `pom.xml` files.
   * Fix #51 by adjusting the initial group ID, artifact ID, SCM domain name and username; uses a number of heuristics to try to derive those from the supplied project name in a way that should encourage users to adopt project names that are reverse-domain-name/project-name; in addition `:scm-user` is available as an "env" variable that can override the derived value.
   * Update `tools.deps.alpha` to 0.9.884.
