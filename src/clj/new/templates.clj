@@ -77,16 +77,59 @@
       (string/replace "/" ".")
       (string/replace "_" "-")))
 
-(defn group-name
+(defn raw-group-name
   "Returns group name from (a possibly unqualified) name:
 
   my.long.group/myproj => my.long.group
   mygroup/myproj       => mygroup
   myproj               => nil"
   [s]
-  (let [grpseq (butlast (string/split (sanitize-ns s) #"\."))]
-    (if (seq grpseq)
-      (->> grpseq (interpose ".") (apply str)))))
+  (let [group-artifact (string/split s #"/")]
+    (if (= 2 (count group-artifact))
+      (sanitize-ns (first group-artifact))
+      (let [grpseq (butlast (string/split (sanitize-ns s) #"\."))]
+        (if (seq grpseq)
+          (->> grpseq (interpose ".") (apply str))
+          s)))))
+
+(defn group-name
+  "Return a group name that conforms to Maven/Clojars rules,
+  i.e., it looks like a reverse-domain-name. We don't try to
+  be very smart about it: if it has a dot in it, and the first
+  segment is 2 or 3 characters, we assume it is OK; otherwise
+  we'll prefix it with org.clojars.
+
+  Depending on feedback, we may adjust that heuristic."
+  [s]
+  (let [group (raw-group-name s)
+        [tld domain] (string/split group #"\.")]
+    (if (and tld domain (<= 2 (count tld) 3))
+      group
+      (str "org.clojars." group))))
+
+(defn scm-domain
+  "Returns the SCM domain from the project name.
+  We currently assume github.com if the project name
+  has either io.github or com.github in it; similarly
+  for gitlab.com. Additional SCM hosts may be supported
+  in the future."
+  [s]
+  (let [[_ _ scm-host] (re-matches #"^(io|com)\.(github|gitlab)\..*$" s)]
+    (if scm-host
+      (str scm-host ".com")
+      "github.com")))
+
+(defn scm-user
+  "Returns the SCM username from the project name."
+  [s]
+  (let [[_ _ _ scm-user] (re-matches #"^(io|com)\.(github|gitlab)\.([^/]*)(/.*|\.[^\.]*)$" s)]
+    (or scm-user (raw-group-name s) s)))
+
+(comment
+  (for [s ["myproj" "mygroup/myproj" "mygroup/my.proj" "my.group/my.proj" "my.group.proj"
+           "io.github.orgname/my.proj" "com.gitlab.orgname.proj" "io.gitlab.orgname/proj"]]
+    ((juxt identity sanitize-ns group-name project-name scm-domain scm-user) s))
+  .)
 
 (defn year
   "Get the current year. Useful for setting copyright years and such."
@@ -112,12 +155,13 @@
             :nested-dirs (name-to-path main-ns)
             :sanitized (sanitize (project-name name))
             :template-nested-dirs "{{nested-dirs}}"
-            :group (or (group-name name) name)
+            :group (group-name name)
             :artifact (project-name name)
             :version "0.1.0-SNAPSHOT"
             :user username
             :developer (string/capitalize username)
-            :scm-domain "github.com"
+            :scm-domain (scm-domain name)
+            :scm-user (scm-user name)
             :year (year)
             :date (date)}
            *environment*)))
