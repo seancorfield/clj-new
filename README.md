@@ -202,12 +202,15 @@ project that you asked `clj-new` to create, then most of the fields in the
 You can override the default value of several fields in the `pom.xml` file
 using the `:env` exec-arg to `clj-new/create` as a hash map:
 
-* `:group` -- defaults to the `myname` portion of `myname/myapp`,
+* `:group` -- defaults to the `myname` portion of `myname/myapp` (but see below),
 * `:artifact` -- defaults to the `myapp` portion of `myname/myapp`,
 * `:version` -- defaults to `"0.1.0-SNAPSHOT"`,
 * `:description` -- defaults to `"FIXME: my new ..."` (`application`, `library`, or `template`),
 * `:developer` -- defaults to a capitalized version of your computer's logged in username.
-* `:scm-domain` -- defaults to `github.com`; used in all the SCM links in the generated projects: `https://{{scm-domain}}/{{group}}/{{artifact}}`
+* `:scm-domain` -- defaults to `github.com` (but see below); used in all the SCM links in the generated projects: `https://{{scm-domain}}/{{scm-user}}/{{artifact}}`
+* `:scm-user` -- defaults to (part of) the group name (but see below); used in all the SCM links in the generated projects: `https://{{scm-domain}}/{{scm-user}}/{{artifact}}`
+
+> Note: `clj-new` tries to conform to the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names) -- which is similar to Maven Central's policy about group IDs -- by setting the default for `:group` to be something that seems to be a reverse domain name. If you use `myname/myapp` for your project name, the default for `:group` will be `org.clojars.myname`, `:artifact` will be `myapp`, `:scm-domain` will be `github.com`, and `:scm-user` will be `myname`. If you use `com.github.myname/myapp` for your project name, the default for `:group` will be `com.github.myname`, `:artifact` will be `myapp`, `:scm-domain` will be `github.com`, and `:scm-user` will be `myname`. `clj-new` also recognizes `io.github`, `com.gitlab`, and `io.gitlab` prefixes. The latter two will cause `:scm-domain` to default to `gitlab.com`. If your project name seems to have a group name that could be a reverse domain name, then it will be accepts as is, e.g., `com.acme/myapp` would produce `:group "com.acme", :artifact "myapp", :scm-domain "github.com", :scm-user "com.acme"`.
 
 The `:description` field is also used in the generated project's `README.md` file.
 
@@ -215,13 +218,13 @@ Example:
 
 ```bash
     clojure -X:new-app :name myname/myapp \
-      :env '{:group myusername :artifact my-cool-app :version "1.2.3"}'
+      :env '{:group "com.acme" :artifact my-cool-app :version "1.2.3" :scm-user myusername}'
 ```
 
 This creates the same project structure as in the earlier `myname/myapp` example except that the generated `pom.xml` file will contain:
 
 ```xml
-  <groupId>myusername</groupId>
+  <groupId>com.acme</groupId>
   <artifactId>my-cool-app</artifactId>
   <version>1.2.3</version>
   <description>FIXME: my new application.</description>
