@@ -28,7 +28,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.10.1</version>
+      <version>1.10.2</version>
     </dependency>
     <dependency>
       <groupId>clj-commons</groupId>
@@ -38,12 +38,12 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.cli</artifactId>
-      <version>1.0.194</version>
+      <version>1.0.206</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.deps.alpha</artifactId>
-      <version>0.9.863</version>
+      <version>0.9.884</version>
     </dependency>
     <dependency>
       <groupId>stencil</groupId>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>{{artifact}}</groupId>
+  <groupId>{{group}}</groupId>
   <artifactId>clj-template</artifactId>
   <version>{{version}}</version>
-  <name>{{artifact}}</name>
+  <name>{{group}}</name>
   <description>{{description}}</description>
-  <url>https://{{scm-domain}}/{{scm-user}}/{{artifact}}</url>
+  <url>https://{{scm-domain}}/{{scm-user}}/{{group}}</url>
   <licenses>
     <license>
       <name>Eclipse Public License</name>
@@ -19,16 +19,16 @@
     </developer>
   </developers>
   <scm>
-    <url>https://{{scm-domain}}/{{scm-user}}/{{artifact}}</url>
-    <connection>scm:git:git://{{scm-domain}}/{{scm-user}}/{{artifact}}.git</connection>
-    <developerConnection>scm:git:ssh://git@{{scm-domain}}/{{scm-user}}/{{artifact}}.git</developerConnection>
+    <url>https://{{scm-domain}}/{{scm-user}}/{{group}}</url>
+    <connection>scm:git:git://{{scm-domain}}/{{scm-user}}/{{group}}.git</connection>
+    <developerConnection>scm:git:ssh://git@{{scm-domain}}/{{scm-user}}/{{group}}.git</developerConnection>
     <tag>v{{version}}</tag>
   </scm>
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.10.1</version>
+      <version>1.10.2</version>
     </dependency>
   </dependencies>
   <build>

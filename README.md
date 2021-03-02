@@ -1,12 +1,12 @@
 # clj-new
 
-Generate new projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clj` command-line installation of Clojure!
+Generate new projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clojure` command-line installation of Clojure!
 
 For support, help, general questions, use the [#clj-new channel on the Clojurians Slack](https://app.slack.com/client/T03RZGPFR/C019ZQSPYG6).
 
 ## Getting Started
 
-> Note: these instructions assume you are using the Clojure CLI version 1.10.1.727 or later!
+> Note: these instructions assume you are using the Clojure CLI version 1.10.1.727 or later! See [Clojure Tools Releases](https://clojure.org/releases/tools) for details about the functionality in recent CLI releases.
 
 The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.edn` file (or `~/.config/clojure/deps.edn` file) like this:
 
@@ -73,7 +73,7 @@ The following `:exec-args` can be provided for `clj-new/create`:
 * `:name` -- the name of the project (as a symbol or a string); required; must be a qualified project name or a multi-segment dotted project name
 * `:template` -- the name of the template to use (as a symbol or a string); required
 * `:args` -- an optional vector of string to pass to the template itself as command-line arguments
-* `:env` -- a hash map of additional variable substitutions in templates
+* `:env` -- a hash map of additional variable substitutions in templates (see [The Generated `pom.xml` File](#the-generated-pomxml-file) below for a list of "built-in" variables that can be overridden)
 * `:force` -- if `true`, will force overwrite the target directory if it exists
 * `:help` -- if `true`, will provide a summary of these options as help
 * `:output` -- specify the project directory to create (the default is to use the project name as the directory)
@@ -87,47 +87,54 @@ name for your project, such as `<username>/<project-name>` or
 `<org-name>/<project-name>`, or a dotted name, such as `my.project`.
 
 If you are going to publish a library, it will have a group ID and an artifact ID (e.g.,
-`seancorfield/clj-new`) and the group ID should be something unique to you or your
-organization -- most people use their GitHub username or their company name (or their domain
+`com.github.seancorfield/clj-new`) and the group ID should be something unique to you or your
+organization -- most people use their GitHub username or their company name (i.e., their domain
 name in reverse, e.g., `com.stuartsierra/component`). The qualified name you provide to
 `clj-new` is effectively `group/artifact`. `clj-new` uses that to create the main namespace:
 `src/group/artifact.clj` containing `(ns group.artifact ...)` -- this ensures that when someone
 uses your library, it's not going to clash with other code because the first portion of the
-namespace is, again, something unique to you or your organization.
+namespace should be something unique to you or your organization.
+
+If you plan on publishing your library to [clojars.org](https://clojars.org) your project
+should have a group ID that follows the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names).
+If you use `myname/mylib` as your project name, `clj-new` will generate a `pom.xml` file
+with a group ID of `net.clojars.myname` and assume the library source will live at
+`https://github.com/myname/mylib` (so that `clojure -X:depstar` and `clojure -X:deps-deploy`
+will "do the right thing" by default). See [The Generated `pom.xml` File](#the-generated-pomxml-file)
+below for more details about group and artifact IDs.
+
+If you use `com.github.myname/mylib` as your project name, `clj-new` will use `com.github.myname`
+as the group ID and `mylib` as the artifact ID but will use `myname.mylib` as the primary
+namespace, in `src/myname/mylib.clj`, rather than `src/com/github/myname/mylib.clj`
+(and `com.github.myname.mylib`). You should think about whether `myname.mylib` is unique
+enough that users of your library will not encounter conflicts with namespaces in other
+libraries. `clj-new` also understands `io.github.myname`, `com.gitlab.myname`, and
+`io.gitlab.myname` in project names.
 
 It's good practice to follow this convention even if you are creating an application, or a
 library that you don't plan to publish, because it will mean that your code is much less
 likely to clash with any libraries your code uses.
 
-`lein new myapp` will treat `myapp` as both the group ID and the artifact ID, which is why a
-lot of older Clojure libs just have an unqualified lib name, like `ring` -- but really it's
-`ring/ring` and recent versions of the Clojure CLI display a deprecation warning on just `ring`:
-see the **Deprecated unqualified lib names** section near the end of this
-[Inside Clojure post about the `-X` option](https://insideclojure.org/2020/07/28/clj-exec/).
-Leiningen also stuck `.core` onto your project name to create the main namespace, which is why
-a lot of older Clojure libs have a `something.core` namespace: just because Leiningen did that
-by default. Both default behaviors here are bad because they're likely to lead to conflicts
-with other libraries.
+> Note: `lein new myapp` will treat `myapp` as both the group ID and the artifact ID, which is why a lot of older Clojure libs just have an unqualified lib name, like `ring` -- but really it's `ring/ring` and recent versions of the Clojure CLI display a deprecation warning on just `ring`: see the **Deprecated unqualified lib names** section near the end of this [Inside Clojure post about the `-X` option](https://insideclojure.org/2020/07/28/clj-exec/). Leiningen also stuck `.core` onto your project name to create the main namespace, which is why a lot of older Clojure libs have a `something.core` namespace: just because Leiningen did that by default. Both default behaviors here are bad because they're likely to lead to conflicts with other libraries.
 
-If you really want Leiningen's default behavior -- because you can't think of a better name
-for your project's main namespace! -- of adding `.core` to a single segment name such as `foo`,
-that can be achieved with `clj -X:new :template lib :name foo.core`. That will create a folder
-called `foo.core` and the project will have a group ID of `foo.core` and an artifact ID of
-`foo.core` -- which is the same behavior as running `lein new foo.core` (`lein new foo` creates
-a folder called `foo` and the project has a group ID of `foo` and an artifact ID of `foo`, even
-though the main namespace will be `foo.core`).
+You can get something close to Leiningen's default behavior by specifying a dotted project
+name that ends in `.core`, e.g., `clojure -X:new :template lib :name foo.core`. That will create a folder
+called `foo.core` and the project will have a group ID of `net.clojars.foo` and an artifact ID of
+`foo.core` -- which is similar behavior to running `lein new foo.core` but complies with Clojars'
+Verified Group Names policy -- with a main namespace of `foo.core` in `src/foo/core.clj`.
+_[`lein new foo` creates a folder called `foo` and the project has a group ID of `foo` and an artifact ID of `foo`, even though the main namespace will be `foo.core`]_.
 
 ### Templates
 
 Built-in templates are:
 
-* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clj -M -m` and can test it with `clj -M:test:runner`.
-* `lib` -- A minimal library with `deps.edn`. Can test it with `clj -M:test:runner`.
+* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clojure -M -m` and can test it with `clojure -M:test:runner`.
+* `lib` -- A minimal library with `deps.edn`. Can test it with `clojure -M:test:runner`.
 * `template` -- A minimal `clj-new` template.
 
 > Note: you can find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template).
 
-The project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`. In the generated `pom.xml` file, the group ID will be `com.acme` and the artifact ID will be `my-cool-project` -- following this pattern means you are already set up for publishing to Clojars (or some other Maven-like repository).
+As noted above, the project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`. In the generated `pom.xml` file, the group ID will be `com.acme` and the artifact ID will be `my-cool-project` -- following this pattern means you are already set up for publishing to Clojars (or some other Maven-like repository).
 
 An alternative is to use a multi-segment project name, such as `com.acme.another-project`. This will create a folder called `com.acme.another-project` (compared to above, which just uses the portion after the `/`). The main namespace will be `com.acme.another-project` in `src/com/acme/another_project.clj`, similar to the qualified project name above. In the generated `pom.xml` file, the group ID will be the "stem" of the project name (`com.acme`) and the artifact ID will be the full project name (`com.acme.another-project`) -- again, you'll be set up for publishing to Clojars etc, but be aware of the difference between how dotted names and qualified names affect the generated project.
 
@@ -195,7 +202,7 @@ library or template, or you just don't want a `pom.xml` lying around for your ap
 you can delete it -- but you will also need to remove `:sync-pom true` from the `:exec-args`
 for `depstar` in the generated `deps.edn` file.
 
-The goal is that if you used an appropriate `myname/myapp` style name for the
+The goal is such that if you used an appropriate `myname/myapp` style name for the
 project that you asked `clj-new` to create, then most of the fields in the
 `pom.xml` file should be usable as-is.
 
@@ -210,7 +217,7 @@ using the `:env` exec-arg to `clj-new/create` as a hash map:
 * `:scm-domain` -- defaults to `github.com` (but see below); used in all the SCM links in the generated projects: `https://{{scm-domain}}/{{scm-user}}/{{artifact}}`
 * `:scm-user` -- defaults to (part of) the group name (but see below); used in all the SCM links in the generated projects: `https://{{scm-domain}}/{{scm-user}}/{{artifact}}`
 
-> Note: `clj-new` tries to conform to the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names) -- which is similar to Maven Central's policy about group IDs -- by setting the default for `:group` to be something that seems to be a reverse domain name. If you use `myname/myapp` for your project name, the default for `:group` will be `net.clojars.myname`, `:artifact` will be `myapp`, `:scm-domain` will be `github.com`, and `:scm-user` will be `myname`. If you use `com.github.myname/myapp` for your project name, the default for `:group` will be `com.github.myname`, `:artifact` will be `myapp`, `:scm-domain` will be `github.com`, and `:scm-user` will be `myname`. `clj-new` also recognizes `io.github`, `com.gitlab`, and `io.gitlab` prefixes. The latter two will cause `:scm-domain` to default to `gitlab.com`. If your project name seems to have a group name that could be a reverse domain name, then it will be accepts as is, e.g., `com.acme/myapp` would produce `:group "com.acme", :artifact "myapp", :scm-domain "github.com", :scm-user "com.acme"`.
+> Note: `clj-new` tries to conform to the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names) -- which is similar to Maven Central's policy about group IDs -- by setting the default for `:group` to be something that seems to be a reverse domain name. If you use `myname/myapp` for your project name, the default for `:group` will be `net.clojars.myname`, `:artifact` will be `myapp`, `:scm-domain` will be `github.com`, and `:scm-user` will be `myname`. If you use `com.github.myname/myapp` for your project name, the default for `:group` will be `com.github.myname`, `:artifact` will be `myapp`, `:scm-domain` will be `github.com`, and `:scm-user` will be `myname`. `clj-new` also recognizes `io.github`, `com.gitlab`, and `io.gitlab` prefixes. The latter two will cause `:scm-domain` to default to `gitlab.com`. If your project name seems to have a group name that could be a reverse domain name, then it will be accepted as is, e.g., `com.acme/myapp` would produce `:group "com.acme", :artifact "myapp", :scm-domain "github.com", :scm-user "com.acme"`.
 
 The `:description` field is also used in the generated project's `README.md` file.
 
@@ -227,6 +234,7 @@ This creates the same project structure as in the earlier `myname/myapp` example
   <groupId>com.acme</groupId>
   <artifactId>my-cool-app</artifactId>
   <version>1.2.3</version>
+  <name>myname/myapp</name>
   <description>FIXME: my new application.</description>
   <url>https://github.com/myusername/my-cool-app</url>
   ...
@@ -281,19 +289,19 @@ If `template-name` is not one of the built-in ones (or is not already on the cla
 
 Alternatively, `template-name` can be a `:git/url` and `:sha` like this:
 
-    clj -X:new :template '"https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
+    clojure -X:new :template '"https://github.com/somename/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
       :name project-name :args '[arg1 arg2 arg3 ...]'
 
 In this case, `clj.new.someapp` must exist in the template and `clj.new.someapp/someapp` will be invoked to generate the template. A GitHub repository may include multiple templates, so you can also use this form:
 
-    clj -X:new :template '"https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
+    clojure -X:new :template '"https://github.com/somename/somerepo/someapp@c1fc0cdf5a21565676003dbc597e380467394a89"' \
       :name project-name :args '[arg1 arg2 arg3 ...]'
 
 `somename/somerepo` here contains templates in subdirectories, including `someapp`. Again, `clj.new.someapp` must exist in the template in that subdirectory and `clj.new.someapp/someapp` will be invoked to generate the template.
 
 Or, `template-name` can be a `:local/root` and template name like this:
 
-    clj -X:new :template '"/path/to/clj-template::new-app"' \
+    clojure -X:new :template '"/path/to/clj-template::new-app"' \
       :name project-name :args '[arg1 arg2 arg3 ...]'
 
 In this case, `clj.new.new-app` must exist in the template and `clj.new.new-app/new-app` will be invoked to generate the template.

@@ -34,6 +34,8 @@ variables (requires the `pom.xml` file):
 
     $ clojure -X:deploy
 
+Your library will be deployed to {{group}}/{{artifact}} on clojars.org by default.
+
 If you don't plan to install/deploy the library, you can remove the
 `pom.xml` file but you will also need to remove `:sync-pom true` from the `deps.edn`
 file (in the `:exec-args` for `depstar`).
