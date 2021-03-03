@@ -237,7 +237,7 @@ function and has no tests. You can however build a jar file for deployment
 with `clojure -X:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
-> Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `mytemplate/clj-template` which is the convention expected by `clj-new`.
+> Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `net.clojars.myname/mytemplate.clj-template` which is a convention supported by `clj-new`.
 
 As with the `lib` template, this template includes a `pom.xml` to make it easier
 to deploy the template as a library. Once you have reviewed and possibly updated
@@ -336,7 +336,26 @@ The general form of the command is:
 
 As noted above, `project-name` should be a qualified symbol, such as `mygithubusername/my-new-project`, or a multi-segment symbol, such as `my.cool.project`. Some templates will not work with the former but it is recommended you try that format first.
 
-If `template-name` is not one of the built-in ones (or is not already on the classpath), this will look for `template-name/clj-template` (on Clojars and Maven Central). If it doesn't find a `clj` template, it will look for `template-name/boot-template` instead. If it doesn't find a Boot template, it will look for `template-name/lein-template` instead. `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!). `clj-new` will then generate a new project folder based on the `project-name` containing files generated from the specified `template-name`. It does that by requiring `clj.new.<template-name>` (or `boot.new.<template-name>` or `leiningen.new.<template-name>`) and invoking the `<template-name>` function inside that namespace, passing in `<project-name>` and those arguments from the command line.
+If `template-name` is not one of the built-in ones (or is not already on the classpath), `clj-new` will attempt to find it on Clojars or Maven Central (or any other `:mvn/repos` you have configured) in the following manner:
+* If `template-name` is a qualified name, `some.group/example`, look for:
+  * `some.group/example.clj-template`, then
+  * `some.group/example.boot-template`, then
+  * `some.group/example.lein-template`,
+* Else, for an unqualified name, look for:
+  * `template-name/clj-template`, then
+  * `template-name/boot-template`, then
+  * `template-name/lein-template`.
+
+Currently, Boot and Leiningen only support the second form, with an
+unqualified `template-name`. Historically, `clj-new` also only
+supported the unqualified `template-name` but as of 1.1.next the
+qualified name is also supported so that templates can have group
+names that follow the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)
+and artifact names that end in `.clj-template`.
+
+`clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!).
+
+`clj-new` will generate a new project folder based on the `project-name` containing files generated from the specified `template-name`. It does that by requiring `clj.new.<template-name>` (or `boot.new.<template-name>` or `leiningen.new.<template-name>`) and invoking the `<template-name>` function inside that namespace, passing in `<project-name>` and those arguments from the command line.
 
 Alternatively, `template-name` can be a `:git/url` and `:sha` like this:
 
@@ -389,7 +408,7 @@ This creates a folder called `example` with a skeleton Electron application, usi
 
 `clj` templates are very similar to Leiningen and Boot templates but have an artifact name based on `clj-template` instead of `lein-template` or `boot-template` and use `clj` instead of `leiningen` or `boot` in all the namespace names. In particular the `clj.new.templates` namespace provides functions such as `renderer` and `->files` that are the equivalent of the ones found in `leiningen.new.templates` when writing a Leiningen Template (or `boot.new.templates` when writing a Boot Template). The built-in templates are `clj` templates, that produce `clj` projects with `deps.edn` files.
 
-If your template name is `foo-bar`, then you should have `clj.new.foo-bar` as the main namespace and it should contain a `foo-bar` function that will render the template:
+If your template project name is `myname/foo-bar`, then you should have `clj.new.foo-bar` as the main namespace and it should contain a `foo-bar` function that will render the template:
 
 ```clj
 ;; src/clj/new/foo_bar.clj:
@@ -401,7 +420,13 @@ If your template name is `foo-bar`, then you should have `clj.new.foo-bar` as th
   ,,,)
 ```
 
-When you publish it to Clojars, it should have a group ID matching the template name and an artifact ID of `clj-template`: `foo-bar/clj-template`. If you expect people to depend on the template via GitHub, you should also name the repo `foo-bar` so that `https://github.com/<username>/foo-bar` is the `:git/url` people will use.
+When you publish it to Clojars, it should have an appropriate
+(reverse domain name) group ID and the artifact ID should match
+the template name followed by `.clj-template`:
+`net.clojars.myname/foo-bar.clj-template`. If you expect people
+to depend on the template via GitHub, you should also name the
+repo `foo-bar` so that `https://github.com/<username>/foo-bar`
+is the `:git/url` people will use.
 
 A minimal example, using the default bare bones template:
 
