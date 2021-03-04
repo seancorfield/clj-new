@@ -12,8 +12,8 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
 
 ```clj
     {:aliases
-     {:new {:extra-deps {seancorfield/clj-new
-                         {:mvn/version "1.1.243"}}
+     {:new {:extra-deps {com.github.seancorfield/clj-new
+                         {:mvn/version "1.1.264"}}
             :exec-fn clj-new/create
             :exec-args {:template "app"}}}
      ...}
@@ -50,12 +50,12 @@ If you think you are going to be creating more libraries than applications, you 
 
 ```clj
     {:aliases
-     {:new-app {:extra-deps {seancorfield/clj-new
-                             {:mvn/version "1.1.243"}}
+     {:new-app {:extra-deps {com.github.seancorfield/clj-new
+                             {:mvn/version "1.1.264"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "app"}}
-      :new-lib {:extra-deps {seancorfield/clj-new
-                             {:mvn/version "1.1.243"}}
+      :new-lib {:extra-deps {com.github.seancorfield/clj-new
+                             {:mvn/version "1.1.264"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "lib"}}}
      ...}
@@ -348,7 +348,7 @@ If `template-name` is not one of the built-in ones (or is not already on the cla
 
 Currently, Boot and Leiningen only support the second form, with an
 unqualified `template-name`. Historically, `clj-new` also only
-supported the unqualified `template-name` but as of 1.1.next the
+supported the unqualified `template-name` but as of 1.1.264 the
 qualified name is also supported so that templates can have group
 names that follow the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)
 and artifact names that start with `clj-template.`.
@@ -490,8 +490,8 @@ You can either say `clojure -X:new clj-new/generate ...` or add an alias for it:
 
 ```clj
     {:aliases
-     {:generate {:extra-deps {seancorfield/clj-new
-                              {:mvn/version "1.1.243"}}
+     {:generate {:extra-deps {com.github.seancorfield/clj-new
+                              {:mvn/version "1.1.264"}}
                  :exec-fn clj-new/generate}}
      ...}
 ```
@@ -549,7 +549,7 @@ The exec-args available for the `generate` function are:
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.1.243
+Latest stable release: 1.1.264
 
 ## Roadmap
 
