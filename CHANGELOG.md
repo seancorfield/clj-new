@@ -1,5 +1,8 @@
 # Changes
 
+* 1.1.next in progress
+  * Update default version of Clojure to 1.10.3 in templates.
+
 * 1.1.264 -- 2021-03-03
   * Change coordinates to `com.github.seancorfield/clj-new` (although new versions will continue to be deployed to `seancorfield/clj-new` for a while -- see the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)).
   * Fix #54 by adopting a group/artifact naming convention for templates that complies with the Clojars VGN policy and inserts `clj-template.` into the artifact name.
