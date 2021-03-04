@@ -51,11 +51,11 @@
     (if (< *debug* 3)
       (str "\n\nFor more detail, increase verbose logging with "
            (case *debug*
-             0 "-v, -vv, or -vvv"
-             1 "-vv or -vvv"
-             2 "-vvv"))
+             0 ":verbose 1, 2, or 3"
+             1 ":verbose 2 or 3"
+             2 ":verbose 3"))
       "")
-    "\n\nFor more detail, enable verbose logging with -v, -vv, or -vvv"))
+    "\n\nFor more detail, enable verbose logging with :verbose 1, 2, or 3"))
 
 (def ^:private basis
   "Return the runtime basis from the Clojure CLI invocation.
@@ -92,8 +92,12 @@
                             local-tmp-name
                             :else
                             template-name)
-        delimiter     (if (re-find #"/" template-name) "." "/")
-        clj-tmp-name  (str template-name delimiter "clj-template")
+        [group artifact] (str/split template-name #"/")
+        template-ns      (if (and group artifact) artifact template-name)
+        [group suffix]   (if (and group artifact)
+                           [group (str "." artifact)] ; group/clj-template.artifact
+                           [template-name ""]) ; template-name/clj-template
+        clj-tmp-name  (str group "/clj-template" suffix)
         clj-version   (cond (and git-url git-tmp-name sha)
                             (cond-> {:git/url git-url :sha sha}
                               git-path (assoc :deps/root git-path))
@@ -101,8 +105,8 @@
                             {:local/root local-root}
                             :else
                             {:mvn/version tmp-version})
-        boot-tmp-name (str template-name delimiter "boot-template")
-        lein-tmp-name (str template-name delimiter "lein-template")
+        boot-tmp-name (str group "/boot-template" suffix)
+        lein-tmp-name (str group "/lein-template" suffix)
         all-deps      @basis
         output
         (with-out-str
@@ -117,7 +121,7 @@
                 :extra-deps
                 {(symbol clj-tmp-name) clj-version}})
 
-              (reset! selected [:clj template-name])
+              (reset! selected [:clj template-ns])
               (catch Exception e
                 (when (and *debug* (> *debug* 2))
                   (println "Unable to find clj template:")
@@ -131,7 +135,7 @@
                       :extra-deps
                       {(symbol boot-tmp-name) {:mvn/version tmp-version}}})
 
-                    (reset! selected [:boot template-name])
+                    (reset! selected [:boot template-ns])
                     (catch Exception e
                       (when (and *debug* (> *debug* 2))
                         (println "Unable to find Boot template:")
@@ -148,7 +152,7 @@
                            'org.sonatype.aether/aether-impl {:mvn/version "1.13.1"}
                            'slingshot {:mvn/version "0.10.3"}}})
 
-                        (reset! selected [:leiningen template-name])
+                        (reset! selected [:leiningen template-ns])
                         (catch Exception e
                           (when (and *debug* (> *debug* 1))
                             (println "Unable to find Leiningen template:")

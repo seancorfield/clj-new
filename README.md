@@ -160,7 +160,7 @@ Built-in templates are:
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clojure -M:test:runner`.
 * `template` -- A minimal `clj-new` template.
 
-> Note: you can currently find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template). _[This may change somewhat in the future as group ID start to conform to the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)]_
+> Note: you can currently find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template%2A), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template%2A) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template%2A).
 
 As noted above, the project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`. In the generated `pom.xml` file, the group ID will be `com.acme` and the artifact ID will be `my-cool-project` -- following this pattern means you are already set up for publishing to Clojars (or some other Maven-like repository).
 
@@ -237,7 +237,7 @@ function and has no tests. You can however build a jar file for deployment
 with `clojure -X:jar`. You will probably need to adjust some of the information
 inside the generated `pom.xml` file before deploying the jar file.
 
-> Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `net.clojars.myname/mytemplate.clj-template` which is a convention supported by `clj-new`.
+> Note: when you create a template project called myname/mytemplate, you will get a folder called `mytemplate` and the `pom.xml` file will specify the group/artifact as `net.clojars.myname/clj-template.mytemplate` which is a convention supported by `clj-new`.
 
 As with the `lib` template, this template includes a `pom.xml` to make it easier
 to deploy the template as a library. Once you have reviewed and possibly updated
@@ -338,9 +338,9 @@ As noted above, `project-name` should be a qualified symbol, such as `mygithubus
 
 If `template-name` is not one of the built-in ones (or is not already on the classpath), `clj-new` will attempt to find it on Clojars or Maven Central (or any other `:mvn/repos` you have configured) in the following manner:
 * If `template-name` is a qualified name, `some.group/example`, look for:
-  * `some.group/example.clj-template`, then
-  * `some.group/example.boot-template`, then
-  * `some.group/example.lein-template`,
+  * `some.group/clj-template.example`, then
+  * `some.group/boot-template.example`, then
+  * `some.group/lein-template.example`,
 * Else, for an unqualified name, look for:
   * `template-name/clj-template`, then
   * `template-name/boot-template`, then
@@ -351,7 +351,7 @@ unqualified `template-name`. Historically, `clj-new` also only
 supported the unqualified `template-name` but as of 1.1.next the
 qualified name is also supported so that templates can have group
 names that follow the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)
-and artifact names that end in `.clj-template`.
+and artifact names that start with `clj-template.`.
 
 `clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!).
 
@@ -422,8 +422,8 @@ If your template project name is `myname/foo-bar`, then you should have `clj.new
 
 When you publish it to Clojars, it should have an appropriate
 (reverse domain name) group ID and the artifact ID should match
-the template name followed by `.clj-template`:
-`net.clojars.myname/foo-bar.clj-template`. If you expect people
+the template name preceded by `clj-template.`:
+`net.clojars.myname/clj-template.foo-bar`. If you expect people
 to depend on the template via GitHub, you should also name the
 repo `foo-bar` so that `https://github.com/<username>/foo-bar`
 is the `:git/url` people will use.
