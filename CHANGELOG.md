@@ -1,7 +1,7 @@
 # Changes
 
 * 1.1.next in progress
-  * Update default version of Clojure to 1.10.3 in templates.
+  * Update default versions of Clojure, `depstar`, `tools.deps.alpha`.
 
 * 1.1.264 -- 2021-03-03
   * Change coordinates to `com.github.seancorfield/clj-new` (although new versions will continue to be deployed to `seancorfield/clj-new` for a while -- see the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)).
