@@ -57,8 +57,8 @@ Run the tests:
 If you think you are going to be creating more libraries than applications, you could specify `:template "lib"` in the `:exec-args` hash map, to specify the default. Or you could provide different aliases, such as:
 
 ```clj
-    {:aliases
-     {:new-app {:extra-deps {com.github.seancorfield/clj-new
+      ;; add these into your :aliases map:
+      :new-app {:extra-deps {com.github.seancorfield/clj-new
                              {:mvn/version "1.1.264"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "app"}}
@@ -66,7 +66,6 @@ If you think you are going to be creating more libraries than applications, you 
                              {:mvn/version "1.1.264"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "lib"}}}
-     ...}
 ```
 
 Now you can use those as follows:
@@ -497,11 +496,10 @@ Whereas clj templates will generate an entire new project in a new directory, cl
 You can either say `clojure -X:new clj-new/generate ...` or add an alias for it:
 
 ```clj
-    {:aliases
-     {:generate {:extra-deps {com.github.seancorfield/clj-new
-                              {:mvn/version "1.1.264"}}
-                 :exec-fn clj-new/generate}}
-     ...}
+    ;; add this inside your :aliases map:
+    :generate {:extra-deps {com.github.seancorfield/clj-new
+                            {:mvn/version "1.1.264"}}
+               :exec-fn clj-new/generate}}
 ```
 
 Given the alias above, you can say `clojure -X:generate` to run one or more generators, based on a `:generate` vector argument that you provide. Each generator in the vector is a string -- either `"type"` or `"type=name"`. The `type` specifies the type of generator to use. The `name` is the main argument that is passed to the generator.
