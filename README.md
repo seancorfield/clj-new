@@ -11,12 +11,20 @@ For support, help, general questions, use the [#clj-new channel on the Clojurian
 The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.edn` file (or `~/.config/clojure/deps.edn` file) like this:
 
 ```clj
-    {:aliases
-     {:new {:extra-deps {com.github.seancorfield/clj-new
+    ;; add this inside your :aliases map:
+    :new {:extra-deps {com.github.seancorfield/clj-new
                          {:mvn/version "1.1.264"}}
             :exec-fn clj-new/create
             :exec-args {:template "app"}}}
-     ...}
+```
+
+A minimal, complete `deps.edn` file with just this `:new` alias would look like this:
+
+```clj
+{:aliases
+ {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.264"}}
+        :exec-fn clj-new/create
+        :exec-args {:template "app"}}}}
 ```
 
 Now you can create a basic application:
