@@ -1,0 +1,8 @@
+{:paths ["src" "resources"]
+
+ :deps {
+   {{group}}/component-greeter {:local/root "../../components/greeter"}}
+
+ :aliases {
+   :test {:extra-paths ["test"]
+          :extra-deps {}}}}
