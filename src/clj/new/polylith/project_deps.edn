@@ -1,6 +1,6 @@
 {:paths [] ; no src or resources
 
- :deps {org.clojure/clojure {:mvn/version "1.10.1"}
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"}
         {{group}}/component-greeter {:local/root "../../components/greeter"}
         {{group}}/base-cli {:local/root "../../bases/cli"}}
 
