@@ -165,6 +165,7 @@ Built-in templates are:
 
 * `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clojure -M -m` and can test it with `clojure -M:test:runner`.
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clojure -M:test:runner`.
+* `polylith` -- A minimal [Polylith](https://polylith.gitbook.io/) workspace with a minimal application project and a minimal library project. _[Coming in `clj-new` 1.1.next!]_
 * `template` -- A minimal `clj-new` template.
 
 > Note: you can currently find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template%2A), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template%2A) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template%2A).
@@ -236,6 +237,22 @@ that you need these environment variables set:
 
 * `CLOJARS_USERNAME` -- your Clojars username
 * `CLOJARS_PASSWORD` -- your Clojars password
+
+#### The `polylith` Template
+
+_[Coming in 1.1.next]_
+
+Whilst you can create a new Polylith workspace with the `poly create workspace` command,
+that produces a completely empty workspace skeleton. This `clj-new` template produces
+a workspace that has some example code in it:
+
+* `bases` -- contains a command-line API (`cli`)
+* `components` -- contains a simple component (`greeter` interface and implementation)
+* `projects` -- contains a simple application, based on `cli` and `greeter`, and a simple library, based on `greeter`
+
+The generated README shows how you can run tests, build an uberjar, and build a library JAR.
+
+See the [Polylith documentation](https://polylith.gitbook.io/) for more details.
 
 #### The `template` Template
 

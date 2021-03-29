@@ -1,6 +1,7 @@
 # Changes
 
 * 1.1.next in progress
+  * Add a new built-in template type: `polylith`.
   * Update default versions of Clojure, `depstar`, `tools.deps.alpha`.
 
 * 1.1.264 -- 2021-03-03
