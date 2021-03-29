@@ -10,5 +10,5 @@
            :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
                      :exec-fn hf.depstar/uberjar
                      :exec-args {:jar {{name}}.jar
-                                 :aot true
+                                 :aot true :sync-pom true
                                  :main-class {{namespace}}.cli.main}}}}
