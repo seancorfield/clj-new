@@ -30,7 +30,7 @@ Run all the workspace's tests:
 
 Build a deployable artifact for the command-line project:
 
-    $ ( cd projects/{{name} && clojure -X:uberjar )
+    $ ( cd projects/{{name}} && clojure -X:uberjar )
 
 This will update the generated `pom.xml` file to keep the dependencies synchronized with
 that project's `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
