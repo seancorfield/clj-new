@@ -74,7 +74,7 @@ You can then depend on the library in other projects (adjust the `:mvn/version` 
     Clojure 1.10.3
     user=> (require '[{{namespace}}.greeter.interface :as greet])
     nil
-    user=> (greet/greeting "REPL")
+    user=> (greet/greeting {:person "REPL"})
     "Hello, REPL!"
 
 
