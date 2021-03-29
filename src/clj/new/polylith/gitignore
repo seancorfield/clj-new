@@ -3,7 +3,7 @@
 /checkouts
 *.jar
 *.class
-/.cpcache
+.cpcache
 /.lein-*
 /.lsp
 /.nrepl-history
