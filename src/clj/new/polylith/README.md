@@ -20,46 +20,33 @@ Download from https://{{scm-domain}}/{{scm-user}}/{{artifact}}
 
 FIXME: explanation
 
-Run the project directly, via `:exec-fn`:
+Get info about the workspace:
 
-    $ clojure -X:run-x
-    Hello, Clojure!
+    $ clojure -M:poly info
 
-Run the project, overriding the name to be greeted:
+Run all the workspace's tests:
 
-    $ clojure -X:run-x :name '"Someone"'
-    Hello, Someone!
+    $ clojure -M:poly test :all :dev
 
-Run the project directly, via `:main-opts` (`-m {{namespace}}`):
+Build a deployable artifact for the command-line project:
 
-    $ clojure -M:run-m
-    Hello, World!
-
-Run the project, overriding the name to be greeted:
-
-    $ clojure -M:run-m Via-Main
-    Hello, Via-Main!
-
-Run the project's tests (they'll fail until you edit them):
-
-    $ clojure -M:test:runner
-
-Build an uberjar:
-
-    $ clojure -X:uberjar
+    $ ( cd projects/{{name} && clojure -X:uberjar )
 
 This will update the generated `pom.xml` file to keep the dependencies synchronized with
-your `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
+that project's `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
 `:version` argument:
 
-    $ clojure -X:uberjar :version '"1.2.3"'
+    $ ( cd projects/{{name}} && clojure -X:uberjar :version '"1.2.3"' )
 
 If you don't want the `pom.xml` file in your project, you can remove it, but you will
-also need to remove `:sync-pom true` from the `deps.edn` file (in the `:exec-args` for `depstar`).
+also need to remove `:sync-pom true` from that project's `deps.edn` file (in the `:exec-args` for `depstar`).
 
 Run that uberjar:
 
-    $ java -jar {{name}}.jar
+    $ java -jar projects/{{name}}/{{name}}.jar
+    Hello, World!
+    $ java -jar projects/{{name}}/{{name}}.jar Lisa
+    Hello, Lisa!
 
 ## Options
 
