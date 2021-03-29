@@ -1,7 +1,7 @@
 syntax: glob
 *.jar
 *.class
-.cpcache
+.cpcache/**
 .gitignore
 .git/**
 

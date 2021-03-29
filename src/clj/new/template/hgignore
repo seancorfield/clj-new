@@ -1,11 +1,11 @@
 syntax: glob
 *.jar
 *.class
+.cpcache/**
 .gitignore
 .git/**
 
 syntax: regexp
-^.cpcache
 ^.lein-.*
 ^.lsp
 ^.nrepl-history
