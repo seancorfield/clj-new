@@ -52,5 +52,6 @@
              ["README.md" (render "README.md" data)]
              ["workspace.edn" (render "workspace.edn" data)]
              [".gitignore" (render "gitignore" data)]
+             [".hgignore" (render "hgignore" data)]
              ["LICENSE" (render "LICENSE" data)]
              ["CHANGELOG.md" (render "CHANGELOG.md" data)])))

@@ -5,6 +5,7 @@
 *.class
 /.cpcache
 /.lein-*
+/.lsp
 /.nrepl-history
 /.nrepl-port
 .hgignore
