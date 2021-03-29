@@ -1,39 +1,18 @@
 (ns clj.new.polylith
   "Generate a basic Polylith monorepo project."
   (:require [clj.new.templates
-             :refer [renderer project-data project-name ->files]]))
+             :refer [renderer project-data project-dir project-name ->files]]
+            [clojure.java.shell :as sh]))
 
 (defn polylith
   "A Polylith monorepo project template."
-  [name & args]
+  [name & _]
   (let [render (renderer "polylith")
         data   (merge {:description "FIXME: my new application."}
                       (project-data name))]
     (println "Generating a project called"
              (project-name name)
              "based on the 'polylith' template.")
-    (comment
-      :structure
-      . :bases
-      . . :cli
-      . . . :src
-      . . . . :api.clj
-      . . :deps.edn - :b_deps.edn
-      . :components
-      . . :greeter
-      . . . :src
-      . . . . :interface.clj -
-      . . . . :core.clj -
-      . :deps.edn - :root_deps.edn
-      . :development
-      . . :src
-      . . . :dev.clj
-      . :projects
-      . . :cli
-      . . . :deps.edn - :project_deps.edn
-      . :README.md
-      . :workspace.edn
-      .)
     (->files data
              ["bases/cli/deps.edn" (render "b_deps.edn" data)]
              ["bases/cli/src/{{nested-dirs}}/cli/main.clj" (render "main.clj" data)]
@@ -54,4 +33,25 @@
              [".gitignore" (render "gitignore" data)]
              [".hgignore" (render "hgignore" data)]
              ["LICENSE" (render "LICENSE" data)]
-             ["CHANGELOG.md" (render "CHANGELOG.md" data)])))
+             ["CHANGELOG.md" (render "CHANGELOG.md" data)])
+    ;; now do the git setup for the project
+    (let [dir (project-dir (:name data))
+          {:keys [exit out err]} (sh/sh "git" "init" :dir dir)]
+      (if (zero? exit)
+        (let [{:keys [exit out err]} (sh/sh "git" "add" "." :dir dir)]
+          (if (zero? exit)
+            (let [{:keys [exit out err]} (sh/sh "git" "commit" "-m" "\"Workspace created (by clj-new).\"" :dir dir)]
+              (if (zero? exit)
+                (println "Initialized the project for use with 'git'.")
+                (do
+                  (println "Unable to commit the new workspace to 'git'.")
+                  (when (seq out) (println out))
+                  (when (seq err) (println err)))))
+            (do
+              (println "Unable to add the new workspace to 'git'.")
+              (when (seq out) (println out))
+              (when (seq err) (println err)))))
+        (do
+          (println "Unable to initialize the new workspace for 'git':")
+          (when (seq out) (println out))
+          (when (seq err) (println err)))))))
