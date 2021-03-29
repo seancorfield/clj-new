@@ -1,14 +1,14 @@
 {:paths [] ; no src or resources
 
  :deps {org.clojure/clojure {:mvn/version "1.10.3"}
-        {{group}}/component-greeter {:local/root "../../components/greeter"}
-        {{group}}/base-cli {:local/root "../../bases/cli"}}
+        poly/component-greeter {:local/root "../../components/greeter"}
+        poly/base-cli {:local/root "../../bases/cli"}}
 
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}}
 
            :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
                      :exec-fn hf.depstar/uberjar
-                     :exec-args {:jar {{name}}.jar
-                                 :aot true :sync-pom true
+                     :exec-args {:jar "{{name}}.jar"
+                                 :aot true
                                  :main-class {{namespace}}.cli.main}}}}

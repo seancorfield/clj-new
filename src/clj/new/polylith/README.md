@@ -24,22 +24,22 @@ Get info about the workspace:
 
     $ clojure -M:poly info
 
+In addition to the `development` project which you will use with a REPL
+for developing against the whole workspace, there are two projects:
+
+* `{{name}}` -- a command-line application, aliased as `app`
+* `{{name}}-lib` -- a simple library, aliased as `lib`
+
 Run all the workspace's tests:
 
     $ clojure -M:poly test :all :dev
 
-Build a deployable artifact for the command-line project:
+This runs all of the tests in the workspace, including the example
+generative test in the {{name}} `app` project.
+
+Build a deployable artifact for the {{name}} command-line application project:
 
     $ ( cd projects/{{name}} && clojure -X:uberjar )
-
-This will update the generated `pom.xml` file to keep the dependencies synchronized with
-that project's `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
-`:version` argument:
-
-    $ ( cd projects/{{name}} && clojure -X:uberjar :version '"1.2.3"' )
-
-If you don't want the `pom.xml` file in your project, you can remove it, but you will
-also need to remove `:sync-pom true` from that project's `deps.edn` file (in the `:exec-args` for `depstar`).
 
 Run that uberjar:
 
@@ -47,6 +47,36 @@ Run that uberjar:
     Hello, World!
     $ java -jar projects/{{name}}/{{name}}.jar Lisa
     Hello, Lisa!
+
+Build a deployable library artifact for the {{name}}-lib project:
+
+    $ ( cd projects/{{name}}-lib && clojure -X:jar )
+
+This will update the generated `pom.xml` file to keep the dependencies synchronized with
+that project's `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
+`:version` argument:
+
+    $ ( cd projects/{{name}}-lib && clojure -X:jar :version '"1.2.3"' )
+
+It will have the coordinates `{{group}}/{{artifact}}` (and a version of `"{{version}}"` initially).
+
+You can install that JAR file locally:
+
+    $ ( cd projects/{{name}}-lib && clojure -X:install )
+
+You can also deploy that JAR file to Clojars:
+
+    $ ( cd projects/{{name}}-lib && clojure -X:deploy )
+
+You can then depend on the library in other projects (adjust the `:mvn/version` as necessary):
+
+    $ clj -Sdeps '{:deps { {{group}}/{{artifact}} {:mvn/version "{{version}}"}}}'
+    Clojure 1.10.3
+    user=> (require '[{{namespace}}.greeter.interface :as greet])
+    nil
+    user=> (greet/greeting "REPL")
+    "Hello, REPL!"
+
 
 ## Options
 

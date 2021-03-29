@@ -6,4 +6,5 @@
  :release-tag-pattern "v[0-9]*"
  :stable-tag-pattern "stable-*"
  :projects {"development" {:alias "dev"}
-            "{{name}}" {:alias "{{name}}"}}}
+            "{{name}}" {:alias "app"}
+            "{{name}}-lib" {:alias "lib"}}}
