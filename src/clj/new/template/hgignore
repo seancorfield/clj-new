@@ -10,6 +10,8 @@ syntax: regexp
 ^.lsp
 ^.nrepl-history
 ^.nrepl-port
+^.rebel_readline_history
+^.socket-repl-port
 ^target/
 ^classes/
 ^checkouts/
