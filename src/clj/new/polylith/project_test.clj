@@ -5,6 +5,6 @@
             [{{namespace}}.greeter.interface :as sut]))
 
 (defspec greeting-test 100
-  (prop/for-all [v (gen/fmap #(hash-map :person %) (gen/string-alphanumeric))]
-                (= (str "Hello, " v "!")
+  (prop/for-all [v (gen/fmap #(hash-map :person %) gen/string-alphanumeric)]
+                (= (str "Hello, " (:person v) "!")
                    (sut/greeting v))))
