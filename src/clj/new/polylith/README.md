@@ -37,7 +37,7 @@ Run all the workspace's tests:
 This runs all of the tests in the workspace, including the example
 generative test in the {{name}} `app` project.
 
-To develop against this workspace, start a REPL in your favorite way, using the `:dev` alias.
+To develop against this workspace, start a REPL in your favorite way, using the `:dev` and `:test` aliases.
 
 Build a deployable artifact for the {{name}} command-line application project:
 
