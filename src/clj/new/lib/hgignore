@@ -6,8 +6,9 @@ syntax: glob
 .git/**
 
 syntax: regexp
+^.calva/output-window/
 ^.lein-.*
-^.lsp/sqlite.db
+^.lsp/sqlite.*\.db
 ^.nrepl-history
 ^.nrepl-port
 ^.rebel_readline_history

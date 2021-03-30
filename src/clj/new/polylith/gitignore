@@ -3,9 +3,10 @@
 /checkouts
 *.jar
 *.class
-.cpcache
+/.calva/output-window/
+/.cpcache
 /.lein-*
-.lsp/sqlite.db
+/.lsp/sqlite*.db
 /.nrepl-history
 /.nrepl-port
 /.rebel_readline_history
