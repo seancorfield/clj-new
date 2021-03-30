@@ -2,6 +2,7 @@
 
 * 1.1.next in progress
   * Add a new built-in template type: `polylith`.
+  * Update `.gitignore`/`.hgignore` files to ignore `.lsp/sqlite.db` (but allow `.lsp/config.edn` to remain under version control).
   * Update default versions of Clojure, `depstar`, `tools.deps.alpha`.
 
 * 1.1.264 -- 2021-03-03
