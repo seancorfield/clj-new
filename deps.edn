@@ -14,7 +14,7 @@
            :new-lib {:exec-fn clj-new/create
                      :exec-args {:template "lib"}}
 
-           :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
+           :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.211"}}
                  :exec-fn hf.depstar/jar
                  :exec-args {:jar "clj-new.jar" :sync-pom true}}
            :deploy {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}

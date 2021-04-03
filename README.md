@@ -13,7 +13,7 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
 ```clj
     ;; add this inside your :aliases map:
     :new {:extra-deps {com.github.seancorfield/clj-new
-                         {:mvn/version "1.1.264"}}
+                         {:mvn/version "1.1.293"}}
             :exec-fn clj-new/create
             :exec-args {:template "app"}}}
 ```
@@ -22,7 +22,7 @@ A minimal, complete `deps.edn` file with just this `:new` alias would look like 
 
 ```clj
 {:aliases
- {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.264"}}
+ {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.293"}}
         :exec-fn clj-new/create
         :exec-args {:template "app"}}}}
 ```
@@ -59,11 +59,11 @@ If you think you are going to be creating more libraries than applications, you 
 ```clj
       ;; add these into your :aliases map:
       :new-app {:extra-deps {com.github.seancorfield/clj-new
-                             {:mvn/version "1.1.264"}}
+                             {:mvn/version "1.1.293"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "app"}}
       :new-lib {:extra-deps {com.github.seancorfield/clj-new
-                             {:mvn/version "1.1.264"}}
+                             {:mvn/version "1.1.293"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "lib"}}}
 ```
@@ -165,7 +165,7 @@ Built-in templates are:
 
 * `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clojure -M -m` and can test it with `clojure -M:test:runner`.
 * `lib` -- A minimal library with `deps.edn`. Can test it with `clojure -M:test:runner`.
-* `polylith` -- A minimal [Polylith](https://polylith.gitbook.io/) workspace with a minimal application project and a minimal library project. _[Coming in `clj-new` 1.1.next!]_
+* `polylith` -- A minimal [Polylith](https://polylith.gitbook.io/) workspace with a minimal application project and a minimal library project (new in 1.1.293).
 * `template` -- A minimal `clj-new` template.
 
 > Note: you can currently find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template%2A), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template%2A) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template%2A).
@@ -239,8 +239,6 @@ that you need these environment variables set:
 * `CLOJARS_PASSWORD` -- your Clojars password
 
 #### The `polylith` Template
-
-_[Coming in 1.1.next]_
 
 Whilst you can create a new Polylith workspace with the `poly create workspace` command,
 that produces a completely empty workspace skeleton. This `clj-new` template produces
@@ -516,7 +514,7 @@ You can either say `clojure -X:new clj-new/generate ...` or add an alias for it:
 ```clj
     ;; add this inside your :aliases map:
     :generate {:extra-deps {com.github.seancorfield/clj-new
-                            {:mvn/version "1.1.264"}}
+                            {:mvn/version "1.1.293"}}
                :exec-fn clj-new/generate}}
 ```
 
@@ -573,7 +571,7 @@ The exec-args available for the `generate` function are:
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.1.264
+Latest stable release: 1.1.293
 
 ## Roadmap
 

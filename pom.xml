@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.seancorfield</groupId>
   <artifactId>clj-new</artifactId>
-  <version>1.1.264</version>
+  <version>1.1.293</version>
   <name>clj-new</name>
   <description>Generate new projects based on clj, Boot, or Leiningen Templates!</description>
   <url>https://github.com/seancorfield/clj-new</url>
@@ -22,13 +22,18 @@
     <connection>scm:git:git@github.com:seancorfield/clj-new.git</connection>
     <developerConnection>scm:git:git@github.com:seancorfield/clj-new.git</developerConnection>
     <url>https://github.com/seancorfield/clj-new</url>
-    <tag>v1.1.264</tag>
+    <tag>v1.1.293</tag>
   </scm>
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.10.3</version>
+      <version>1.10.2</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-commons</groupId>
+      <artifactId>pomegranate</artifactId>
+      <version>1.2.0</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
@@ -41,19 +46,14 @@
       <version>0.11.905</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-nop</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <dependency>
       <groupId>stencil</groupId>
       <artifactId>stencil</artifactId>
       <version>0.5.0</version>
     </dependency>
     <dependency>
-      <groupId>clj-commons</groupId>
-      <artifactId>pomegranate</artifactId>
-      <version>1.2.0</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>1.7.30</version>
     </dependency>
   </dependencies>
   <build>
@@ -63,10 +63,6 @@
     <repository>
       <id>clojars</id>
       <url>https://repo.clojars.org/</url>
-    </repository>
-    <repository>
-      <id>sonatype</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
   </repositories>
   <distributionManagement>

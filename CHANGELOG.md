@@ -1,6 +1,6 @@
 # Changes
 
-* 1.1.next in progress
+* 1.1.293 -- 2021-04-02
   * Add a new built-in template type: `polylith`.
   * Update `.gitignore`/`.hgignore` files to ignore Calva's output window file and `.lsp/sqlite.db` (but allow `.lsp/config.edn` to remain under version control).
   * Update default versions of Clojure, `depstar`, `tools.deps.alpha`.
