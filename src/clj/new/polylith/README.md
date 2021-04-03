@@ -3,10 +3,10 @@
 The Polylith documentation can be found here:
 
 - The [high-level documentation](https://polylith.gitbook.io/polylith)
-- The [Polylith Tool documentation](https://github.com/polyfy/polylith)
+- The [Polylith Tool documentation](https://github.com/polyfy/polylith/tree/issue-66) _(issue-66 branch)_
 - The [RealWorld example app documentation](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app)
 
-You can also get in touch with the Polylith Team via our [forum](https://polylith.freeflarum.com) or on [Slack](https://clojurians.slack.com/archives/C013B7MQHJQ).
+You can also get in touch with the Polylith Team on [Slack](https://clojurians.slack.com/archives/C013B7MQHJQ).
 
 # {{name}}
 
@@ -30,12 +30,14 @@ for developing against the whole workspace, there are two projects:
 * `{{name}}` -- a command-line application, aliased as `app`
 * `{{name}}-lib` -- a simple library, aliased as `lib`
 
-Run all the workspace's tests:
+Run all the workspace's tests, including the development tests:
 
     $ clojure -M:poly test :all :dev
 
 This runs all of the tests in the workspace, including the example
 generative test in the {{name}} `app` project.
+
+> Normally, you would run just tests for components that have changed: `clojure -M:poly test` (optionally with `:project` to all run project-specific tests).
 
 To develop against this workspace, start a REPL in your favorite way, using the `:dev` and `:test` aliases.
 

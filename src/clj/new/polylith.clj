@@ -14,11 +14,11 @@
              (project-name name)
              "based on the 'polylith' template.")
     (->files data
-             ["bases/cli/deps.edn" (render "b_deps.edn" data)]
+             ["bases/cli/deps.edn" (render "base_deps.edn" data)]
              ["bases/cli/src/{{nested-dirs}}/cli/main.clj" (render "main.clj" data)]
              ["bases/cli/resources/.keep" ""]
              ["bases/cli/test/{{nested-dirs}}/cli/main_test.clj" (render "main_test.clj" data)]
-             ["components/greeter/deps.edn" (render "c_deps.edn" data)]
+             ["components/greeter/deps.edn" (render "component_deps.edn" data)]
              ["components/greeter/src/{{nested-dirs}}/greeter/interface.clj" (render "interface.clj" data)]
              ["components/greeter/src/{{nested-dirs}}/greeter/core.clj" (render "core.clj" data)]
              ["components/greeter/resources/.keep" ""]
@@ -32,7 +32,6 @@
              ["README.md" (render "README.md" data)]
              ["workspace.edn" (render "workspace.edn" data)]
              [".gitignore" (render "gitignore" data)]
-             [".hgignore" (render "hgignore" data)]
              ["LICENSE" (render "LICENSE" data)]
              ["CHANGELOG.md" (render "CHANGELOG.md" data)])
     ;; now do the git setup for the project
