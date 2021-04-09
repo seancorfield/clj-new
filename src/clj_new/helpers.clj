@@ -290,10 +290,14 @@
 (defn create-x
   "Project creation entry point with a hash map."
   [{:keys [env force help output query snapshot verbose version ; options
-           args ; sequence of arguments to pass to the template
+           args edn-args ; sequence of arguments to pass to the template
            name template] ; project name and template name
     :or {verbose 0}}]
-  (let [name     (some-> name str) ; ensure a string
+  (when (and args edn-args) (println "Ignoring :args -- :edn-args takes precedence"))
+  (let [args     (or edn-args ; EDN args override string args
+                     (some->> args (mapv str))) ; ensure all are strings
+        name     (some-> name str) ; ensure a string
+        output   (some-> output str) ; ensure a string
         template (some-> template str)] ; ensure a string
 
     (cond (or help (not (and (seq name) (seq template))))
@@ -395,21 +399,26 @@
 (defn generate-x
   "Project creation entry point with a hash map."
   [{:keys [force help prefix snapshot template version ; options
-           args ; sequence of arguments to pass to the generator
+           args edn-args ; sequence of arguments to pass to the generator
            generate] ; sequence of generator spec strings
     :or {prefix "src"}}]
-  (if (or help (not (seq generate)))
-    (let [{:keys [summary]} (cli/parse-opts [] generate-cli)]
-      (generate-help)
-      (println summary))
+  (when (and args edn-args) (println "Ignoring :args -- :edn-args takes precedence"))
+  (let [args     (or edn-args ; EDN args override string args
+                     (some->> args (mapv str))) ; ensure all are strings
+        prefix   (some-> prefix str) ; ensure a string
+        template (some-> template str)] ; ensure a string
+    (if (or help (not (seq generate)))
+      (let [{:keys [summary]} (cli/parse-opts [] generate-cli)]
+        (generate-help)
+        (println summary))
 
-    (binding [cnt/*dir*          "."
-              cnt/*force?*       force
-              *use-snapshots?*   snapshot
-              *template-version* version
-              cnt/*overwrite?*   false]
-      (generate-code* template prefix generate args)))
-  (shutdown-agents))
+      (binding [cnt/*dir*          "."
+                cnt/*force?*       force
+                *use-snapshots?*   snapshot
+                *template-version* version
+                cnt/*overwrite?*   false]
+        (generate-code* template prefix generate args)))
+    (shutdown-agents)))
 
 (defn generate-code
   "Exposed to clj new task with simpler signature."

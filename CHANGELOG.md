@@ -1,6 +1,7 @@
 # Changes
 
 * 1.1.next in progress
+  * Treat `:output` and `:args` as strings (i.e., they will accept symbols and convert them to strings, the same way `:name` and `:template` were already handled); adds `:edn-args` as a way to pass pure EDN arguments into templates (this takes precedence over `:args` if both are present).
   * Update `:poly` tool SHA in generated projects.
 
 * 1.1.293 -- 2021-04-02

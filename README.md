@@ -79,7 +79,8 @@ The following `:exec-args` can be provided for `clj-new/create`:
 
 * `:name` -- the name of the project (as a symbol or a string); required; must be a qualified project name or a multi-segment dotted project name
 * `:template` -- the name of the template to use (as a symbol or a string); required
-* `:args` -- an optional vector of string to pass to the template itself as command-line arguments
+* `:args` -- an optional vector of strings (or symbols) to pass to the template itself as command-line argument strings
+* `:edn-args` -- an optional EDN expression to pass to the template itself as the arguments for the template; takes precedence over `:args`; nearly all templates expect a sequence of strings so `:args` is going to be the easiest way to pass arguments
 * `:env` -- a hash map of additional variable substitutions in templates (see [The Generated `pom.xml` File](#the-generated-pomxml-file) below for a list of "built-in" variables that can be overridden)
 * `:force` -- if `true`, will force overwrite the target directory if it exists
 * `:help` -- if `true`, will provide a summary of these options as help
@@ -370,7 +371,8 @@ If `template-name` is not one of the built-in ones (or is not already on the cla
   * `template-name/lein-template`.
 
 Currently, Boot and Leiningen only support the second form, with an
-unqualified `template-name`. Historically, `clj-new` also only
+unqualified `template-name` (Leiningen is adding support for the qualified form).
+Historically, `clj-new` also only
 supported the unqualified `template-name` but as of 1.1.264 the
 qualified name is also supported so that templates can have group
 names that follow the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)
@@ -409,14 +411,14 @@ Here are some examples, generating projects from existing templates:
 
 ```bash
     clojure -X:new :template luminus :name yourname/example.webapp \
-      :output '"mywebapp"' :args '["+http-kit" "+h2" "+reagent" "+auth"]'
+      :output mywebapp :args '[+http-kit +h2 +reagent +auth]'
 ```
 
 This creates a folder called `mywebapp` with a Luminus web application that will use `http-kit`, the H2 database, the Reagent ClojureScript library, and the Buddy library for authentication. The `-main` function is in `yourname.example.webapp.core`, which is in the  `mywebapp/src/clj/yourname/example/webapp/core.clj` file. Note that the [Luminus template](https://github.com/luminus-framework/luminus-template) produces a Leiningen-based project, not a CLI/`deps.edn` one, but you can also tell it to produce a Boot-based project (with `+boot`).
 
 ```
     clojure -X:new :template re-frame :name yourname/spa \
-      :output '"front-end"' :args '["+garden" "+10x" "+routes"]'
+      :output front-end :args '[+garden +10x +routes]'
 ```
 
 This creates a folder called `front-end` with a ClojureScript Single Page Application that uses Garden for CSS, `re-frame-10x` for debugging, and Secretary for routing. The entry point is in the `yourname.spa.core` namespace which is in the `front-end/src/cljs/yourname/spa/core.cljs` file. As with Luminus, the [`re-frame` template](https://github.com/day8/re-frame-template) produces a Leiningen-based project, not a CLI/`deps.edn` one.
@@ -498,12 +500,18 @@ These arguments are accessible in the `custom-template` function as a second arg
   (println name " has the following arguments: " args))
 ```
 
-Nearly all templates will expect these to be strings so you will need to quote them in the `:args` vector:
+Nearly all templates will expect these to be strings but you can use symbols and `clj-new` will coerce them to strings for you:
 
-```
+```bash
     clojure -X:new :template custom-template :name project-name \
       :args '["arg1" "arg2" "arg3"]'
+    # can usually be written as:
+    clojure -X:new :template custom-template :name project-name \
+      :args '[arg1 arg2 arg3]'
+    # unless the arguments cannot be represented as Clojure symbols
 ```
+
+> Note: conversion of `:args` (and `:output`) from symbols to strings was added in `clj-new` 1.1.next.
 
 ## clj Generators
 
@@ -560,6 +568,7 @@ The exec-args available for the `generate` function are:
 
 * `:generate` -- a (non-empty) vector of generator strings to use
 * `:args` -- an optional vector of string to pass to the generator itself as command-line arguments
+* `:edn-args` -- an optional EDN expression to pass to the generator itself as the arguments for the generator; takes precedence over `:args`; nearly all generators expect a sequence of strings so `:args` is going to be the easiest way to pass arguments
 * `:force` -- if `true`, will force overwrite the target directory/file if it exists
 * `:help` -- if `true`, will provide a summary of these options as help
 * `:prefix` -- specify the project directory in which to run the generator (the default is `src` but `:p '"."'` will allow a generator to modify files in the root of your project)
