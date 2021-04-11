@@ -299,8 +299,7 @@ The `:description` field is also used in the generated project's `README.md` fil
 Example:
 
 ```bash
-    clojure -X:new-app :name myname/myapp \
-      :env '{:group "com.acme" :artifact my-cool-app :version "1.2.3" :scm-user myusername}'
+    clojure -X:new-app :name myname/myapp :env '{:group "com.acme" :artifact my-cool-app :version "1.2.3" :scm-user myusername}'
 ```
 
 This creates the same project structure as in the earlier `myname/myapp` example except that the generated `pom.xml` file will contain:
@@ -410,15 +409,13 @@ If the folder for `project-name` already exists, `clj-new` will not overwrite it
 Here are some examples, generating projects from existing templates:
 
 ```bash
-    clojure -X:new :template luminus :name yourname/example.webapp \
-      :output mywebapp :args '[+http-kit +h2 +reagent +auth]'
+    clojure -X:new :template luminus :name yourname/example.webapp :output mywebapp :args '[+http-kit +h2 +reagent +auth]'
 ```
 
 This creates a folder called `mywebapp` with a Luminus web application that will use `http-kit`, the H2 database, the Reagent ClojureScript library, and the Buddy library for authentication. The `-main` function is in `yourname.example.webapp.core`, which is in the  `mywebapp/src/clj/yourname/example/webapp/core.clj` file. Note that the [Luminus template](https://github.com/luminus-framework/luminus-template) produces a Leiningen-based project, not a CLI/`deps.edn` one, but you can also tell it to produce a Boot-based project (with `+boot`).
 
 ```
-    clojure -X:new :template re-frame :name yourname/spa \
-      :output front-end :args '[+garden +10x +routes]'
+    clojure -X:new :template re-frame :name yourname/spa :output front-end :args '[+garden +10x +routes]'
 ```
 
 This creates a folder called `front-end` with a ClojureScript Single Page Application that uses Garden for CSS, `re-frame-10x` for debugging, and Secretary for routing. The entry point is in the `yourname.spa.core` namespace which is in the `front-end/src/cljs/yourname/spa/core.cljs` file. As with Luminus, the [`re-frame` template](https://github.com/day8/re-frame-template) produces a Leiningen-based project, not a CLI/`deps.edn` one.
@@ -465,8 +462,7 @@ You will now have a folder called `mytemplate` that is a very minimal template.
 To create a new project based on that template, you need to have it on the classpath (just as if it were a library) and you also need `clj-new` on the classpath since you are using it to generate a project from that template:
 
 ```
-$ clojure -Sdeps '{:deps {myname/mytemplate {:local/root "mytemplate"}}}' \
-  -X:new :template mytemplate :name myname/myproject
+$ clojure -Sdeps '{:deps {myname/mytemplate {:local/root "mytemplate"}}}' -X:new :template mytemplate :name myname/myproject
 Generating fresh 'clj new' mytemplate project.
 $ tree myproject
 myproject
