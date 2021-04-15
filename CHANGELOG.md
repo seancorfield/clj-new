@@ -1,5 +1,8 @@
 # Changes
 
+* 1.1.next in progress
+  * Clarify that the `polylith` template must be used with `clojure -M:poly` instead of the native `poly` command.
+
 * 1.1.297 -- 2021-04-09
   * Treat `:output` and `:args` as strings (i.e., they will accept symbols and convert them to strings, the same way `:name` and `:template` were already handled); adds `:edn-args` as a way to pass pure EDN arguments into templates (this takes precedence over `:args` if both are present).
   * Update `:poly` tool SHA in generated projects.

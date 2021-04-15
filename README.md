@@ -252,7 +252,7 @@ a workspace that has some example code in it:
 The generated README shows how you can run tests, build an uberjar, and build a library JAR.
 
 See the [Polylith documentation](https://polylith.gitbook.io/) for more details.
-Generated projects currently track the [issue-66 branch of the `poly` tool](https://github.com/polyfy/polylith/tree/issue-66).
+Generated projects currently track the [issue-66 branch of the `poly` tool](https://github.com/polyfy/polylith/tree/issue-66). **That means you must use `clojure -M:poly` instead of the native `poly` command inside the generated project!**
 
 #### The `template` Template
 

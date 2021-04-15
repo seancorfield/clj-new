@@ -24,6 +24,8 @@ Get info about the workspace:
 
     $ clojure -M:poly info
 
+> Note: because this project is tracking the [issue-66 branch of Polylith](https://github.com/polyfy/polylith/tree/issue-66), you cannot use the native `poly` command because it is still expecting the older project format.
+
 In addition to the `development` project which you will use with a REPL
 for developing against the whole workspace, there are two projects:
 
