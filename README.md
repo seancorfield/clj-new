@@ -15,7 +15,7 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
     :new {:extra-deps {com.github.seancorfield/clj-new
                          {:mvn/version "1.1.297"}}
             :exec-fn clj-new/create
-            :exec-args {:template "app"}}}
+            :exec-args {:template "app"}}
 ```
 
 A minimal, complete `deps.edn` file with just this `:new` alias would look like this:
