@@ -274,18 +274,62 @@
    ["-V" "--version VERSION" "Use this version of the template"]])
 
 (defn- create-help []
-  (println "Usage:")
-  (println "  clojure -m clj-new.create template-name project-name options\n")
-  (println "or:")
-  (println "  clojure -X clj-new/create :template template-name :name project-name options\n")
+  (let [{:keys [root-edn user-edn project-edn]} (deps/find-edn-maps)
+        aliases  (:aliases (deps/merge-edns [root-edn user-edn project-edn]))
+        clj-new? (fn [sym]
+                   (and (str/index-of (or (namespace sym) "") "seancorfield")
+                        (= "clj-new" (name sym))))
+        match    (reduce-kv (fn [_ k v]
+                              (when (map? v)
+                                (when-let [deps (not-empty
+                                                 (merge (:extra-deps v)
+                                                        (:replace-deps v)))]
+                                  (when (some (comp clj-new? key) deps)
+                                    (reduced [k
+                                              (when (= 'clj-new/create (:exec-fn v))
+                                                "")])))))
+                            nil
+                            aliases)]
+    (println "Usage:")
+    (println (str "  clojure -X" (first match) (or (second match)
+                                                   " clj-new/create")
+                  " :template template-name :name project-name options\n")))
   (println "Any additional arguments are passed directly to the template.")
   (println "\nThe template-name may be:")
   (println "* app - create a new application based on deps.edn")
   (println "* lib - create a new library based on deps.edn")
+  (println "* polylith - create a new Polylith workspace (based on deps.edn)")
+  (println "  (this currently tracking https://github.com/polyfy/polylith/tree/issue-66)")
   (println "* template - create a new clj template based on deps.edn")
   (println "\nThe project-name must be a valid Clojure symbol and must either be a")
   (println "qualified name or a multi-segment name (to avoid .core namespaces!).")
-  (println "\nThe following options are accepted (as keywords for -X):"))
+  (println "\nThe following options are accepted (as keywords for -X):")
+  (println "* :name - the name of the project; required; may be a symbol or a string;")
+  (println "     must be a qualified project name or a multi-segment dotted project name")
+  (println "* :template - the name of the template to use; required; may be a symbol")
+  (println "     or a string")
+  (println "* :args - an optional vector of strings (or symbols) to pass to the template")
+  (println "     itself as command-line argument strings")
+  (println "* :edn-args - an optional EDN expression to pass to the template itself as")
+  (println "     the arguments for the template; takes precedence over :args; nearly all")
+  (println "     templates expect a sequence of strings so :args is going to be the")
+  (println "     easiest way to pass arguments")
+  (println "* :env - a hash map of additional variable substitutions in templates (see")
+  (println "     The Generated pom.xml File in the docs for a list of \"built-in\"")
+  (println "     variables that can be overridden)")
+  (println "* :force - if true, will force overwrite the target directory if it exists")
+  (println "* :help - if true, will provide a summary of these options as help")
+  (println "* :output - specify the project directory to create (the default is to use")
+  (println "     the project name as the directory)")
+  (println "* :query - if true, instead of actually looking up the template and")
+  (println "     generating the project, output an explanation of what clj-new will")
+  (println "     try to do")
+  (println "* :snapshot - if true, look for -SNAPSHOT version of the template (not")
+  (println "     just a release version)")
+  (println "* :verbose - 1, 2, or 3, indicating the level of debugging in increasing")
+  (println "     detail")
+  (println "* :version - use this specific version of the template"))
+
 
 (defn create-x
   "Project creation entry point with a hash map."
@@ -301,9 +345,7 @@
         template (some-> template str)] ; ensure a string
 
     (cond (or help (not (and (seq name) (seq template))))
-          (let [{:keys [summary]} (cli/parse-opts [] create-cli)]
-            (create-help)
-            (println summary))
+          (create-help)
 
           query
           (if-not (valid-project? name)
@@ -378,10 +420,26 @@
    ["-V" "--version VERSION" "Use this version of the template"]])
 
 (defn- generate-help []
-  (println "Usage:")
-  (println "  clojure -m clj-new.generate generator options\n")
-  (println "or:")
-  (println "  clojure -X clj-new/generate :generator [generators] options\n")
+  (let [{:keys [root-edn user-edn project-edn]} (deps/find-edn-maps)
+        aliases  (:aliases (deps/merge-edns [root-edn user-edn project-edn]))
+        clj-new? (fn [sym]
+                   (and (str/index-of (or (namespace sym) "") "seancorfield")
+                        (= "clj-new" (name sym))))
+        match    (reduce-kv (fn [_ k v]
+                              (when (map? v)
+                                (when-let [deps (not-empty
+                                                 (merge (:extra-deps v)
+                                                        (:replace-deps v)))]
+                                  (when (some (comp clj-new? key) deps)
+                                    (reduced [k
+                                              (when (= 'clj-new/generate (:exec-fn v))
+                                                "")])))))
+                            nil
+                            aliases)]
+    (println "Usage:")
+    (println (str "  clojure -X" (first match) (or (second match)
+                                                   " clj-new/generate")
+                  " :generator [generators] options\n")))
   (println "Any additional arguments are passed directly to the generator.")
   (println "\nThe generators may be:")
   (println "* ns=the.ns - generate a new Clojure namespace")
@@ -394,7 +452,24 @@
   (println "  - an optional argument can specify the extension (edn by default)")
   (println "Note: you can provide multiple generators when using -X")
   (println "      but only one generator when using -m.")
-  (println "\nThe following options are accepted (as keywords for -X):"))
+  (println "\nThe following options are accepted (as keywords for -X):")
+  (println "* :generate -- a (non-empty) vector of generator strings to use")
+  (println "* :args -- an optional vector of string to pass to the generator itself as")
+  (println "     command-line arguments")
+  (println "* :edn-args -- an optional EDN expression to pass to the generator itself as")
+  (println "     the arguments for the generator; takes precedence over :args; nearly all")
+  (println "     generators expect a sequence of strings so :args is going to be the")
+  (println "     easiest way to pass arguments")
+  (println "* :force -- if true will force overwrite the target file/folder if it exists")
+  (println "* :help -- if true will provide a summary of these options as help")
+  (println "* :prefix -- specify the project directory in which to run the generator (the")
+  (println "     default is src but :prefix '\".\"' will allow a generator to modify files")
+  (println "     in the root of your project)")
+  (println "* :snapshot -- if true look for -SNAPSHOT version of the template (not just a")
+  (println "     release version)")
+  (println "* :template -- load this template (using the same rules as for clj-new/create)")
+  (println "     and then run the specified generator")
+  (println "* :version -- use this specific version of the template"))
 
 (defn generate-x
   "Project creation entry point with a hash map."
@@ -408,9 +483,7 @@
         prefix   (some-> prefix str) ; ensure a string
         template (some-> template str)] ; ensure a string
     (if (or help (not (seq generate)))
-      (let [{:keys [summary]} (cli/parse-opts [] generate-cli)]
-        (generate-help)
-        (println summary))
+      (generate-help)
 
       (binding [cnt/*dir*          "."
                 cnt/*force?*       force

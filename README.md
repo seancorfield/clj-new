@@ -567,7 +567,7 @@ The exec-args available for the `generate` function are:
 * `:edn-args` -- an optional EDN expression to pass to the generator itself as the arguments for the generator; takes precedence over `:args`; nearly all generators expect a sequence of strings so `:args` is going to be the easiest way to pass arguments
 * `:force` -- if `true`, will force overwrite the target directory/file if it exists
 * `:help` -- if `true`, will provide a summary of these options as help
-* `:prefix` -- specify the project directory in which to run the generator (the default is `src` but `:p '"."'` will allow a generator to modify files in the root of your project)
+* `:prefix` -- specify the project directory in which to run the generator (the default is `src` but `:prefix '"."'` will allow a generator to modify files in the root of your project)
 * `:snapshot` -- if `true`, look for -SNAPSHOT version of the template (not just a release version)
 * `:template` -- load this template (using the same rules as for `clj-new/create` above) and then run the specified generator
 * `:version` -- use this specific version of the template
