@@ -1,6 +1,6 @@
-{:deps {clj-commons/pomegranate {:mvn/version "1.2.0"}
+{:deps {clj-commons/pomegranate {:mvn/version "1.2.1"}
         org.clojure/tools.cli {:mvn/version "1.0.206"}
-        org.clojure/tools.deps.alpha {:mvn/version "0.11.905"}
+        org.clojure/tools.deps.alpha {:mvn/version "0.11.910"}
         stencil/stencil {:mvn/version "0.5.0"}
         ;; add this because tools.deps.alpha no longer includes it
         org.slf4j/slf4j-nop {:mvn/version "1.7.30"}}
@@ -14,7 +14,7 @@
            :new-lib {:exec-fn clj-new/create
                      :exec-args {:template "lib"}}
 
-           :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.211"}}
+           :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
                  :exec-fn hf.depstar/jar
                  :exec-args {:jar "clj-new.jar" :sync-pom true}}
            :deploy {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
