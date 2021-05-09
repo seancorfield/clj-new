@@ -13,7 +13,7 @@ Invoke a library API function from the command-line:
 
 Run the project's tests (they'll fail until you edit them):
 
-    $ clojure -M:test:runner
+    $ clojure -X:test:runner
 
 Build a deployable jar of this library:
 
