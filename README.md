@@ -343,7 +343,9 @@ are generated with an open source `LICENSE` file and have a **License** section 
 
 **You are not required to use EPLv1.0 for your project!** If you prefer a different license,
 use it! Replace the `LICENSE` file and update the `README.md` file to reflect your personal
-preference in licensing (I have tended to use the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) in most of my open source projects, prior to working with Clojure).
+preference in licensing (I have tended to use the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) in most of my open source projects, prior to working with Clojure,
+but see [Prefer the MIT License](https://juxt.pro/blog/prefer-mit) for an alternative
+viewpoint from the folks who wrote Crux).
 
 > Note: if you incorporate any source code from other people's open source projects, be
 aware of the legal implications and that you must respect whatever license _they_ have
