@@ -1,6 +1,6 @@
 # Changes
 
-* 1.1.next in progress
+* 1.1.309 -- 2021-05-18
   * Update `test-runner` and switch to `-X` invocation in templates.
   * Address #55 by modernizing the help feature and trying to deduce the correct usage from whatever aliases you have.
   * Clarify that the `polylith` template must be used with `clojure -M:poly` instead of the native `poly` command, and update SHA to latest `issue-66` branch head.

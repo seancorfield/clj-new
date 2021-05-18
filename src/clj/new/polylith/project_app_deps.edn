@@ -7,7 +7,7 @@
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}}
 
-           :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.211"}}
+           :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
                      :exec-fn hf.depstar/uberjar
                      :exec-args {:jar "{{name}}.jar"
                                  :aot true
