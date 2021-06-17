@@ -32,7 +32,7 @@ Run the project, overriding the name to be greeted:
 
 Run the project's tests (they'll fail until you edit them):
 
-    $ clojure -X:test:runner
+    $ clojure -X:test
 
 Build an uberjar:
 

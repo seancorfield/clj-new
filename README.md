@@ -38,7 +38,7 @@ Now you can create a basic application:
 Run the tests:
 
 ```bash
-    clojure -X:test:runner
+    clojure -X:test
 ```
 
 or you can create a basic library:
@@ -51,7 +51,7 @@ or you can create a basic library:
 Run the tests:
 
 ```bash
-    clojure -X:test:runner
+    clojure -X:test
 ```
 
 If you think you are going to be creating more libraries than applications, you could specify `:template "lib"` in the `:exec-args` hash map, to specify the default. Or you could provide different aliases, such as:
@@ -164,8 +164,8 @@ _[`lein new foo` creates a folder called `foo` and the project has a group ID of
 
 Built-in templates are:
 
-* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clojure -M -m` and can test it with `clojure -X:test:runner`.
-* `lib` -- A minimal library with `deps.edn`. Can test it with `clojure -X:test:runner`.
+* `app` -- A minimal Hello World! application with `deps.edn`. Can run it via `clojure -M -m` and can test it with `clojure -X:test`.
+* `lib` -- A minimal library with `deps.edn`. Can test it with `clojure -X:test`.
 * `polylith` -- A minimal [Polylith](https://polylith.gitbook.io/) workspace with a minimal application project and a minimal library project (new in 1.1.293).
 * `template` -- A minimal `clj-new` template.
 

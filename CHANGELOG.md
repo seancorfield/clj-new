@@ -1,5 +1,8 @@
 # Changes
 
+* 1.1.next in progress
+  * Address #63 by combining `:test` and `:runner` now we're using `-X`.
+
 * 1.1.309 -- 2021-05-18
   * Update `test-runner` and switch to `-X` invocation in templates.
   * Address #55 by modernizing the help feature and trying to deduce the correct usage from whatever aliases you have.
