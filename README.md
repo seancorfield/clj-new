@@ -13,7 +13,7 @@ The easiest way to use `clj-new` is by adding an alias to your `~/.clojure/deps.
 ```clj
     ;; add this inside your :aliases map:
     :new {:extra-deps {com.github.seancorfield/clj-new
-                         {:mvn/version "1.1.309"}}
+                         {:mvn/version "1.1.314"}}
             :exec-fn clj-new/create
             :exec-args {:template "app"}}
 ```
@@ -22,7 +22,7 @@ A minimal, complete `deps.edn` file with just this `:new` alias would look like 
 
 ```clj
 {:aliases
- {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.309"}}
+ {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.1.314"}}
         :exec-fn clj-new/create
         :exec-args {:template "app"}}}}
 ```
@@ -59,11 +59,11 @@ If you think you are going to be creating more libraries than applications, you 
 ```clj
       ;; add these into your :aliases map:
       :new-app {:extra-deps {com.github.seancorfield/clj-new
-                             {:mvn/version "1.1.309"}}
+                             {:mvn/version "1.1.314"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "app"}}
       :new-lib {:extra-deps {com.github.seancorfield/clj-new
-                             {:mvn/version "1.1.309"}}
+                             {:mvn/version "1.1.314"}}
                 :exec-fn clj-new/create
                 :exec-args {:template "lib"}}}
 ```
@@ -74,6 +74,20 @@ Now you can use those as follows:
     clojure -X:new-app :name myname/myapp
     clojure -X:new-lib :name myname/mylib
 ```
+
+> If you are using the latest prerelease of the Clojure CLI, 1.10.3.905 onward, you can install `clj-new` as a "tool" instead of updating your `deps.edn` file and then invoke it using the following commands:
+
+```bash
+clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.1.314"}' :as new
+# create a new app:
+clojure -Tnew app :name myname/myapp
+# create a new library:
+clojure -Tnew lib :name myname/mylib
+# create a new template:
+clojure -Tnew template :name myname/mytemplate
+# create a new project from a public template:
+```
+
 
 The following `:exec-args` can be provided for `clj-new/create`:
 
@@ -520,7 +534,7 @@ You can either say `clojure -X:new clj-new/generate ...` or add an alias for it:
 ```clj
     ;; add this inside your :aliases map:
     :generate {:extra-deps {com.github.seancorfield/clj-new
-                            {:mvn/version "1.1.309"}}
+                            {:mvn/version "1.1.314"}}
                :exec-fn clj-new/generate}}
 ```
 
@@ -578,7 +592,7 @@ The exec-args available for the `generate` function are:
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.1.309
+Latest stable release: 1.1.314
 
 ## Roadmap
 

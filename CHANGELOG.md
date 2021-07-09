@@ -1,6 +1,7 @@
 # Changes
 
-* 1.1.next in progress
+* 1.1.314
+  * Add `:tools/usage` and instructions for new CLI `tools` support.
   * Address #63 by combining `:test` and `:runner` now we're using `-X`.
 
 * 1.1.309 -- 2021-05-18

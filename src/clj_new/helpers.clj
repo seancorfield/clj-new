@@ -57,19 +57,6 @@
       "")
     "\n\nFor more detail, enable verbose logging with :verbose 1, 2, or 3"))
 
-(def ^:private basis
-  "Return the runtime basis from the Clojure CLI invocation.
-
-  If we're running under an older CLI version, construct the
-  equivalent of the basis manually."
-  (delay (if-let [basis-file (System/getProperty "clojure.basis")]
-           (-> basis-file
-               (io/file)
-               (slurp)
-               (edn/read-string))
-           (let [{:keys [root-edn user-edn project-edn]} (deps/find-edn-maps)]
-             (deps/merge-edns (filterv some? [root-edn user-edn project-edn]))))))
-
 (defn resolve-remote-template
   "Given a template name, attempt to resolve it as a clj template first, then
   as a Boot template, then as a Leiningen template. Return the type of template
@@ -107,7 +94,7 @@
                             {:mvn/version tmp-version})
         boot-tmp-name (str group "/boot-template" suffix)
         lein-tmp-name (str group "/lein-template" suffix)
-        all-deps      @basis
+        all-deps      (deps/create-basis {})
         output
         (with-out-str
           (binding [*err* *out*]

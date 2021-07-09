@@ -11,7 +11,7 @@
                       {:git/url "https://github.com/cognitect-labs/test-runner"
                        :sha "62ef1de18e076903374306060ac0e8a752e57c86"}}
          :exec-fn cognitect.test-runner.api/test}
-  :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+  :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.250"}}
             :exec-fn hf.depstar/uberjar
             :exec-args {:aot true
                         :jar "{{name}}.jar"
