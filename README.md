@@ -86,6 +86,7 @@ clojure -Tnew lib :name myname/mylib
 # create a new template:
 clojure -Tnew template :name myname/mytemplate
 # create a new project from a public template:
+clojure -Tnew create :template electron-app :name myname/myelectron-app
 ```
 
 
