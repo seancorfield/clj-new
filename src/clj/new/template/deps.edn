@@ -1,6 +1,6 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.3"}
-        com.github.seancorfield/clj-new {:mvn/version "1.1.314"}}
+        com.github.seancorfield/clj-new {:mvn/version "1.1.317"}}
  :aliases
  {:new {:exec-fn clj-new/create
         :exec-args {:template "{{name}}"}}
@@ -10,7 +10,7 @@
                       {:git/url "https://github.com/cognitect-labs/test-runner"
                        :sha "62ef1de18e076903374306060ac0e8a752e57c86"}}
          :exec-fn cognitect.test-runner.api/test}
-  :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.250"}}
+  :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.267"}}
         :exec-fn hf.depstar/jar
         :exec-args {:jar "{{name}}.jar" :sync-pom true}}
   :install {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}

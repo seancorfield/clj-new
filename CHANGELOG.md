@@ -1,6 +1,10 @@
 # Changes
 
-* 1.1.314
+* 1.1.317 -- 2021-07-15
+  * Fix #66 by tweaking filenames to avoid problems with cljdoc.org.
+  * Update `depstar` and `tools.deps.alpha`.
+
+* 1.1.314 -- 2021-07-09
   * Add `:tools/usage` and instructions for new CLI `tools` support.
   * Address #63 by combining `:test` and `:runner` now we're using `-X`.
 

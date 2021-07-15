@@ -24,7 +24,7 @@
              ["components/greeter/resources/.keep" ""]
              ["components/greeter/test/{{nested-dirs}}/greeter/interface_test.clj" (render "interface_test.clj" data)]
              ["deps.edn" (render "root_deps.edn" data)]
-             ["development/src/dev.clj" (render "dev.clj" data)]
+             ["development/src/dev.clj" (render "dev-clj" data)]
              ["projects/{{name}}/deps.edn" (render "project_app_deps.edn" data)]
              ["projects/{{name}}/test/{{nested-dirs}}/{{name}}_test.clj" (render "project_test.clj" data)]
              ["projects/{{name}}-lib/deps.edn" (render "project_lib_deps.edn" data)]
