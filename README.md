@@ -89,6 +89,11 @@ clojure -Tnew template :name myname/mytemplate
 clojure -Tnew create :template electron-app :name myname/myelectron-app
 ```
 
+> As of Clojure CLI 1.10.3.912, you can get help about the functions available in `clj-new`:
+
+```bash
+clojure -A:deps -Tnew help/doc :ns clj-new
+```
 
 The following `:exec-args` can be provided for `clj-new/create`:
 
