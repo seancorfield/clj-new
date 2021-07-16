@@ -1,6 +1,7 @@
 (ns ^:no-doc clj-new.helpers
   "The top-level logic for the clj-new create/generate entry points."
-  (:require [clojure.pprint :as pp]
+  (:require [clojure.java.io :as io]
+            [clojure.pprint :as pp]
             [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
@@ -92,7 +93,10 @@
                             {:mvn/version tmp-version})
         boot-tmp-name (str group "/boot-template" suffix)
         lein-tmp-name (str group "/lein-template" suffix)
-        all-deps      (deps/create-basis {})
+        has-deps      (.exists (io/file "deps.edn"))
+        all-deps      (deps/create-basis (cond-> {}
+                                           (not has-deps)
+                                           (assoc :project nil)))
         output
         (with-out-str
           (binding [*err* *out*]
