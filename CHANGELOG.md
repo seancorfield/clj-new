@@ -1,5 +1,8 @@
 # Changes
 
+* 1.1.next in progress
+  * Update `polylith` template to follow current Polylith practices.
+
 * 1.1.317 -- 2021-07-15
   * Fix #66 by tweaking filenames to avoid problems with cljdoc.org.
   * Update `depstar` and `tools.deps.alpha`.
