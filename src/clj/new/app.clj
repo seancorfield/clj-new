@@ -1,4 +1,4 @@
-(ns clj.new.app
+(ns ^:no-doc clj.new.app
   "Generate a basic application project."
   (:require [clj.new.templates
              :refer [renderer project-data project-name ->files]]))

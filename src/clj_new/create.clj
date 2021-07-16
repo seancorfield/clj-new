@@ -1,6 +1,6 @@
 ;; copyright (c) 2018-2021 Sean Corfield, all rights reserved
 
-(ns clj-new.create
+(ns ^:no-doc clj-new.create
   "Command-line driver for creating new projects from templates, using just
   clj, tools.deps, and pomegranate (for the dynamic classpath).
 

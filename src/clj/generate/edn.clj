@@ -1,6 +1,5 @@
-(ns clj.generate.edn
-  (:require [clj.generate.file :as gen-file]
-            [clj.new.templates :as tmpl]))
+(ns ^:no-doc clj.generate.edn
+  (:require [clj.generate.file :as gen-file]))
 
 (defn generate
   "Generate a new edn file relative to the prefix."

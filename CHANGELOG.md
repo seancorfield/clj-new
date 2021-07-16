@@ -1,6 +1,7 @@
 # Changes
 
 * 1.1.next in progress
+  * Address #67 by annotating most namespaces with `^:no-doc`.
   * Update `polylith` template to follow current Polylith practices.
 
 * 1.1.317 -- 2021-07-15

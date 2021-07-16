@@ -1,4 +1,4 @@
-(ns clj.new.lib
+(ns ^:no-doc clj.new.lib
   "Generate a library project."
   (:require [clj.new.templates
              :refer [renderer project-data project-name ->files]]))

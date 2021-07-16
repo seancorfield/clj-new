@@ -1,4 +1,4 @@
-(ns boot.new.templates
+(ns ^:no-doc boot.new.templates
   "Boot version of leiningen.new.templates. Initially a direct copy
   of leiningen.new.templates (modified to depend on Boot code instead
   of Leiningen code), but will likely diverge over time."

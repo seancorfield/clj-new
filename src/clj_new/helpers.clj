@@ -1,8 +1,6 @@
-(ns clj-new.helpers
+(ns ^:no-doc clj-new.helpers
   "The top-level logic for the clj-new create/generate entry points."
-  (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
-            [clojure.pprint :as pp]
+  (:require [clojure.pprint :as pp]
             [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]

@@ -1,4 +1,4 @@
-(ns clj.new.polylith
+(ns ^:no-doc clj.new.polylith
   "Generate a basic Polylith monorepo project."
   (:require [clj.new.templates
              :refer [renderer project-data project-dir project-name ->files]]

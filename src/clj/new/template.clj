@@ -1,4 +1,4 @@
-(ns clj.new.template
+(ns ^:no-doc clj.new.template
   (:require [clj.new.templates
              :refer [renderer project-data project-name ->files]]))
 

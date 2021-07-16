@@ -1,6 +1,6 @@
 ;; copyright (c) 2018-2021 Sean Corfield, all rights reserved
 
-(ns clj-new.generate
+(ns ^:no-doc clj-new.generate
   "Command-line driver for generating new code into existing projects from
   templates, using just clj, and tools.deps."
   (:require [clj-new.helpers :as helpers]))

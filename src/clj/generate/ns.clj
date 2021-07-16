@@ -1,6 +1,5 @@
-(ns clj.generate.ns
-  (:require [clj.new.templates :as tmpl]
-            [clj.generate.file :as gen-file]))
+(ns ^:no-doc clj.generate.ns
+  (:require [clj.generate.file :as gen-file]))
 
 (defn generate
   "Generate a new namespace relative to the prefix."

@@ -1,4 +1,4 @@
-(ns leiningen.release
+(ns ^:no-doc leiningen.release
   "Adapted from Leiningen's code by stripping things down to
   just one method to support one particular template (play-clj)
   that uses lein-droid, which expects parse-semantic-version

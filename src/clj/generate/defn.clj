@@ -1,4 +1,4 @@
-(ns clj.generate.defn
+(ns ^:no-doc clj.generate.defn
   (:require [clj.generate.file :as gen-file]
             [clj.generate.ns :as gen-ns]
             [clj.new.templates :as tmpl]
