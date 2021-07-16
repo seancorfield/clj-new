@@ -1,6 +1,6 @@
 # Changes
 
-* 1.1.next in progress
+* 1.1.321 in progress
   * Fix #69 by excluding `:project` from basis if no `deps.edn` exists in the current directory.
   * Address #67 by annotating most namespaces with `^:no-doc`.
   * Update `polylith` template to follow current Polylith practices.

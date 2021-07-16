@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.seancorfield</groupId>
   <artifactId>clj-new</artifactId>
-  <version>1.1.317</version>
+  <version>1.1.321</version>
   <name>clj-new</name>
   <description>Generate new projects based on clj, Boot, or Leiningen Templates!</description>
   <url>https://github.com/seancorfield/clj-new</url>
@@ -22,7 +22,7 @@
     <connection>scm:git:git@github.com:seancorfield/clj-new.git</connection>
     <developerConnection>scm:git:git@github.com:seancorfield/clj-new.git</developerConnection>
     <url>https://github.com/seancorfield/clj-new</url>
-    <tag>v1.1.317</tag>
+    <tag>v1.1.321</tag>
   </scm>
   <dependencies>
     <dependency>
