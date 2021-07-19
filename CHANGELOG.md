@@ -1,6 +1,9 @@
 # Changes
 
-* 1.1.321 in progress
+* 1.1.next in progress
+  * Update `tools.deps.alpha` (and remove workaround for #69).
+
+* 1.1.321 -- 2021-07-16
   * Fix #69 by excluding `:project` from basis if no `deps.edn` exists in the current directory.
   * Address #67 by annotating most namespaces with `^:no-doc`.
   * Update `polylith` template to follow current Polylith practices.
