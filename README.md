@@ -117,7 +117,7 @@ viable alternative:
 
 ```clojure
        :new {:deps {org.babashka/cli {:mvn/version "0.2.14"}
-                    com.github.seancorfield/clj-new {:mvn/version "1.2.396"}}
+                    com.github.seancorfield/clj-new {:mvn/version "1.2.next"}}
              :exec-fn clj-new/create
              :exec-args {:template "app"
                          :env {:group io.github.myuser}}

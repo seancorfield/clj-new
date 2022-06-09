@@ -1,10 +1,12 @@
 # Changes
 
 * 1.2.next in progress
+  * Add `babashka.cli` example to README (and `ns` metadata to support that).
   * Update README to link to Deps and Cli Reference > Quoting keys and values (for Powershell users).
   * Improved docstring for `clj-new/create` #85.
+  * Update default Clojure version to 1.11.1.
   * Update `tools.deps.alpha` to latest.
-  * Update `build-clj` to v0.8.0 (for updated `tools.build` and another log4j2 update).
+  * Update `build-clj` to v0.8.2 (for updated `tools.build` and another log4j2 update).
 
 * 1.2.381 -- 2021-12-22
   * Update `tools.deps.alpha` to latest.
