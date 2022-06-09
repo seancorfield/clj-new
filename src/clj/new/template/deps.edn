@@ -1,6 +1,6 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
-        com.github.seancorfield/clj-new {:mvn/version "1.2.381"}}
+        com.github.seancorfield/clj-new {:mvn/version "1.2.399"}}
  :aliases
  {:new {:exec-fn clj-new/create
         :exec-args {:template "{{name}}"}}
