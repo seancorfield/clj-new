@@ -1,5 +1,8 @@
 # Changes
 
+* 1.2.next in progress
+  * Update various deps.
+
 * 1.2.399 -- 2022-06-09
   * Add `babashka.cli` example to README (and `ns` metadata to support that).
   * Update README to link to Deps and Cli Reference > Quoting keys and values (for Powershell users).
