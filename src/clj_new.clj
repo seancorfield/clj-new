@@ -2,6 +2,8 @@
 
 (ns clj-new
   "Provides an API suitable for use with the Clojure CLI's `-X` option."
+  {:org.babashka/cli {:collect {:args []}
+                      :coerce {:verbose :long}}}
   (:require [clj-new.helpers :as h]))
 
 (defn create

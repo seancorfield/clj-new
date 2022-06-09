@@ -37,7 +37,7 @@ You can get help about the functions available in `clj-new`:
 clojure -A:deps -Tclj-new help/doc
 ```
 
-> Note: if you are on Windows, read [**Quoting keys and values**](https://clojure.org/reference/deps_and_cli#quoting) in the official **Deps and CLI Reference** documentation to understand how the above commands need to look on Powershell.
+> Note: if you are on Windows, read [**Quoting keys and values**](https://clojure.org/reference/deps_and_cli#quoting) in the official **Deps and CLI Reference** documentation to understand how the above commands need to look on Powershell. Or take a look at the [Babashka CLI](#babashka-cli) library support.
 
 ### Installation via `deps.edn`
 
@@ -106,6 +106,47 @@ Now you can use those as follows:
 ```bash
     clojure -X:new-app :name myname/myapp
     clojure -X:new-lib :name myname/mylib
+```
+
+#### Babashka CLI
+
+The [babashka CLI](https://github.com/babashka/cli) library allows you to call
+an `-X` (exec) function in a more Unixy way, without writing EDN on the command
+line. If you are dealing with quoting issues in your shell, this could be a
+viable alternative:
+
+```clojure
+       :new {:deps {org.babashka/cli {:mvn/version "0.2.14"}
+                    com.github.seancorfield/clj-new {:mvn/version "1.2.396"}}
+             :exec-fn clj-new/create
+             :exec-args {:template "app"
+                         :env {:group io.github.myuser}}
+             :main-opts ["-m" "babashka.cli.exec"]}
+```
+
+Note that we no longer need quotes to call the same exec function:
+
+```clojure
+$ clj -M:new --name foo/bar --args 1 2 3 --query
+Will create the folder: bar
+From the template: app
+Passing these arguments: 1 2 3
+The following substitutions will be used:
+{:date "2022-06-05",
+ :group io.github.myuser,
+ :name "bar",
+ :sanitized "bar",
+ :year 2022,
+ :scm-domain "github.com",
+ :template-nested-dirs "{{nested-dirs}}",
+ :artifact "bar",
+ :developer "Borkdude",
+ :nested-dirs "foo/bar",
+ :version "0.1.0-SNAPSHOT",
+ :namespace "foo.bar",
+ :user "borkdude",
+ :scm-user "foo",
+ :raw-name "foo/bar"}
 ```
 
 ### Options for `clj-new/create`
