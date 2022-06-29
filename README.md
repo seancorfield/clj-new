@@ -473,7 +473,7 @@ qualified name is also supported so that templates can have group
 names that follow the [Clojars Verified Group Names policy](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names)
 and artifact names that start with `clj-template.`.
 
-`clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!).
+`clj-new` should be able to run any existing Leiningen or Boot templates (if you find one that doesn't work, [please tell me about it](https://github.com/seancorfield/clj-new/issues)!) -- with the caveat that some Leiningen and Boot templates **do not accept a qualified project name** and so you must use a dotted project name instead.
 
 `clj-new` will generate a new project folder based on the `project-name` containing files generated from the specified `template-name`. It does that by requiring `clj.new.<template-name>` (or `boot.new.<template-name>` or `leiningen.new.<template-name>`) and invoking the `<template-name>` function inside that namespace, passing in `<project-name>` and those arguments from the command line.
 
@@ -511,10 +511,12 @@ Here are some examples, generating projects from existing templates:
 This creates a folder called `mywebapp` with a Luminus web application that will use `http-kit`, the H2 database, the Reagent ClojureScript library, and the Buddy library for authentication. The `-main` function is in `yourname.example.webapp.core`, which is in the  `mywebapp/src/clj/yourname/example/webapp/core.clj` file. Note that the [Luminus template](https://github.com/luminus-framework/luminus-template) produces a Leiningen-based project, not a CLI/`deps.edn` one, but you can also tell it to produce a Boot-based project (with `+boot`).
 
 ```
-    clojure -Tclj-new create :template re-frame :name yourname/spa :output front-end :args '[+garden "+10x" +routes]'
+    clojure -Tclj-new create :template re-frame :name yourname.spa :output front-end :args '[+garden "+10x" +routes]'
 ```
 
 This creates a folder called `front-end` with a ClojureScript Single Page Application that uses [re-frame](https://github.com/day8/re-frame) for state management, [Garden](https://github.com/noprompt/garden) for CSS, [re-frame-10x](https://github.com/day8/re-frame-10x) for debugging, and [bidi](https://github.com/juxt/bidi) + [pushy](https://github.com/kibu-australia/pushy) for routing. The entry point is in the `yourname.spa.core` namespace which is in the `front-end/src/cljs/yourname/spa/core.cljs` file. The [`re-frame` template](https://github.com/day8/re-frame-template) produces a [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html) project, not a CLI/`deps.edn` one. Note that `+10x` needs to be quoted, because it is not a valid EDN symbol.
+
+> Note: the `re-frame` template (a Leiningen template) does not support qualified project names so you have to use a dotted name instead -- `yourname/spa` would produce an invalid `shadow-cljs.edn` file in the project.
 
 ```
     clojure -Tclj-new create :template electron-app :name yourname/example
