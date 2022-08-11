@@ -31,6 +31,8 @@ clojure -Tclj-new template :name myname/mytemplate
 clojure -Tclj-new create :template electron-app :name myname/myelectron-app
 ```
 
+> Note: if you have create a new project from a public template, follow the instructions for that template on how to use and run the project -- all templates are different! The built-in `app`, `lib`, and `template` projects are described briefly below but also have their own README files in their newly created  projects.
+
 You can get help about the functions available in `clj-new`:
 
 ```bash
@@ -272,7 +274,7 @@ If your template name is a qualified symbol, such as `us.technomancy/liquid-cool
 
 Leiningen's documentation has a [detailed explanation of how template names map to group and artifact IDs](https://github.com/technomancy/leiningen/blob/master/doc/TEMPLATES.md). [Boot does not yet support qualified template names](https://github.com/boot-clj/boot-new/issues/47).
 
-> Note: you can currently find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template%2A), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template%2A) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template%2A).
+> Note: you can currently find third-party templates on Clojars using these searches [`<template-name>/clj-template`](https://clojars.org/search?q=artifact-id:clj-template%2A), [`<template-name>/lein-template`](https://clojars.org/search?q=artifact-id:lein-template%2A) or [`<template-name>/boot-template`](https://clojars.org/search?q=artifact-id:boot-template%2A). The project created from each template is likely to be different -- maybe `project.clj`, maybe `deps.edn`, maybe something else -- consult the template's documentation on how to use the newly created project!
 
 As noted above, the project name should be a qualified Clojure symbol, where the first part is typically your GitHub account name or your organization's domain reversed, e.g., `com.acme`, and the second part is the "local" name for your project (and is used as the name of the folder in which the project is created), e.g., `com.acme/my-cool-project`. This will create a folder called `my-cool-project` and the main namespace for the new project will be `com.acme.my-cool-project`, so the file will be `src/com/acme/my_cool_project.clj`. In the generated `pom.xml` file, the group ID will be `com.acme` and the artifact ID will be `my-cool-project` -- following this pattern means you are already set up for publishing to Clojars (or some other Maven-like repository).
 
@@ -523,6 +525,12 @@ This creates a folder called `front-end` with a ClojureScript Single Page Applic
 ```
 
 This creates a folder called `example` with a skeleton Electron application, using Figwheel and Reagent. The entry point is in the `example.main.core` namespace which is in the `example/src/main/example/main/core.cljs` file. This [Electron template](https://github.com/paulbutcher/electron-app) produces a CLI/`deps.edn`-based project.
+
+In general, consult the documentation for the template you used for how the newly created
+project works. Generally, Leiningen templates produce Leiningen projects (with a
+`project.clj` file), Boot templates produce Boot projects, and a `clj-template` will
+produce a CLI / `deps.edn` project. Some templates support multiple build tools. Some
+projects don't support any of these and use some other build tool.
 
 #### `clj` Templates
 
