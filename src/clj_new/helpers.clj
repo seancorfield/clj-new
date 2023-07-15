@@ -4,8 +4,8 @@
             [clojure.stacktrace :as stack]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
-            [clojure.tools.deps.alpha :as deps]
-            [clojure.tools.deps.alpha.util.session :as session]
+            [clojure.tools.deps :as deps]
+            [clojure.tools.deps.util.session :as session]
             ;; support boot-template projects:
             [boot.new.templates :as bnt]
             ;; needed for dynamic classloader/add-classpath stuff:

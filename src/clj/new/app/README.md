@@ -50,8 +50,6 @@ Run that uberjar:
 
     $ java -jar target/{{artifact}}-{{version}}.jar
 
-If you remove `version` from `build.clj`, the uberjar will become `target/{{artifact}}-standalone.jar`.
-
 ## Options
 
 FIXME: listing of options this app accepts.

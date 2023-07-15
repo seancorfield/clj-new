@@ -1,6 +1,7 @@
 # Changes
 
 * 1.2.next in progress
+  * Fix [seancorfield/clj-new#88](https://github.com/seancorfield/clj-new/issues/88) by switching from `build-clj` to `tools.build` in all templates, and to the non-alpha `tools.deps`.
   * Update various deps.
 
 * 1.2.399 -- 2022-06-09

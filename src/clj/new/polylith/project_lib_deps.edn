@@ -7,6 +7,6 @@
  {:test {:extra-paths []
          :extra-deps {}}
 
-  :build {:deps {io.github.seancorfield/build-clj
-                 {:git/tag "v0.8.2" :git/sha "0ffdb4c"}}
+  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}
+                 slipset/deps-deploy {:mvn/version "0.2.1"}}
           :ns-default build}}}

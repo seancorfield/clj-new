@@ -7,9 +7,5 @@
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
 
-           :build {:deps {io.github.seancorfield/build-clj
-                          {:git/tag "v0.8.2" :git/sha "0ffdb4c"
-                           ;; since we're building an app uberjar, we do not
-                           ;; need deps-deploy for clojars.org deployment:
-                           :deps/root "slim"}}
+           :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
                    :ns-default build}}}

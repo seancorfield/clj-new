@@ -1,8 +1,8 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}}
  :aliases
- {:build {:deps {io.github.seancorfield/build-clj
-                 {:git/tag "v0.8.2" :git/sha "0ffdb4c"}}
+ {:build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}
+                 slipset/deps-deploy {:mvn/version "0.2.1"}}
           :ns-default build}
   :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}
