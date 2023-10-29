@@ -2,7 +2,7 @@
 
 Generate new projects from Leiningen or Boot templates, or `clj-template` projects, using just the `clojure` command-line installation of Clojure!
 
-For support, help, general questions, use the [#clj-new channel on the Clojurians Slack](https://app.slack.com/client/T03RZGPFR/C019ZQSPYG6).
+For support, help, general questions, use the [#deps-new channel on the Clojurians Slack](https://app.slack.com/client/T03RZGPFR/C019ZQSPYG6).
 
 ## Getting Started
 
@@ -18,7 +18,11 @@ The easiest way to use `clj-new` is by installing it as a "tool" instead of upda
 ```bash
 # one-off to install clj-new as a tool:
 clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.2.404"}' :as clj-new
+```
 
+> Note: older versions of this documentation -- and some public templates' documentation -- showed installation `:as new` but that is the alias recommended for [`deps-new`](https://github.com/seancorfield/deps-new) so this project now recommends `:as clj-new` instead, to avoid conflicts.
+
+```bash
 # commands to create new projects:
 
 # create a new app:
@@ -31,7 +35,7 @@ clojure -Tclj-new template :name myname/mytemplate
 clojure -Tclj-new create :template electron-app :name myname/myelectron-app
 ```
 
-> Note: if you have create a new project from a public template, follow the instructions for that template on how to use and run the project -- all templates are different! The built-in `app`, `lib`, and `template` projects are described briefly below but also have their own README files in their newly created  projects.
+> Note: if you have created a new project from a public template, follow the instructions for that template on how to use and run the project -- all templates are different! The built-in `app`, `lib`, and `template` projects are described briefly below but also have their own README files in their newly created  projects.
 
 You can get help about the functions available in `clj-new`:
 
