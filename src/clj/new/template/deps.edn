@@ -2,8 +2,8 @@
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         com.github.seancorfield/clj-new {:mvn/version "1.2.404"}}
  :aliases
- {:new {:exec-fn clj-new/create
-        :exec-args {:template "{{name}}"}}
+ {:clj-new {:exec-fn clj-new/create
+            :exec-args {:template "{{name}}"}}
   :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}
                  slipset/deps-deploy {:mvn/version "0.2.1"}}
           :ns-default build}

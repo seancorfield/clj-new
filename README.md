@@ -17,7 +17,7 @@ The easiest way to use `clj-new` is by installing it as a "tool" instead of upda
 
 ```bash
 # one-off to install clj-new as a tool:
-clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.2.404"}' :as clj-new
+clojure -Ttools install-latest :lib com.github.seancorfield/clj-new :as clj-new
 ```
 
 > Note: older versions of this documentation -- and some public templates' documentation -- showed installation `:as new` but that is the alias recommended for [`deps-new`](https://github.com/seancorfield/deps-new) so this project now recommends `:as clj-new` instead, to avoid conflicts.
@@ -51,25 +51,25 @@ If you don't want to install `clj-new` as a "tool", you can add an alias to your
 
 ```clj
     ;; add this inside your :aliases map:
-    :new {:extra-deps {com.github.seancorfield/clj-new
-                       {:mvn/version "1.2.404"}}
-          :exec-fn clj-new/create
-          :exec-args {:template "app"}}
+    :clj-new {:extra-deps {com.github.seancorfield/clj-new
+                           {:mvn/version "1.2.404"}}
+              :exec-fn clj-new/create
+              :exec-args {:template "app"}}
 ```
 
-A minimal, complete `deps.edn` file with just this `:new` alias would look like this:
+A minimal, complete `deps.edn` file with just this `:clj-new` alias would look like this:
 
 ```clj
 {:aliases
- {:new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.2.404"}}
-        :exec-fn clj-new/create
-        :exec-args {:template "app"}}}}
+ {:clj-new {:extra-deps {com.github.seancorfield/clj-new {:mvn/version "1.2.404"}}
+            :exec-fn clj-new/create
+            :exec-args {:template "app"}}}}
 ```
 
 Now you can create a basic application:
 
 ```bash
-    clojure -X:new :name myname/myapp
+    clojure -X:clj-new :name myname/myapp
     cd myapp
     clojure -M -m myname.myapp
 ```
@@ -83,7 +83,7 @@ Run the tests:
 or you can create a basic library:
 
 ```bash
-    clojure -X:new :template lib :name myname/mylib
+    clojure -X:clj-new :template lib :name myname/mylib
     cd mylib
 ```
 
@@ -122,18 +122,18 @@ line. If you are dealing with quoting issues in your shell, this could be a
 viable alternative:
 
 ```clojure
-       :new {:deps {org.babashka/cli {:mvn/version "0.2.14"}
-                    com.github.seancorfield/clj-new {:mvn/version "1.2.404"}}
-             :exec-fn clj-new/create
-             :exec-args {:template "app"
-                         :env {:group io.github.myuser}}
-             :main-opts ["-m" "babashka.cli.exec"]}
+       :clj-new {:deps {org.babashka/cli {:mvn/version "0.2.14"}
+                        com.github.seancorfield/clj-new {:mvn/version "1.2.404"}}
+                 :exec-fn clj-new/create
+                 :exec-args {:template "app"
+                             :env {:group io.github.myuser}}
+                 :main-opts ["-m" "babashka.cli.exec"]}
 ```
 
 Note that we no longer need quotes to call the same exec function:
 
 ```clojure
-$ clj -M:new --name foo/bar --args 1 2 3 --query
+$ clj -M:clj-new --name foo/bar --args 1 2 3 --query
 Will create the folder: bar
 From the template: app
 Passing these arguments: 1 2 3
@@ -234,7 +234,7 @@ The following substitutions will be used:
 
 # or:
 
-$ clojure -X:new :query true :name myname/myproj
+$ clojure -X:clj-new :query true :name myname/myproj
 ```
 
 You can use the `:env` option to pass in a hash map of substitutions to override any of these.

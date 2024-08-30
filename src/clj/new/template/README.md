@@ -6,10 +6,10 @@
 
 FIXME: write usage documentation!
 
-Creating a project from this template (the `:new` alias in this template project defaults `:template` to {{name}}):
+Creating a project from this template (the `:clj-new` alias in this template project defaults `:template` to {{name}}):
 
 ```bash
-    clojure -X:new :name myname/myproject
+    clojure -X:clj-new :name myname/myproject
     cd myproject
 ```
 
