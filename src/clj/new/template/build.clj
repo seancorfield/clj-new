@@ -4,7 +4,7 @@
             [clojure.tools.build.api :as b]
             [deps-deploy.deps-deploy :as dd]))
 
-(def lib '{{group}}/{{artifact}})
+(def lib '{{group}}/clj-template.{{artifact}})
 (def version "{{version}}")
 #_; alternatively, use MAJOR.MINOR.COMMITS:
 (def version (format "1.0.%s" (b/git-count-revs nil)))
@@ -23,15 +23,31 @@
     (when-not (zero? exit) (throw (ex-info "Tests failed" {}))))
   opts)
 
+(defn- pom-template [version]
+  [[:description "{{description}}"]
+   [:url "https://{{scm-domain}}/{{scm-user}}/{{artifact}}"]
+   [:licenses
+    [:license
+     [:name "Eclipse Public License"]
+     [:url "http://www.eclipse.org/legal/epl-v10.html"]]]
+   [:developers
+    [:developer
+     [:name "{{developer}}"]]]
+   [:scm
+    [:url "https://{{scm-domain}}/{{scm-user}}/{{artifact}}"]
+    [:connection "scm:git:https://{{scm-domain}}/{{scm-user}}/{{artifact}}.git"]
+    [:developerConnection "scm:git:ssh:git@{{scm-domain}}:{{scm-user}}/{{artifact}}.git"]
+    [:tag (str "v" version)]]])
+
 (defn- jar-opts [opts]
   (assoc opts
-         :lib lib :version version
-         :jar-file (format "target/%s-%s.jar" lib version)
-         :scm {:tag (str "v" version)}
-         :basis (b/create-basis {})
+         :lib lib   :version version
+         :jar-file  (format "target/%s-%s.jar" lib version)
+         :basis     (b/create-basis {})
          :class-dir class-dir
-         :target "target"
-         :src-dirs ["src"]))
+         :target    "target"
+         :src-dirs  ["src"]
+         :pom-data  (pom-template version)))
 
 (defn ci "Run the CI pipeline of tests (and build the JAR)." [opts]
   (test opts)

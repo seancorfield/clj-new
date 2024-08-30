@@ -317,12 +317,6 @@ run the project directly (with `clojure -M -m myname.myapp`) and run the tests, 
 also build an uberjar for the project with `clojure -T:build ci`, which you can then
 run with `java -jar target/myapp-0.1.0-SNAPSHOT.jar`.
 
-The generated project includes a `pom.xml` file purely for "good hygiene". It is used as a template for the generated `pom.xml` created by `clojure -T:build ci` when it builds
-the application and it will be added to the JAR file. If you remove
-that `pom.xml`, `tools.build` will still create a minimal `pom.xml`
-inside `target`, unless you also remove `version` from your `build.clj`
-script.
-
 #### The `lib` Template
 
 The generated project is a library. It has no `-main` function. In addition to

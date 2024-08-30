@@ -28,16 +28,31 @@
     (when-not (zero? exit) (throw "Tests failed")))
   opts)
 
+(defn- pom-template [version]
+  [[:description "Generate new projects based on clj, Boot, or Leiningen Templates!"]
+   [:url "https://github.com/seancorfield/clj-new"]
+   [:licenses
+    [:license
+     [:name "Eclipse Public License"]
+     [:url "http://www.eclipse.org/legal/epl-v10.html"]]]
+   [:developers
+    [:developer
+     [:name "Sean Corfield"]]]
+   [:scm
+    [:url "https://github.com/seancorfield/clj-new"]
+    [:connection "scm:git:git@github.com:seancorfield/clj-new.git"]
+    [:developerConnection "scm:git:git@github.com:seancorfield/clj-new.git"]
+    [:tag (str "v" version)]]])
+
 (defn- jar-opts [opts]
   (assoc opts
-         :lib lib :version version
-         :jar-file (format "target/%s-%s.jar" lib version)
-         :scm {:tag (str "v" version)}
-         :basis (b/create-basis {})
+         :lib lib   :version version
+         :jar-file  (format "target/%s-%s.jar" lib version)
+         :basis     (b/create-basis {})
          :class-dir class-dir
-         :target "target"
-         :src-dirs ["src"]
-         :src-pom "template/pom.xml"))
+         :target    "target"
+         :src-dirs  ["src"]
+         :pom-data  (pom-template version)))
 
 (defn ci "Run the CI pipeline of tests (and build the JAR)." [opts]
   (test opts)

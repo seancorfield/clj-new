@@ -27,19 +27,37 @@
     (-> (b/create-basis {:extra {:deps lifted-deps}})
         (update :libs #(into {} (filter (comp :mvn/version val)) %)))))
 
+(defn- pom-template [version]
+  [[:description "{{description}}"]
+   [:url "https://{{scm-domain}}/{{scm-user}}/{{artifact}}"]
+   [:licenses
+    [:license
+     [:name "Eclipse Public License"]
+     [:url "http://www.eclipse.org/legal/epl-v10.html"]]]
+   [:developers
+    [:developer
+     [:name "{{developer}}"]]]
+   [:scm
+    [:url "https://{{scm-domain}}/{{scm-user}}/{{artifact}}"]
+    [:connection "scm:git:https://{{scm-domain}}/{{scm-user}}/{{artifact}}.git"]
+    [:developerConnection "scm:git:ssh:git@{{scm-domain}}:{{scm-user}}/{{artifact}}.git"]
+    [:tag (str "v" version)]]])
+
+(defn- jar-opts [opts])
+
 (defn- jar-opts [opts]
   (let [basis      (lifted-basis)
         directory? #(let [f (java.io.File. %)]
-                       (and (.exists f) (.isDirectory f)))
+                      (and (.exists f) (.isDirectory f)))
         src+dirs   (filter directory? (:classpath-roots basis))]
     (assoc opts
-           :lib lib :version version
-           :jar-file (format "target/%s-%s.jar" lib version)
-           :scm {:tag (str "v" version)}
-           :basis lifted-basis
+           :lib lib   :version version
+           :jar-file  (format "target/%s-%s.jar" lib version)
+           :basis     lifted-basis
            :class-dir class-dir
-           :target "target"
-           :src-dirs src+dirs)))
+           :target    "target"
+           :src-dirs  src+dirs
+           :pom-data  (pom-template version))))
 
 (defn jar "Build the JAR." [opts]
   (b/delete {:path "target"})

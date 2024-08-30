@@ -26,5 +26,4 @@ Accepts a group id in the project name: `clojure -X:clj-new :template lib :name 
              ["test/{{nested-dirs}}_test.clj" (render "test.clj" data)]
              ["LICENSE" (render "LICENSE" data)]
              ["CHANGELOG.md" (render "CHANGELOG.md" data)]
-             ["pom.xml" (render "pom.xml" data)]
              ["resources/.keep" ""])))

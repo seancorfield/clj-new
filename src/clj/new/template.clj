@@ -21,5 +21,4 @@
              ["resources/clj/new/{{sanitized}}/foo.clj" (render "foo.clj")]
              ["resources/clj/new/{{sanitized}}/deps.edn" (render "deps.edn" data)]
              ["LICENSE" (render "LICENSE" data)]
-             ["CHANGELOG.md" (render "CHANGELOG.md" data)]
-             ["pom.xml" (render "pom.xml" data)])))
+             ["CHANGELOG.md" (render "CHANGELOG.md" data)])))

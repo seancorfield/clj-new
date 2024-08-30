@@ -30,7 +30,6 @@
              ["projects/{{name}}/test/{{nested-dirs}}/{{name}}_test.clj" (render "project_test.clj" data)]
              ["projects/{{name}}-lib/deps.edn" (render "project_lib_deps.edn" data)]
              ["projects/{{name}}-lib/build.clj" (render "project_lib_build.clj" data)]
-             ["projects/{{name}}-lib/pom.xml" (render "pom.xml" data)]
              ["README.md" (render "README.md" data)]
              ["workspace.edn" (render "workspace.edn" data)]
              [".gitignore" (render "gitignore" data)]
