@@ -1,6 +1,7 @@
 # Changes
 
 * 1.2.next in progress
+  * Address [seancorfield/clj-new#90](https://github.com/seancorfield/clj-new/issues/90) by switching from `pom.xml` files to `:pom-data` across all templates.
   * Clarify tools installation and fix some typos, clean up alias names.
   * Update default Clojure version to 1.11.4, update other dev/test/build deps.
 
