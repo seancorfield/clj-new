@@ -72,7 +72,7 @@ You can also deploy that JAR file to Clojars:
 You can then depend on the library in other projects (adjust the `:mvn/version` as necessary):
 
     $ clj -Sdeps '{:deps { {{group}}/{{artifact}} {:mvn/version "{{version}}"} }}'
-    Clojure 1.11.1
+    Clojure 1.11.4
     user=> (require '[{{namespace}}.greeter.interface :as greet])
     nil
     user=> (greet/greeting {:person "REPL"})

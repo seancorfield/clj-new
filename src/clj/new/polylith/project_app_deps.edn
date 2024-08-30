@@ -1,11 +1,11 @@
 {:paths [] ; no src or resources
 
- :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+ :deps {org.clojure/clojure {:mvn/version "1.11.4"}
         poly/component-greeter {:local/root "../../components/greeter"}
         poly/base-cli {:local/root "../../bases/cli"}}
 
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
 
-           :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
+           :build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.5"}}
                    :ns-default build}}}

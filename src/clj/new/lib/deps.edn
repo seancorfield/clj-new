@@ -1,8 +1,8 @@
 {:paths ["src" "resources"]
- :deps {org.clojure/clojure {:mvn/version "1.11.1"}}
+ :deps {org.clojure/clojure {:mvn/version "1.11.4"}}
  :aliases
- {:build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}
-                 slipset/deps-deploy {:mvn/version "0.2.1"}}
+ {:build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.5"}
+                 slipset/deps-deploy {:mvn/version "0.2.2"}}
           :ns-default build}
   :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}
