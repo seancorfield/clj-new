@@ -9,6 +9,7 @@ syntax: glob
 
 syntax: regexp
 ^.calva/output-window/
+^.calva/repl.calva-repl
 ^.lein-.*
 ^.nrepl-history
 ^.nrepl-port
