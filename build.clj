@@ -12,7 +12,7 @@
             [deps-deploy.deps-deploy :as d]))
 
 (def lib 'com.github.seancorfield/clj-new)
-(def version (format "1.2.%s" (b/git-count-revs nil)))
+(def version (format "1.3.%s" (b/git-count-revs nil)))
 (def class-dir "target/classes")
 
 (defn test "Run all the tests." [opts]
@@ -25,7 +25,7 @@
                    :main      'clojure.main
                    :main-args ["-m" "cognitect.test-runner"]})
         {:keys [exit]} (b/process cmds)]
-    (when-not (zero? exit) (throw "Tests failed")))
+    (when-not (zero? exit) (throw (ex-info "Tests failed" {}))))
   opts)
 
 (defn- pom-template [version]
