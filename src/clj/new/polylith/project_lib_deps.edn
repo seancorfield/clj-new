@@ -1,6 +1,6 @@
 {:paths [] ; no src or resources
 
- :deps {org.clojure/clojure {:mvn/version "1.11.4"}
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
         poly/component-greeter {:local/root "../../components/greeter"}}
 
  :aliases
